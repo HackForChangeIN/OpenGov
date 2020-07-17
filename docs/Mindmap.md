@@ -64,7 +64,7 @@ www.opengov.in
 telangana.opengov.in
 odissa.opengov.in
 
-Legislative Assemly Terms
+Legislative Assembly Terms
 Sessions
     - Attendance
 Bills
@@ -82,3 +82,29 @@ Campaigns Funds
 
 followthemoney
 
+# Goals
+- Organizing Information and Making it accessible
+    - Parliamentary Question Search
+    - 
+    - 
+    - 
+- Parliamentary Question Search
+    - Terms
+    - Sessions
+    - Legislators
+        - MP
+        - Parties
+    - Bill
+    - Acts
+    - Questions
+    - Answers    
+    - Ministries
+    - Schemes
+    - PILs
+    - RTIs?
+        - Request / Responses
+ 
+www.opengov.in
+telangana.opengov.in
+    - Legislative Assembly
+odissa.opengov.in
