@@ -104,7 +104,41 @@ followthemoney
     - RTIs?
         - Request / Responses
  
-www.opengov.in
+www.opengov.in/
 telangana.opengov.in
     - Legislative Assembly
 odissa.opengov.in
+
+
+Users
+    - Citizens
+        - Understand Information
+        - Use / Avail
+        - Raise voice
+            - Petition
+            - 
+    - Legislators 
+        - To Connect With The Citizens
+        - AMA (Ask Me Anything)
+        - 
+        - 
+
+How do I evaluate/connect with my own representatives
+Is there a systematic way
+Giving a voice to peoples concerns
+
+We might need a different name
+
+- MyGov
+- PeoplesGov
+- LokSatta / LokAdalat
+- sarkaar.in
+- netaconnect
+- yourneta
+- 
+
+Apna Neta
+    - Petition
+    - AMA
+    - Rating for the neta
+    - 
