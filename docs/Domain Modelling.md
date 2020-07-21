@@ -1,14 +1,22 @@
-# Informatoin Heirarchy
-Central
-    - Parliament
-            - Lok Sabha
-            - Rajya Sabha
-        - Terms
-State
+www.opengov.in
 
+# Information Hierarchy
 
-# Term
-Star Year
-End Year
+## Legislation
 
-# Session
+Terms
+
+Sessions (Parliamentary)
+    - Questions & Answers
+        - Starred / Unstarred
+Parties
+    - Ex: BJP, Congress
+
+Constituencies
+
+Legislators
+    - MPs (Lok Sabha / Rajya Sabha)
+Bills
+    - Votes
+    - Sponsorship
+Acts
