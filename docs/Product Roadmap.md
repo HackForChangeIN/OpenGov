@@ -2,6 +2,12 @@
 
 # Phase 0 (3 months)(www.opengov.in)    
     - Central Level (Legislation)
+        - Admin Panel (Data Admin)
+        - Scraping / Populating Data
+        - Frontend UI
+        - Public API
+        
+    Goal: Third party developer should be able to build a petition app
 
 # Phase I (3 months)(www.opengov.in)
     - Central Level (Executive)

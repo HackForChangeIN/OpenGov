@@ -14,3 +14,10 @@
 # API's
 
 # SEO / Semantic / Open Graph
+
+# Frontend / Backend seperation
+    - Should use django for frontend as well
+    - Frontend UI 
+    - API will be not be influenced by our UI.
+        - It should be consumable by everyone
+        /legislators
