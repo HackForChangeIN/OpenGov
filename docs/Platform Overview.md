@@ -1,13 +1,48 @@
 # Overview
-OpenGov is a platform for Indian Citizens to understand the proceedings of the government and connect with their representatives in a meaningful manner
+OpenGov is a platform for Indian Citizens to understand the proceedings of the government and connect with their representatives in a meaningful manner. 
 
-# Features
+To than end, our focus is on information collection & visualization and citizen connect.
+
+# Features (Phase 0)
     - Home
+        - Recent Parliamentary Activity
+        - Recent Social Activity
+        - Recent Activity on the platform
+    
     - Information Pages
+        - Legislators
+            - Profile
+                - Education
+                - Declared Assets
+                - Contact Information
+                - Constituency
+
+            - Parliamentary Activity 
+                - Bill Votes
+                - Questions and Answers
+                - Attendance            
+        
+            -     - Social Activity
+                - New Mentions
+        - Bills
+            - Sector Wise*
+        
+        - Committees
+    
     - Search
         - Search Results
-    - Internationalization?
-        - We should support English, Hindi to start with
+        - 
+        - 
+    - Legislator
+        - Login
+        - Claim Profile
+        - Update his mission / purpose
+        - Answer Questions
+    
+    - Journalist(s)
+        - Login / Register
+        - Ask Questions
+        - Contribute to OpenGov
   
 # Application Overview
 
