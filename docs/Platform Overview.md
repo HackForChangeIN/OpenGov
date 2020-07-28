@@ -22,7 +22,7 @@ To than end, our focus is on information collection & visualization and citizen 
                 - Questions and Answers
                 - Attendance            
         
-            -     - Social Activity
+            - Social Activity
                 - New Mentions
         - Bills
             - Sector Wise*
