@@ -36,6 +36,9 @@
     *Departments
     *Commisions
     *Organizations
+
+    Elections
+        - Election Expenditure
     
 # Phase II (3 months)(www.opengov.in/telangana)
     - State Level (Legislative)
@@ -44,3 +47,6 @@
     - State Level (Executive)
     - Mandals
     - Panchayat
+    
+    - Elections
+        - Election Expenditure

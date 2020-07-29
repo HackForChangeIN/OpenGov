@@ -16,8 +16,12 @@ To than end, our focus is on information collection & visualization and citizen 
                 - Declared Assets
                 - Contact Information
                 - Constituency
+                - Political History
+                - Social Profile
+                    - Caste
+                    - Religion
 
-            - Parliamentary Activity 
+            - Parliamentary Activity
                 - Bill Votes
                 - Questions and Answers
                 - Attendance            
@@ -28,6 +32,9 @@ To than end, our focus is on information collection & visualization and citizen 
             - Sector Wise*
         
         - Committees
+        
+        - Parties
+            - Political Contributions
     
     - Search
         - Search Results
