@@ -11,8 +11,9 @@ OpenGov Modelling
     Name  |  String  | name  |  required  
     State  |  Integer  |  state  | required  
 
-## Terms  
+## Terms  |  terms    
     Term Id  |  Integer  | term_id  |  required  
+    Term Name  |  String  |  term_name  |  required  | ex: 17th term  
     Starting Year  |  String  |  start_year  |  required  
     End Year  |  String  |  end_year  |  required  
 
@@ -26,11 +27,67 @@ OpenGov Modelling
 
 ## Parties  |  parties  
     Party Id  |  Integer  |  party_id  |  required  
-    Full Name  |  String  |  full_name  |  required  
+    Party Name  |  String  |  party_name  |  required  
     Acronym  |  String  |  acronym  |  required   
-    Type  |  String  |  type  |  required  |  Possible Values  Ex: National Level, State level  
+    Type  |  String  |  type  |  required  |  Possible Values  Ex: National Level, State level, Regional   
     Symbols  |  Image  |  symbol  |  required  
     Founded  |  String |  founded  |  required  
     Founder Name  |  String  |  founder_name  |  required  
     President Name  |  String  |  president_name  |  required  
     Website  |  String  |  website  |  required  
+
+## Legislators  |  legislators  
+    Legislator Id  |  Integer  | legislator_id  |  required  
+    Name  |  String  |  name  |  required  
+    DOB |  Integer  |  dob  |  required  
+    Qualification  |  String  |  qualification  |  required  
+    Gender  |  String  |  gender  |  required  
+    Contact Number  |  String  |  contact_number  |  required  
+    Email  |  String  |  email  |  required  
+    Profession  |  String   |  profession  |  required  
+    Criminal Cases  |  Integer  |  criminal_cases  |  required 
+    Photo  |  Image  |  photo  |  required  
+    Present Address  |  Text  |  present_address  |  required  
+    Permanent Address  |  Text  |  permanent_address  |  required   
+    Party Name  |  Integer  |  party_id  |  required  
+    State  |  Integer  |  state_id  |  required  
+    Constituency  |  Integer  |  constituency_id  |  required  
+    Term  |  Integer  |  term_id  |  required  
+    House  |  String  |  house  |  required  |  Possible values  Ex: Loksabha, Rajyasabha 
+
+## Questions  |  questions  
+    Question Id  |  Integer  |  question_id  |  required  
+    Title  |  Text  |  title  |  required  
+    Answer  |  Text  |  answer  |  required  
+    Question Type  |  String  |  type  |  required  |  Possible Values  Ex: Starred, Unstarred 
+    Asked By  |  Integer  | legislator_id  |  required  
+    *Category(Ministry)  | String  |  category  |  required  
+    Date  |  String  |  date  |  required  
+    Subject  |  String  |  subject  |  required  
+    Session  |  Integer  |  session_id  |  required  
+    Term  |  Integer  |  term_id  |  required
+    House  |  String  |  house  |  required  |  Possible values  Ex: Loksabha, Rajyasabha  
+    * External Link  |  String  |  link  |  required  
+
+
+## Bills  |  bills  
+    Bill Id  |  Integer  |  bill_id  |  required  
+    Title  |  Text   |  title  |  required  
+    House  |  String  |  house  |  required  |  Possible values  Ex: Loksabha, Rajyasabha  
+    Type  |  String  |  type  |  required  |   Possible values  Ex: Government ,Private Member  
+    Status  |  String  |  status |  required  |  Possible Values  Ex: Assented,Passed,Pending,Withdrawn,Negatived,Lapsed  
+    Introducer  |  Integer  |  legislator_id  |  required  
+    *Ministry |  String  |  ministry  |  required  
+    Year  |  String  |  year  |  required  
+    Category  |  String  |  category  |  required   |   Possible values  Ex: Ordinary Bill,Constitutional Amendment bill,Financial Bill, Money Bill,Ordinance Replacing bill  
+## Debates  |  debates  
+    Debate Id  |  Integer  |  debate_id  |  required   
+    Title  |  Text  |  title  |  required    
+    Content  |  Text  |  content  |   required   
+    Type  |  String  |  type  |  required  |  Possible values  Ex: Adjournment Motion,Announcement by the chair,Assent to bills and so on (46 types)  
+    Participants  |  Integer  |  legislator_id  |  required  
+    Session  |  Integer  |  session_id  |  required  
+    Term  |  Integer  |  term_id  |  required  
+    Date  |  String  |  date  |  required  
+
+
