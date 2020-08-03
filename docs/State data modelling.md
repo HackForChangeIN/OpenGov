@@ -1,7 +1,3 @@
-------------------------------------------------------------------------------------------------------
-OpenGov Modelling
------------------------------------------------------------------------------------------------------- 
-
 ## States  | states  
     State Id  | Integer  |  state_id  |  required  
     Name  | String  | name  |  required  
@@ -11,30 +7,20 @@ OpenGov Modelling
     Name  |  String  | name  |  required  
     State  |  Integer  |  state  | required  
 
-## Terms  |  terms    
-    Term Id  |  Integer  | term_id  |  required  
-    Term Name  |  String  |  term_name  |  required  | ex: 17th term  
+## Sittings  |  sittings    
+    Sitting Id  |  Integer  | sitting_id  |  required  
+    Sitting Name  |  String  |  sitting_name  |  required  | ex: In odisha current sitting is 16th sitting     
     Starting Year  |  String  |  start_year  |  required  
     End Year  |  String  |  end_year  |  required  
+    State  |  String  |  state_id  |  required  
 
 
 ## Sessions  |  sessions   
     Session Id  | Integer  | session_id  | required  
-    Session Type  |  String   | type  |  required  | Possible values ex: Budget session,Monsoon session, Winter session  
-    Term  | Integer  |  term  |  required  
+    Session Type  |  String   | type  |  required  | Possible values ex: Budget session / First ,Monsoon session / Second, Winter session / Third       
+    Sitting  | Integer  |  sitting_id  |  required  
     Starting Date  |  String  | start_date  |  required  
     End Date  | String  | end_date  |  required  
-
-## Parties  |  parties  
-    Party Id  |  Integer  |  party_id  |  required  
-    Party Name  |  String  |  party_name  |  required  
-    Acronym  |  String  |  acronym  |  required   
-    Type  |  String  |  type  |  required  |  Possible Values  Ex: National Level, State level, Regional   
-    Symbols  |  Image  |  symbol  |  required  
-    Founded  |  String |  founded  |  required  
-    Founder Name  |  String  |  founder_name  |  required  
-    President Name  |  String  |  president_name  |  required  
-    Website  |  String  |  website  |  required  
 
 ## Legislators  |  legislators  
     Legislator Id  |  Integer  | legislator_id  |  required  
@@ -53,45 +39,33 @@ OpenGov Modelling
     Party Name  |  Integer  |  party_id  |  required  
     State  |  Integer  |  state_id  |  required  
     Constituency  |  Integer  |  constituency_id  |  required  
-    Term  |  Integer  |  term_id  |  required  
-    House  |  String  |  house  |  required  |  Possible values  Ex: Loksabha, Rajyasabha 
+    Sitting  |  Integer  |  sitting_id  |  required  
+    House  |  String  |  house  |  required  |  Possible values  Ex: Upper / Vidhan Parishad, Lower / Vidhan Sabha  
     *Assests
-
 ## Questions  |  questions  
     Question Id  |  Integer  |  question_id  |  required  
     Title  |  Text  |  title  |  required  
-    Answer  |  Text  |  answer  |  required  
+    *Answer  |  Text  |  answer  |  required  
     Question Type  |  String  |  type  |  required  |  Possible Values  Ex: Starred, Unstarred 
     Asked By  |  Integer  | legislator_id  |  required  
     *Category(Ministry)  | String  |  category  |  required  
     Date  |  String  |  date  |  required  
     Subject  |  String  |  subject  |  required  
     Session  |  Integer  |  session_id  |  required  
-    Term  |  Integer  |  term_id  |  required
-    House  |  String  |  house  |  required  |  Possible values  Ex: Loksabha, Rajyasabha  
+    Sitting  |  Integer  |  sitting_id  |  required
+    House  |  String  |  house  |  required  |  Possible values  Ex: Upper / Vidhan Parishad, Lower / Vidhan Sabha   
     * External Link  |  String  |  link  |  required  
-
 
 ## Bills  |  bills  
     Bill Id  |  Integer  |  bill_id  |  required  
     Title  |  Text   |  title  |  required  
-    House  |  String  |  house  |  required  |  Possible values  Ex: Loksabha, Rajyasabha  
+    House  |  String  |  house  |  required  |  Possible values  Ex: Upper / Vidhan Parishad, Lower / Vidhan Sabha    
     Type  |  String  |  type  |  required  |   Possible values  Ex: Government ,Private Member  
     Status  |  String  |  status |  required  |  Possible Values  Ex: Assented,Passed,Pending,Withdrawn,Negatived,Lapsed  
     Introducer  |  Integer  |  legislator_id  |  required  
     *Ministry |  String  |  ministry  |  required  
     Year  |  String  |  year  |  required  
-    Category  |  String  |  category  |  required   |   Possible values  Ex: Ordinary Bill,Constitutional Amendment bill,Financial Bill, Money Bill,Ordinance Replacing bill  
+    Category  |  String  |  category  |  required   |   *Possible values  Ex: Ordinary Bill,Constitutional Amendment bill,Financial Bill, Money Bill,Ordinance Replacing bill 
     Session  |  Integer  |  session_id  |  required  
-    Term  |  Integer  |  term_id  |  required  
-## Debates  |  debates  
-    Debate Id  |  Integer  |  debate_id  |  required   
-    Title  |  Text  |  title  |  required    
-    Content  |  Text  |  content  |   required   
-    Type  |  String  |  type  |  required  |  Possible values  Ex: Adjournment Motion,Announcement by the chair,Assent to bills and so on (46 types)  
-    Participants  |  Integer  |  legislator_id  |  required  
-    Session  |  Integer  |  session_id  |  required  
-    Term  |  Integer  |  term_id  |  required  
-    Date  |  String  |  date  |  required  
-
+    Sitting  |  Integer  |  sitting_id  |  required  
 
