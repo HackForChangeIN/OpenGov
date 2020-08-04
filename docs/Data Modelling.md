@@ -1,7 +1,7 @@
 ------------------------------------------------------------------------------------------------------
 OpenGov Modelling
 ------------------------------------------------------------------------------------------------------ 
-## Central Legislatures | central legislatures
+## Central Legislatures | central_legislatures
     Name | String | name | required | Ex: Rajya Sabha, Lok Sabha, Vidhan Sabha
     Type | String | type | required | Ex: Upper, Lower
 
@@ -13,12 +13,12 @@ OpenGov Modelling
 ## States  | states  
     Name  | String  | name  |  required  
 
-## Parliamentary Constituencies  | parliamentary_constituencies  
+## Parliamentary Constituencies  | parliamentary_constituencies
     Constituency Number  | Integer  |  constituency_number  |  required
     Name  |  String  | name  |  required  
-    State  |  Integer  |  state_id  | required  
+    State  |  Integer  |  state_id  | required
 
-## Assembly Constituencies  | Assembly constituencies
+## Assembly Constituencies  | assembly_constituencies
     Constituency Number  | Integer  |  constituency_number  |  required
     Name  |  String  | name  |  required  
     State  |  Integer  |  state_id  | required  
@@ -55,7 +55,7 @@ OpenGov Modelling
     President Name  |  String  |  president_name  |  required  
     Website  |  String  |  website  |  required  
 
-## Legislators  |  legislators  
+## Candidate | candidate
     Legislator Id  |  Integer  | legislator_id  |  required  
     Name  |  String  |  name  |  required  
     DOB |  Integer  |  dob  |  required  
@@ -69,14 +69,20 @@ OpenGov Modelling
     Photo  |  Image  |  photo  |  required  
     Present Address  |  Text  |  present_address  |  required  
     Permanent Address  |  Text  |  permanent_address  |  required   
+
+## Candidature | candidatures
+    Candidate | Integer | candidate_id | required
     Party Name  |  Integer  |  party_id  |  required  
     State  |  Integer  |  state_id  |  required  
     Constituency  |  Integer  |  constituency_id  |  required  
     Term  |  Integer  |  term_id  |  required  
     House  |  String  |  house  |  required  |  Possible values  Ex: Loksabha, Rajyasabha 
     *Assests
+    Start Date
+    End Date
+    Type
 
-## Questions  |  questions  
+## Questions | questions  
     Question Id  |  Integer  |  question_id  |  required  
     Title  |  Text  |  title  |  required  
     Answer  |  Text  |  answer  |  required  
