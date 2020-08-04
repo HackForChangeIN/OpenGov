@@ -1,31 +1,50 @@
 ------------------------------------------------------------------------------------------------------
 OpenGov Modelling
 ------------------------------------------------------------------------------------------------------ 
+## Central Legislatures | central legislatures
+    Name | String | name | required | Ex: Rajya Sabha, Lok Sabha, Vidhan Sabha
+    Type | String | type | required | Ex: Upper, Lower
+
+## State Legislatures | state_legislatures
+    Name | String | name | required | Ex: Telangana Legislative Assembly, Telangana Legislative Council
+    Type | String | type | required | Ex: Upper, Lower
+    State | Integer | state_id | required | Ex: Empty means its at central level, existing state id means its at state level
 
 ## States  | states  
-    State Id  | Integer  |  state_id  |  required  
     Name  | String  | name  |  required  
 
-## Constituencies  | constituencies  
-    Constituency Id  | Integer  |  constituency_id  |  required  
+## Parliamentary Constituencies  | parliamentary_constituencies  
+    Constituency Number  | Integer  |  constituency_number  |  required
     Name  |  String  | name  |  required  
-    State  |  Integer  |  state  | required  
+    State  |  Integer  |  state_id  | required  
 
-## Terms  |  terms    
-    Term Id  |  Integer  | term_id  |  required  
-    Term Name  |  String  |  term_name  |  required  | ex: 17th term  
+## Assembly Constituencies  | Assembly constituencies
+    Constituency Number  | Integer  |  constituency_number  |  required
+    Name  |  String  | name  |  required  
+    State  |  Integer  |  state_id  | required  
+
+## Terms  |  terms
+    Term Name  |  String  |  term_name  |  required  | ex: 17th term, 153rd, 
     Starting Year  |  String  |  start_year  |  required  
-    End Year  |  String  |  end_year  |  required  
+    End Year  |  String  |  end_year  |  required
+    House | integer | house_id | required
 
+## Sittings | sittings
+    Sitting Name  |  String  |  sitting_name  |  required  | ex: 17th term, 153rd, 
+    Starting Year  |  String  |  start_year  |  required  
+    End Year  |  String  |  end_year  |  required
+    House |     
 
-## Sessions  |  sessions   
-    Session Id  | Integer  | session_id  | required  
+##  Parliamentary Sessions  |  parliamentary_sessions
+    Session Id  | Integer  | session_id  | required
     Session Type  |  String   | type  |  required  | Possible values ex: Budget session,Monsoon session, Winter session  
     Term  | Integer  |  term  |  required  
     Starting Date  |  String  | start_date  |  required  
     End Date  | String  | end_date  |  required  
 
-## Parties  |  parties  
+## Assembly Sessions | assembly_sessions
+
+##  Parties  |  parties  
     Party Id  |  Integer  |  party_id  |  required  
     Party Name  |  String  |  party_name  |  required  
     Acronym  |  String  |  acronym  |  required   
@@ -71,7 +90,6 @@ OpenGov Modelling
     House  |  String  |  house  |  required  |  Possible values  Ex: Loksabha, Rajyasabha  
     * External Link  |  String  |  link  |  required  
 
-
 ## Bills  |  bills  
     Bill Id  |  Integer  |  bill_id  |  required  
     Title  |  Text   |  title  |  required  
@@ -84,6 +102,7 @@ OpenGov Modelling
     Category  |  String  |  category  |  required   |   Possible values  Ex: Ordinary Bill,Constitutional Amendment bill,Financial Bill, Money Bill,Ordinance Replacing bill  
     Session  |  Integer  |  session_id  |  required  
     Term  |  Integer  |  term_id  |  required  
+
 ## Debates  |  debates  
     Debate Id  |  Integer  |  debate_id  |  required   
     Title  |  Text  |  title  |  required    
@@ -93,5 +112,3 @@ OpenGov Modelling
     Session  |  Integer  |  session_id  |  required  
     Term  |  Integer  |  term_id  |  required  
     Date  |  String  |  date  |  required  
-
-
