@@ -33,7 +33,7 @@ OpenGov Modelling
     Sitting Name  |  String  |  sitting_name  |  required  | ex: 17th term, 153rd, 
     Starting Year  |  String  |  start_year  |  required  
     End Year  |  String  |  end_year  |  required 
-    State Legislatures | integer | state_legislatures_id | required    
+    State Legislature | integer | state_legislature_id | required    
 
 ##  Parliamentary Sessions  |  parliamentary_sessions
     
@@ -41,17 +41,16 @@ OpenGov Modelling
     Term  | Integer  |  term_id |  required  
     Starting Date  |  String  | start_date  |  required  
     End Date  | String  | end_date  |  required  
-    Central Legislatures  |  Integer | central_legislature_id | required 
+    Central Legislature  |  Integer | central_legislature_id | required 
 
 ## Assembly Sessions | assembly_sessions
     Session Type  |  String   | type  |  required  | Possible values ex: Budget session / First ,Monsoon session / Second, Winter session / Third   
     Sitting  | Integer  |  sitting_id |  required  
     Starting Date  |  String  | start_date  |  required  
     End Date  | String  | end_date  |  required  
-    State Legislatures | integer | state_legislatures_id | required 
+    State Legislature | integer | state_legislature_id | required 
 
 ##  Parties  |  parties  
-     
     Party Name  |  String  |  party_name  |  required  
     Acronym  |  String  |  acronym  |  required   
     Type  |  String  |  type  |  required  |  Possible Values  Ex: National Level, State level, Regional   
@@ -77,13 +76,13 @@ OpenGov Modelling
     Permanent Address  |  Text  |  permanent_address  |  required   
     *Assests
 
-## Candidature | candidatures
+## Candidature | candidature
     Candidate | Integer | candidate_id | required
     Party Name  |  Integer  |  party_id  |  required  
     State  |  Integer  |  state_id  |  required  
     Type | String | type | required | Possible Values Ex: MP,MLA,MLC 
-    Parliamentary Constituencies | Integer | parliamentary_constituencie_id | Optional  
-    Assembly Constituencies | Integer | assembly_constituencie_id | Optional 
+    Parliamentary Constituency | Integer | parliamentary_constituency_id | Optional  
+    Assembly Constituency | Integer | assembly_constituency_id | Optional 
     Term  |  Integer  |  term_id  |  Optional 
     Sitting | Integer | sitting_id | Optional 
     Central Legislatures | Integer | central_legislature_id | Optional 
@@ -92,7 +91,6 @@ OpenGov Modelling
     
 
 ## Questions | questions  
-     
     Title  |  Text  |  title  |  required  
     *Answer  |  Text  |  answer  |  Optional  
     Question Type  |  String  |  type  |  required  |  Possible Values  Ex: Starred, Unstarred 
@@ -102,36 +100,34 @@ OpenGov Modelling
     Subject  |  String  |  subject  |  required  
     Term  |  Integer  |  term_id  |  Optional 
     Sitting | Integer | sitting_id | Optional 
-    Parliamentary Sessions  |  Integer  |  parliamentary_sessions_id  |  Optional   
-    Assembly Sessions | Integer | assembly_session_id | Optional 
-    Central Legislatures | Integer | central_legislature_id | Optional 
-    State Legislatures | Integer | state_legislature_id | Optional 
+    Parliamentary Session  |  Integer  |  parliamentary_session_id  |  Optional   
+    Assembly Session | Integer | assembly_session_id | Optional 
+    Central Legislature | Integer | central_legislature_id | Optional 
+    State Legislature | Integer | state_legislature_id | Optional 
     * External Link  |  String  |  link  |  Optional  
 
 ## Bills  |  bills  
-     
     Title  |  Text   |  title  |  required  
-    Type  |  String  |  type  |  required  |   Possible values  Ex: Government ,Private Member  
-    Status  |  String  |  status |  required  |  Possible Values  Ex: Assented,Passed,Pending,Withdrawn,Negatived,Lapsed  
+    Type  |  String  |  type  |  required  |   Possible values  Ex: Government, Private Member  
+    Status  |  String  |  status |  required  |  Possible Values  Ex: Assented, Passed, Pending, Withdrawn, Negatived,Lapsed  
     Introducer  |  Integer  |  candidate_id  |  required  
     *Ministry |  String  |  ministry  |  required  
     Year  |  String  |  year  |  required  
-    Category  |  String  |  category  |  required   |   Possible values  Ex: Ordinary Bill,Constitutional Amendment bill,Financial Bill, Money Bill,Ordinance Replacing bill 
+    Category  |  String  |  category  |  required   |   Possible values  Ex: Ordinary Bill, Constitutional Amendment bill,Financial Bill, Money Bill, Ordinance Replacing bill 
     Term  |  Integer  |  term_id  |  Optional 
     Sitting | Integer | sitting_id | Optional 
-    Parliamentary Sessions  |  Integer  |  parliamentary_sessions_id  |  Optional   
-    Assembly Sessions | Integer | assembly_session_id | Optional 
-    Central Legislatures | Integer | central_legislature_id | Optional 
-    State Legislatures | Integer | state_legislature_id | Optional  
+    Parliamentary Session  |  Integer  |  parliamentary_session_id  |  Optional   
+    Assembly Session | Integer | assembly_session_id | Optional 
+    Central Legislature | Integer | central_legislature_id | Optional 
+    State Legislature | Integer | state_legislature_id | Optional  
       
 
 ## Debates  |  debates  
-    
     Title  |  Text  |  title  |  required    
     Content  |  Text  |  content  |   required   
-    Type  |  String  |  type  |  required  |  Possible values  Ex: Adjournment Motion,Announcement by the chair,Assent to bills and so on (46 types)  
+    Type  |  String  |  type  |  required  |  Possible values  Ex: Adjournment Motion, Announcement by the chair, Assent to bills and so on (46 types)  
     Participants  |  Integer  |  candidate_id  |  required  
-    Central Legislatures | Integer | central_legislature_id | Required 
+    Central Legislature | Integer | central_legislature_id | Required 
     Session  |  Integer  |  session_id  |  required  
     Term  |  Integer  |  term_id  |  required  
     Date  |  String  |  date  |  required  

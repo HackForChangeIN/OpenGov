@@ -1,1 +1,1 @@
-web: gunicorn HFC.wsgi --log-file -
+web: gunicorn OpenGov.wsgi --log-file -
