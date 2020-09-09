@@ -1,15 +1,15 @@
 from django.core.management.base import BaseCommand
-from OpenGovCore.models import States, Parliamentary_Constituencies, Assembly_Constituencies
+from OpenGovCore.models import States, Parliamentary_Constituencies, Assembly_Constituencies,Parties
 import xlrd
 
 class Command(BaseCommand):
     help = 'Load initial data to database'
 
     def handle(self, *args, **kwargs):
-        load_state()
-        load_parliamentary_constituency()
-        load_assembly_constituency()
-        
+        #load_state()
+        #load_parliamentary_constituency()
+        #load_assembly_constituency()
+        load_party_information()
 
 def load_state():
 
@@ -65,5 +65,27 @@ def load_assembly_constituency():
                 print("error in", state)
     print("Assembly Constituencies are loaded")
 
+def load_party_information():
+    workbook = xlrd.open_workbook(
+        "OpenGovCore/data/raw_data/Political party information.xlsx") 
+    for sheet in workbook.sheets():
+        for row in range(1, sheet.nrows):
+            party_name = sheet.cell_value(row, 0)
+            acronym = sheet.cell_value(row, 1)
+            type= sheet.cell_value(row, 2)
+            founded =int(sheet.cell_value(row, 3))
+            founder_name = sheet.cell_value(row, 4)
+            president_name = sheet.cell_value(row, 5)
+            website = sheet.cell_value(row, 6)
+            #print(party_name,acronym,type,founded,founder_name,president_name,website)
+            try:
+                party_obj = Parties.objects.get_or_create(party_name = party_name ,acronym = acronym,type = type,
+                founded = founded,founder_name = founder_name,president_name = president_name,website = website)
+                row += 1
+            except:
+                print("Error in ",row)
+    print("Party informations are loaded")
+    
+        
 
 
