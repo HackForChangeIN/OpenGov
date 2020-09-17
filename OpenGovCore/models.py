@@ -3,11 +3,11 @@ from django.db import models
 PARTY_TYPE = (
     ('National Party', 'National Party'),
     ('State Party', 'State Party'),
-    ('Regional Party','Regional Party')
+    ('Regional Party', 'Regional Party')
 
 )
 
-# Create your models here.
+
 class States(models.Model):
     name = models.CharField(max_length=200)
 
@@ -46,76 +46,192 @@ class Assembly_Constituencies(models.Model):
         verbose_name = "Assembly_Constituency"
         verbose_name_plural = "Assembly_Constituencies"
 
+
 class Parties(models.Model):
-    party_name = models.CharField(max_length=500,blank = True)
-    acronym = models.CharField(max_length=50,blank = True)
-    type = models.CharField(choices=PARTY_TYPE,max_length=100)
-    symbol = models.ImageField( null=True, blank=True)
-    founded = models.CharField(max_length=200,blank = True) 
-    founder_name = models.CharField(max_length=200,blank = True)
-    president_name = models.CharField(max_length=200,blank = True)
-    website = models.CharField(max_length=500,blank = True) 
+    party_name = models.CharField(max_length=500, blank=True)
+    acronym = models.CharField(max_length=50, blank=True)
+    type = models.CharField(choices=PARTY_TYPE, max_length=100)
+    symbol = models.ImageField(null=True, blank=True)
+    founded = models.CharField(max_length=200, blank=True)
+    founder_name = models.CharField(max_length=200, blank=True)
+    president_name = models.CharField(max_length=200, blank=True)
+    website = models.CharField(max_length=500, blank=True)
+
     def __str__(self):
         return self.party_name
+
     class Meta:
         verbose_name = "Party"
         verbose_name_plural = "Parties"
-    
-"""class Candidate(models.Model):
-    name = models.CharField(max_length=500,blank = True)
-    dob = models.CharField(max_length=200,blank = True) 
-    qualification = models.CharField(max_length=500,blank = True)
-    gender = models.CharField(max_length=100,blank = True)
-    social_class = models.CharField(max_length=500,blank = True)
-    contact_number = models.CharField(max_length=500,blank = True)
-    email = models.CharField(max_length=500,blank = True)
-    profession = models.CharField(max_length=500,blank = True)
-    criminal_cases = models.CharField(max_length=500,blank = True) 
-    photo = models.ImageField( null=True, blank=True)
-    present_address = models.TextField(blank=True) 
-    permanent_address = models.TextField(blank=True)
-    def __str__(self):
-        return self.name
-    class Meta:
-        verbose_name = "Candidate"
-        verbose_name_plural = "Candidates"
 
-class Candidature (models.Model):
-    candidate_id = models.ForeignKey(Candidate, on_delete=models.CASCADE, verbose_name='Candidate')
-    party_id = models.ForeignKey(Parties, on_delete=models.CASCADE, verbose_name='Party')
-    state_id = models.ForeignKey(States, on_delete=models.CASCADE, verbose_name='State')
-    type = models.CharField(max_length=200,blank = True)
-    parliamentary_constituency_id = models.ForeignKey(Parliamentary_Constituencies, on_delete=models.CASCADE, 
-                                    verbose_name='Parliamentary_Constituency',blank=True, null=True)
-    assembly_constituency_id = models.ForeignKey(Assembly_Constituencies, on_delete=models.CASCADE, 
-                                    verbose_name='Assembly_Constituency',blank=True, null=True)"""
+
 class Central_Legislatures(models.Model):
-    name = models.CharField(max_length=100,blank = True)
-    type = models.CharField(max_length=100,blank = True)
+    name = models.CharField(max_length=100, blank=True)
+    type = models.CharField(max_length=100, blank=True)
+
     def __str__(self):
         return self.name
+
     class Meta:
         verbose_name = "Central_Legislature"
         verbose_name_plural = "Central_Legislatures"
 
 
 class State_Legislatures(models.Model):
-    name = models.CharField(max_length=100,blank = True)
-    type = models.CharField(max_length=100,blank = True)
-    state_id = models.ForeignKey(States, on_delete=models.CASCADE, verbose_name='State')
+    name = models.CharField(max_length=100, blank=True)
+    type = models.CharField(max_length=100, blank=True)
+    state_id = models.ForeignKey(
+        States, on_delete=models.CASCADE, verbose_name='State')
+
     def __str__(self):
         return self.name
+
     class Meta:
         verbose_name = "State_Legislature"
         verbose_name_plural = "State_Legislatures"
 
+
 class Term(models.Model):
-    term_name = models.CharField(max_length=100,blank = True)
-    start_year = models.CharField(max_length=100,blank = True)
-    end_year = models.CharField(max_length=100,blank = True)
-    central_legislature_id = models.ForeignKey(Central_Legislatures, on_delete=models.CASCADE, verbose_name='Central_Legislatures')
+    term_name = models.CharField(max_length=100, blank=True)
+    start_year = models.CharField(max_length=100, blank=True)
+    end_year = models.CharField(max_length=100, blank=True)
+    central_legislature_id = models.ForeignKey(
+        Central_Legislatures, on_delete=models.CASCADE, verbose_name='Central_Legislatures')
+
     def __str__(self):
         return self.term_name
+
     class Meta:
         verbose_name = "Term"
         verbose_name_plural = "Terms"
+
+
+class Sittings(models.Model):
+    sitting_name = models.CharField(max_length=100, blank=True)
+    start_year = models.CharField(max_length=100, blank=True)
+    end_year = models.CharField(max_length=100, blank=True)
+    state_legislature_id = models.ForeignKey(
+        State_Legislatures, on_delete=models.CASCADE, verbose_name='State_Legislatures')
+
+    def __str__(self):
+        return self.sitting_name
+
+    class Meta:
+        verbose_name = "Sitting"
+        verbose_name_plural = "Sittings"
+
+
+class Parliamentary_Sessions(models.Model):
+    type = models.CharField(max_length=200, blank=True)
+    term_id = models.ForeignKey(
+        Term, on_delete=models.CASCADE, verbose_name='Term', blank=True, null=True)
+    start_date = models.CharField(max_length=100, blank=True)
+    end_date = models.CharField(max_length=100, blank=True)
+    central_legislature_id = models.ForeignKey(
+        Central_Legislatures, on_delete=models.CASCADE, verbose_name='Central_Legislatures', blank=True, null=True)
+
+    def __str__(self):
+        return self.type
+
+    class Meta:
+        verbose_name = "Parliamentary_Session"
+        verbose_name_plural = "Parliamentary_Sessions"
+
+
+class Assembly_Sessions(models.Model):
+    type = models.CharField(max_length=200, blank=True)
+    sitting_id = models.ForeignKey(
+        Sittings, on_delete=models.CASCADE, verbose_name='Sittings', blank=True, null=True)
+    start_date = models.CharField(max_length=100, blank=True)
+    end_date = models.CharField(max_length=100, blank=True)
+    state_legislature_id = models.ForeignKey(
+        State_Legislatures, on_delete=models.CASCADE, verbose_name='State_Legislatures', blank=True, null=True)
+
+    def __str__(self):
+        return self.type
+
+    class Meta:
+        verbose_name = "Assembly_Session"
+        verbose_name_plural = "Assembly_Sessions"
+
+
+class Candidate(models.Model):
+    name = models.CharField(max_length=500, blank=True)
+    dob = models.CharField(max_length=200, blank=True)
+    qualification = models.CharField(max_length=500, blank=True)
+    gender = models.CharField(max_length=100, blank=True)
+    social_class = models.CharField(max_length=500, blank=True)
+    contact_number = models.CharField(max_length=500, blank=True)
+    email = models.CharField(max_length=500, blank=True)
+    profession = models.CharField(max_length=500, blank=True)
+    criminal_cases = models.CharField(max_length=500, blank=True)
+    photo = models.ImageField(null=True, blank=True)
+    present_address = models.TextField(blank=True)
+    permanent_address = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Candidate"
+        verbose_name_plural = "Candidates"
+
+
+class Candidature (models.Model):
+    candidate_id = models.ForeignKey(
+        Candidate, on_delete=models.CASCADE, verbose_name='Candidate')
+    party_id = models.ForeignKey(
+        Parties, on_delete=models.CASCADE, verbose_name='Party', blank=True, null=True)
+    state_id = models.ForeignKey(
+        States, on_delete=models.CASCADE, verbose_name='State', blank=True, null=True)
+    type = models.CharField(max_length=200, blank=True)
+    parliamentary_constituency_id = models.ForeignKey(Parliamentary_Constituencies, on_delete=models.CASCADE,
+                                                      verbose_name='Parliamentary_Constituency', blank=True, null=True)
+    assembly_constituency_id = models.ForeignKey(Assembly_Constituencies, on_delete=models.CASCADE,
+                                                 verbose_name='Assembly_Constituency', blank=True, null=True)
+    term_id = models.ForeignKey(
+        Term, on_delete=models.CASCADE, verbose_name='Term', blank=True, null=True)
+    sitting_id = models.ForeignKey(
+        Sittings, on_delete=models.CASCADE, verbose_name='Sittings', blank=True, null=True)
+    central_legislature_id = models.ForeignKey(
+        Central_Legislatures, on_delete=models.CASCADE, verbose_name='Central_Legislatures', blank=True, null=True)
+    state_legislature_id = models.ForeignKey(
+        State_Legislatures, on_delete=models.CASCADE, verbose_name='State_Legislatures', blank=True, null=True)
+
+    def __str__(self):
+        return self.candidate_id
+
+    class Meta:
+        verbose_name = "Candidature"
+        verbose_name_plural = "Candidatures"
+
+
+class Questions(models.Model):
+    title = models.TextField(blank=True)
+    answer = models.TextField(blank=True)
+    type = models.CharField(max_length=200, blank=True)
+    candidate_id = models.ForeignKey(
+        Candidate, on_delete=models.CASCADE, verbose_name='Asked by', blank=True, null=True)
+    category = models.CharField(max_length=500, blank=True)
+    date = models.CharField(max_length=200, blank=True)
+    subject = models.CharField(max_length=500, blank=True)
+    term_id = models.ForeignKey(
+        Term, on_delete=models.CASCADE, verbose_name='Term', blank=True, null=True)
+    sitting_id = models.ForeignKey(
+        Sittings, on_delete=models.CASCADE, verbose_name='Sittings', blank=True, null=True)
+    parliamentary_session_id = models.ForeignKey(Parliamentary_Sessions, on_delete=models.CASCADE,
+                                                 verbose_name='Parliamentary_Sessions', blank=True, null=True)
+    assembly_session_id = models.ForeignKey(Assembly_Sessions, on_delete=models.CASCADE,
+                                            verbose_name='Assembly_Sessions', blank=True, null=True)
+    central_legislature_id = models.ForeignKey(
+        Central_Legislatures, on_delete=models.CASCADE, verbose_name='Central_Legislatures', blank=True, null=True)
+    state_legislature_id = models.ForeignKey(
+        State_Legislatures, on_delete=models.CASCADE, verbose_name='State_Legislatures', blank=True, null=True)
+    link = models.CharField(max_length=1000, blank=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = "Question"
+        verbose_name_plural = "Questions"

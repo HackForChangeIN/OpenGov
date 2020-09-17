@@ -1,8 +1,9 @@
 from django.contrib import admin
 from .models import *
+from reversion.admin import VersionAdmin
 
 
-class StateAdmin(admin.ModelAdmin):
+class StateAdmin(VersionAdmin):
     list_display = ('name',)
 
     class meta:
@@ -12,7 +13,7 @@ class StateAdmin(admin.ModelAdmin):
 admin.site.register(States, StateAdmin)
 
 
-class Parliamentary_Constituencies_Admin(admin.ModelAdmin):
+class Parliamentary_Constituencies_Admin(VersionAdmin):
     list_display = ('name', 'constituency_number', 'state')
 
     class meta:
@@ -23,7 +24,7 @@ admin.site.register(Parliamentary_Constituencies,
                     Parliamentary_Constituencies_Admin)
 
 
-class Assembly_Constituencies_Admin(admin.ModelAdmin):
+class Assembly_Constituencies_Admin(VersionAdmin):
     list_display = ('name', 'constituency_number', 'state')
 
     class meta:
@@ -32,34 +33,110 @@ class Assembly_Constituencies_Admin(admin.ModelAdmin):
 
 admin.site.register(Assembly_Constituencies, Assembly_Constituencies_Admin)
 
-class Parties_Admin(admin.ModelAdmin):
-    list_display = ('party_name','acronym','type','founded','founder_name','president_name','website','symbol')
+
+class Parties_Admin(VersionAdmin):
+    list_display = ('party_name', 'acronym', 'type', 'founded',
+                    'founder_name', 'president_name', 'website', 'symbol')
 
     class meta:
         model = Parties
 
-admin.site.register(Parties,Parties_Admin)
 
-class Central_Legislatures_Admin(admin.ModelAdmin):
-    list_display = ('name','type')
+admin.site.register(Parties, Parties_Admin)
+
+
+class Central_Legislatures_Admin(VersionAdmin):
+    list_display = ('name', 'type')
 
     class meta:
         model = Central_Legislatures
 
-admin.site.register(Central_Legislatures,Central_Legislatures_Admin)
 
-class State_Legislatures_Admin(admin.ModelAdmin):
-    list_display = ('name','type','state_id')
+admin.site.register(Central_Legislatures, Central_Legislatures_Admin)
+
+
+class State_Legislatures_Admin(VersionAdmin):
+    list_display = ('name', 'type', 'state_id')
 
     class meta:
         model = State_Legislatures
 
-admin.site.register(State_Legislatures,State_Legislatures_Admin)
 
-class Term_Admin(admin.ModelAdmin):
-    list_display = ('term_name','start_year','end_year','central_legislature_id')
+admin.site.register(State_Legislatures, State_Legislatures_Admin)
+
+
+class Term_Admin(VersionAdmin):
+    list_display = ('term_name', 'start_year',
+                    'end_year', 'central_legislature_id')
 
     class meta:
         model = Term
 
-admin.site.register(Term,Term_Admin)
+
+admin.site.register(Term, Term_Admin)
+
+
+class Sittings_Admin(VersionAdmin):
+    list_display = ('sitting_name', 'start_year',
+                    'end_year', 'state_legislature_id')
+
+    class meta:
+        model = Sittings
+
+
+admin.site.register(Sittings, Sittings_Admin)
+
+
+class Candidate_Admin(VersionAdmin):
+    list_display = ('name', 'dob', 'qualification', 'gender', 'contact_number', 'email',
+                    'profession', 'criminal_cases', 'present_address', 'permanent_address', 'photo')
+
+    class meta:
+        model = Candidate
+
+
+admin.site.register(Candidate, Candidate_Admin)
+
+
+class Candidature_Admin(VersionAdmin):
+    list_display = ('candidate_id', 'party_id', 'state_id', 'type',
+                    'parliamentary_constituency_id', 'term_id', 'central_legislature_id')
+
+    class meta:
+        model = Candidature
+
+
+admin.site.register(Candidature, Candidature_Admin)
+
+
+class Parliamentary_Sessions_Admin(VersionAdmin):
+    list_display = ('type', 'term_id', 'start_date',
+                    'end_date', 'central_legislature_id')
+
+    class meta:
+        model = Parliamentary_Sessions
+
+
+admin.site.register(Parliamentary_Sessions, Parliamentary_Sessions_Admin)
+
+
+class Assembly_Sessions_Admin(VersionAdmin):
+    list_display = ('type', 'sitting_id', 'start_date',
+                    'end_date', 'state_legislature_id')
+
+    class meta:
+        model = Assembly_Sessions
+
+
+admin.site.register(Assembly_Sessions, Assembly_Sessions_Admin)
+
+
+class Question_Admin(VersionAdmin):
+    list_display = ('title', 'type', 'candidate_id', 'category', 'date', 'subject',
+                    'term_id', 'parliamentary_session_id', 'central_legislature_id')
+
+    class meta:
+        model = Questions
+
+
+admin.site.register(Questions, Question_Admin)
