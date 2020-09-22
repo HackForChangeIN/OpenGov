@@ -131,3 +131,9 @@ OpenGov Modelling
     Session  |  Integer  |  session_id  |  required  
     Term  |  Integer  |  term_id  |  required  
     Date  |  String  |  date  |  required  
+
+## Attendance  | attendance  
+    Attendance | String | attendance | required 
+    Term  |  Integer  |  term_id  |  required 
+    Session | Integer | session_id | required  
+    Candidate | Integer | candidate_id | required  
