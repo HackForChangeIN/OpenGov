@@ -1,8 +1,18 @@
-class OpenGovParser:
-    url = ''
+from bs4 import BeautifulSoup as bs
+from urllib.request import urlopen as uReq
 
-    def __init__(self, url):
+class OpenGovParser:
+
+    url = ''
+    def __init__(self, url,soup=None):
         self.url = url
+        self.soup = soup
+
+    def load_parser(self):
+        Client = uReq(self.url)
+        content = Client.read()
+        self.soup = bs(content, "html.parser")
+        return self.soup
 
     def load_candidate_data(self):
         pass
