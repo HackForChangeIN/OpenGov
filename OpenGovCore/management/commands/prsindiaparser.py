@@ -3,10 +3,8 @@ from opengovparser import OpenGovParser
 class PRSIndiaParser(OpenGovParser):
 
 	def find_all_urls(self):
-
 		all_class = self.soup.find_all("div",attrs={'class':'view-content'})
 		all_profiles = all_class[1].find_all('div',attrs={'class':'views-field views-field-title-field'})
-		
 		urls = [] 
 		for a_tag in all_profiles:
 			url = a_tag.find('a')['href']
@@ -68,13 +66,13 @@ class PRSIndiaParser(OpenGovParser):
 
 	def main_struct(self):
 
-		self.soup = self.load_parser()
+		self.soup = super().load_parser()
 		all_profiles = self.find_all_urls()
 		
 		n = 0
 		for link in all_profiles:
 			self.url = link
-			self.soup = self.load_parser()
+			self.soup = super().load_parser()
 			info = self.soup.find("div",attrs={'class':'row mp_profile_header_info'})
 			mp_name = info.find("div",attrs={'class':'mp-name'}).find('h1').find('a').text
 			mp_state = info.find_all("div",attrs={'class':'mp_state'})[0].find('a').text
@@ -126,9 +124,7 @@ class PRSIndiaParser(OpenGovParser):
 			if (n == 2):
 				break
 
-
-		
-
+			
 url = "https://www.prsindia.org/mptrack"+"?field_paliament_term_tid=62"
 p1 = PRSIndiaParser(url = url)
 p1.main_struct()
