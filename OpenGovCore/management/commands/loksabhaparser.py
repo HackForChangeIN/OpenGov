@@ -46,7 +46,11 @@ class LoksabhaParser(OpenGovParser):
 			state = items[0].text.strip().rsplit("(")[-1].replace(")","")
 
 			party = items[1].text.strip()
-			email = items[2].text.strip()
+            if '(' in party:
+                party = party.split('(')[0].strip()
+            else:
+                party = party
+            email = items[2].text.strip()
 			email = email.replace('AT','@').replace('DOT','.').replace('[','').replace(']','')
 			
 			More_detail = self.soup.find("table",attrs = {'id':'ContentPlaceHolder1_DataGrid2'})
@@ -63,17 +67,17 @@ class LoksabhaParser(OpenGovParser):
 				permanent_address = more_items[12].text.strip() + more_items[13].text.strip()
 			
 			except:
-				permanent_address=' '
+				permanent_address='Not Available '
 
 			try:
 				present_address=more_items[19].text.strip() + more_items[20].text.strip()
 			except:
-				present_address=''
+				present_address='Not Available'
 
 			try:
 				mobile=more_items[21].text.strip()
 			except:
-				mobile=''
+				mobile='Not Available'
 
 			row+=1
 			if(row == 4):
@@ -90,6 +94,19 @@ class LoksabhaParser(OpenGovParser):
 			print("Permanent_address : ", permanent_address)
 			print("Present_address : ", present_address)
 			print("Mobile : ", mobile)
+            data = []
+            data.append(mp_name)
+            data.append(constituency)
+            data.append(state)
+            data.append(party)
+            data.append(email)
+            data.append(dob)
+            data.append(education)
+            data.append( profession)
+            data.append(permanent_address)
+            data.append(present_address)
+            data.append(mobile)
+            OpenGovParser.load_candidate_data(self,*data)
     	
 
 loksabha_parser = LoksabhaParser(url = "http://loksabhaph.nic.in/Members/AlphabeticalList.aspx")
