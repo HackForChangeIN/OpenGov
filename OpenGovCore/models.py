@@ -198,8 +198,8 @@ class Candidature (models.Model):
     state_legislature_id = models.ForeignKey(
         State_Legislatures, on_delete=models.CASCADE, verbose_name='State_Legislatures', blank=True, null=True)
 
-    def __str__(self):
-        return self.candidate_id
+    """def __str__(self):
+        return self.candidate_id"""
 
     class Meta:
         verbose_name = "Candidature"

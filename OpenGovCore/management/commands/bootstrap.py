@@ -1,8 +1,6 @@
 from django.core.management.base import BaseCommand
 from OpenGovCore.models import States, Parliamentary_Constituencies, Assembly_Constituencies, Parties
 import xlrd
-from opengovparser import OpenGovParser
-from loksabhaparser import LoksabhaParser
 
 class Command(BaseCommand):
     help = 'Load initial data to database'
@@ -11,8 +9,8 @@ class Command(BaseCommand):
         #load_state()
         #load_parliamentary_constituency()
         #load_assembly_constituency()
-        #load_party_information()
-
+        load_party_information()
+        
 
 def load_state():
     workbook = xlrd.open_workbook("OpenGovCore/data/raw_data/State_list.xlsx")
