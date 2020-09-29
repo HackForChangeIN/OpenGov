@@ -54,7 +54,7 @@ class LoksabhaParser(OpenGovParser):
 			else:
 				party = party
 			email = items[2].text.strip()
-			email = email.replace('AT', '@').replace('DOT','.').replace('[', '').replace(']', '')
+			email = ",".join(email.replace('AT','@').replace('DOT','.').replace('[','').replace(']','').split(" ")).replace(",,",",")
 			More_detail = self.soup.find(
 				"table", attrs={'id': 'ContentPlaceHolder1_DataGrid2'})
 			more_items = More_detail.find_all('td', attrs={'class': 'griditem2'})
