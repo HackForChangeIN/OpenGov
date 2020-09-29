@@ -42,6 +42,7 @@ OpenGov Modelling
     Starting Date  |  String  | start_date  |  required  
     End Date  | String  | end_date  |  required  
     Central Legislature  |  Integer | central_legislature_id | required 
+    Total Working Days | Integer  | working_days | integer 
 
 ## Assembly Sessions | assembly_sessions
     Session Type  |  String   | type  |  required  | Possible values ex: Budget session / First ,Monsoon session / Second, Winter session / Third   
@@ -119,7 +120,8 @@ OpenGov Modelling
     Parliamentary Session  |  Integer  |  parliamentary_session_id  |  Optional   
     Assembly Session | Integer | assembly_session_id | Optional 
     Central Legislature | Integer | central_legislature_id | Optional 
-    State Legislature | Integer | state_legislature_id | Optional  
+    State Legislature | Integer | state_legislature_id | Optional
+    * External Link  |  String  |  link  |  Optional 
       
 
 ## Debates  |  debates  
@@ -131,9 +133,14 @@ OpenGov Modelling
     Session  |  Integer  |  session_id  |  required  
     Term  |  Integer  |  term_id  |  required  
     Date  |  String  |  date  |  required  
+    * External Link  |  String  |  link  |  Optional 
+
 
 ## Attendance  | attendance  
     Attendance | String | attendance | required 
     Term  |  Integer  |  term_id  |  required 
     Session | Integer | session_id | required  
     Candidate | Integer | candidate_id | required  
+    No.of days Signed | Integer | signed_days | required 
+    No.of days Not Signed | Integer | not_signed_days | required
+    

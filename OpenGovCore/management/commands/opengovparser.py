@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup as bs
 from urllib.request import urlopen as uReq
-from OpenGovCore.models import States, Parliamentary_Constituencies, Parties, Candidate,Term,Candidature,Central_Legislatures
+from OpenGovCore.models import States, Parliamentary_Constituencies, Parties, Candidate,Term,Candidature,Central_Legislatures,Questions,Debates
 
 class OpenGovParser:
 
@@ -51,14 +51,28 @@ class OpenGovParser:
         except Candidate.DoesNotExist:
             print("Candidate data not found")
     
-    def load_questions(self):
-        pass
+    def load_questions(self,*args):
+        title,answer,type,candidate,category,date,subject = args
+        try:
+            candidate_id = Candidate.objects.get(name__contains = candidate)
+            term = Term.objects.get(term_name = "17th")
+            central_legislature = Central_Legislatures.objects.get(name = "Loksabha")
+            question_obj = Questions.objects.create(title = title,answer = answer,type = type,candidate_id = candidate_id, category = category,date =  date,subject = subject )
+        except Candidate.DoesNotExist:
+            print("Candidate data not found")
 
-    def load_bills(self):
-        pass
+    def load_debates(self,*args):
+        title,type,candidate,date,link = args
+        try:
+            candidate_id = Candidate.objects.get(name__contains = candidate)
+            term = Term.objects.get(term_name = "17th")
+            central_legislature = Central_Legislatures.objects.get(name = "Loksabha")
+            debate_obj = Debates.objects.create(title = title,type = type,candidate_id = candidate_id,date = date,link = link)
+        except Candidate.DoesNotExist:
+            print("Candidate data not found")
 
-    def load_debates(self):
-        pass
 
     def load_attendance(self):
+        pass
+    def load_bills(self):
         pass

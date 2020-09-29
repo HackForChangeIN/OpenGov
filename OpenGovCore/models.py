@@ -235,3 +235,28 @@ class Questions(models.Model):
     class Meta:
         verbose_name = "Question"
         verbose_name_plural = "Questions"
+
+class Debates(models.Model):
+    title = models.TextField(blank=True)
+    content = models.TextField(blank=True)
+    type = models.CharField(max_length=300, blank=True)
+    candidate_id = models.ForeignKey(
+        Candidate, on_delete=models.CASCADE, verbose_name='Participants', blank=True, null=True)
+    central_legislature_id = models.ForeignKey(
+        Central_Legislatures, on_delete=models.CASCADE, verbose_name='Central_Legislatures', blank=True, null=True)
+    session_id = models.ForeignKey(Parliamentary_Sessions, on_delete=models.CASCADE,
+                                                 verbose_name='Parliamentary_Sessions', blank=True, null=True)
+    term_id = models.ForeignKey(
+        Term, on_delete=models.CASCADE, verbose_name='Term', blank=True, null=True)
+    date = models.CharField(max_length=200, blank=True)
+    link = models.URLField(max_length = 400) 
+
+    def __str__(self):
+        return self.title
+    class Meta:
+        verbose_name = "Debate"
+        verbose_name_plural = "Debates"
+
+
+
+    
