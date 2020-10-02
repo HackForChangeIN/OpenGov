@@ -133,10 +133,25 @@ admin.site.register(Assembly_Sessions, Assembly_Sessions_Admin)
 
 class Question_Admin(VersionAdmin):
     list_display = ('title', 'type', 'candidate_id', 'category', 'date', 'subject',
-                    'term_id', 'parliamentary_session_id', 'central_legislature_id')
+                    'term_id', 'parliamentary_session_id', 'central_legislature_id','link')
 
     class meta:
         model = Questions
 
 
 admin.site.register(Questions, Question_Admin)
+
+class Debate_Admin(VersionAdmin):
+    list_display = ('title','type','candidate_id','central_legislature_id','term_id','date','link')
+
+    class meta:
+        model = Debates
+
+admin.site.register(Debates,Debate_Admin)
+
+class Bill_Admin(VersionAdmin):
+    list_display = ('title','type','status','candidate_id','ministry','date','category','term_id','central_legislature_id','link')
+
+    class meta:
+        model = Bills
+admin.site.register(Bills,Bill_Admin)

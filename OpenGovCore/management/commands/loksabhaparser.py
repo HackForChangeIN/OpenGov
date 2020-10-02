@@ -41,8 +41,16 @@ class LoksabhaParser(OpenGovParser):
 			all_detail = self.soup.find(
 				"table", attrs={'id': 'ContentPlaceHolder1_Datagrid1'})
 			table_data = all_detail.find('td')
-			mp_name = table_data.tr.find(
-				'td', attrs={'class': 'gridheader1'}).text.strip()
+			member = table_data.tr.find(
+				'td', attrs={'class': 'gridheader1'}).text.strip().split(",")
+			members_list = []
+			if len(member) > 1:
+				for i in range(0,len(member),2):
+					members_list.append(member[i+1]+" "+ member[i])
+					mp_name = members_list[0]
+			else:
+				m = ''
+				mp_name = m.join(member)
 			items = all_detail.find_all('td', attrs={'class': 'griditem2'})
 
 			constituency = items[0].text.strip().split(" ")[0]
@@ -81,21 +89,17 @@ class LoksabhaParser(OpenGovParser):
 			except:
 				mobile = 'Not Available'
 
-			row += 1
-			if(row == 10):
-				break
-
 			print("Name : ", mp_name)
-			print("Constituency : ", constituency)
-			print("State : ", state)
-			print("Party : ", party)
-			print("Email : ", email)
-			print("DOB : ", dob)
-			print("Education : ", education)
-			print("Profession : ", profession)
-			print("Permanent_address : ", permanent_address)
-			print("Present_address : ", present_address)
-			print("Mobile : ", mobile)
+			#print("Constituency : ", constituency)
+			#print("State : ", state)
+			#print("Party : ", party)
+			#print("Email : ", email)
+			#print("DOB : ", dob)
+			#print("Education : ", education)
+			#print("Profession : ", profession)
+			#print("Permanent_address : ", permanent_address)
+			#print("Present_address : ", present_address)
+			#print("Mobile : ", mobile)
 			data = []
 			data.append(mp_name)
 			data.append(constituency)
@@ -109,7 +113,10 @@ class LoksabhaParser(OpenGovParser):
 			data.append(present_address)
 			data.append(mobile)
 			data.append(image_name)
-			OpenGovParser.load_candidate_data(self, *data)
+			OpenGovParser.load_candidate_data(self,*data)
+			OpenGovParser.load_candidature_data(self,*data)
+			print(mp_name,"Added to the database")
+		print("All the MP data are added")
 
 
 #loksabha_parser = LoksabhaParser(url = "http://loksabhaph.nic.in/Members/AlphabeticalList.aspx")

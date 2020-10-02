@@ -33,11 +33,19 @@ class OpenGovParser:
         except Candidate.DoesNotExist:
             candidate_obj = Candidate.objects.create(name=mp_name, dob=dob, qualification=education,
             contact_number=mobile, email=email, profession=profession, present_address=present_address, permanent_address=permanent_address,photo = image_name )
+
     
     def load_candidature_data(self,*args):
         mp_name,constituency,state,party,email,dob,education,profession,permanent_address,present_address,mobile,image_name= args
-        state_obj = States.objects.get(name=state)
-        constituency_obj = Parliamentary_Constituencies.objects.get(name=constituency)
+        try:
+            state_obj = States.objects.get(name=state)
+        except States.DoesNotExist:
+            state_obj = States.objects.create(name = state) 
+        try:
+            constituency_obj = Parliamentary_Constituencies.objects.get(name=constituency,state = state_obj )
+        except Parliamentary_Constituencies.DoesNotExist:
+            constituency_obj = Parliamentary_Constituencies.objects.create(name = constituency,state = state_obj)
+
         try:
             party_obj = Parties.objects.get(party_name=party)
         except Parties.DoesNotExist:
@@ -52,24 +60,30 @@ class OpenGovParser:
             print("Candidate data not found")
     
     def load_questions(self,*args):
-        title,answer,type,candidate,category,date,subject = args
-        try:
-            candidate_id = Candidate.objects.get(name__contains = candidate)
+        date,category,candidates,subject,title,answer,link,type = args
+        for candidate in candidates:
+            print(candidate)
+            try:
+                candidate_id = Candidate.objects.get(name__contains = candidate)
+            except Candidate.DoesNotExist:
+                candidate_id = Candidate.objects.create(name=candidate)
             term = Term.objects.get(term_name = "17th")
             central_legislature = Central_Legislatures.objects.get(name = "Loksabha")
-            question_obj = Questions.objects.create(title = title,answer = answer,type = type,candidate_id = candidate_id, category = category,date =  date,subject = subject )
-        except Candidate.DoesNotExist:
-            print("Candidate data not found")
+            question_obj = Questions.objects.update_or_create(title = title,answer = answer,candidate_id = candidate_id, category = category,date =  date,subject = subject,term_id = term,central_legislature_id = central_legislature,link = link,type = type  )
+        
 
     def load_debates(self,*args):
-        title,type,candidate,date,link = args
-        try:
-            candidate_id = Candidate.objects.get(name__contains = candidate)
+        title,type,date,candidates,link = args
+        for candidate in candidates:
+            print(candidate)
+            try:
+                candidate_id = Candidate.objects.get(name__contains = candidate)
+            except Candidate.DoesNotExist:
+                candidate_id = Candidate.objects.create(name=candidate)
             term = Term.objects.get(term_name = "17th")
             central_legislature = Central_Legislatures.objects.get(name = "Loksabha")
-            debate_obj = Debates.objects.create(title = title,type = type,candidate_id = candidate_id,date = date,link = link)
-        except Candidate.DoesNotExist:
-            print("Candidate data not found")
+            debate_obj = Debates.objects.update_or_create(title = title,type = type,candidate_id = candidate_id,date = date,link = link,term_id = term,central_legislature_id = central_legislature)
+        
 
 
     def load_attendance(self):

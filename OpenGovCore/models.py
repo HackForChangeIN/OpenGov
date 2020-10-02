@@ -35,7 +35,7 @@ class Parliamentary_Constituencies(models.Model):
 
 class Assembly_Constituencies(models.Model):
     name = models.CharField(max_length=300)
-    constituency_number = models.CharField(max_length=10)
+    constituency_number = models.CharField(max_length=10,blank=True)
     state = models.ForeignKey(
         States, on_delete=models.CASCADE, verbose_name='State')
 
@@ -257,6 +257,29 @@ class Debates(models.Model):
         verbose_name = "Debate"
         verbose_name_plural = "Debates"
 
+class Bills(models.Model):
+    title = models.TextField(blank=True)
+    type = models.CharField(max_length=300, blank=True)
+    status = models.CharField(max_length=200, blank=True)
+    candidate_id = models.ForeignKey(
+        Candidate, on_delete=models.CASCADE, verbose_name='Introducer', blank=True, null=True)
+    ministry = models.CharField(max_length=300, blank=True)
+    date = models.CharField(max_length=200, blank=True)
+    category = models.CharField(max_length=200, blank=True) 
+    term_id = models.ForeignKey(
+        Term, on_delete=models.CASCADE, verbose_name='Term', blank=True, null=True)
+    sitting_id = models.ForeignKey(
+        Sittings, on_delete=models.CASCADE, verbose_name='Sittings', blank=True, null=True)
+    parliamentary_session_id = models.ForeignKey(Parliamentary_Sessions, on_delete=models.CASCADE,verbose_name='Parliamentary_Sessions', blank=True, null=True)
+    assembly_session_id = models.ForeignKey(Assembly_Sessions, on_delete=models.CASCADE,verbose_name='Assembly_Sessions', blank=True, null=True)
+    central_legislature_id =  models.ForeignKey(Central_Legislatures, on_delete=models.CASCADE, verbose_name='Central_Legislatures', blank=True, null=True)
+    state_legislature_id = models.ForeignKey(State_Legislatures, on_delete=models.CASCADE, verbose_name='State_Legislatures', blank=True, null=True) 
+    link = models.URLField(max_length = 400)
+    def __str__(self):
+        return self.title
+    class Meta:
+        verbose_name = "Bill"
+        verbose_name_plural = "Bills"
 
 
     
