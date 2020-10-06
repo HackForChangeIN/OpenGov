@@ -11,12 +11,14 @@ from .opengovparser import OpenGovParser
 
 options = webdriver.ChromeOptions()
 options.headless = True
+options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
 
 
 class ScrapeLokSabha(OpenGovParser):
     page_count = 1
     def load_questions(self):
-        browser = webdriver.Chrome(ChromeDriverManager().install(),options=options)
+        #browser = webdriver.Chrome(ChromeDriverManager().install(),options=options)
+        browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=options)
         browser.implicitly_wait(5)
         browser.get(self.url)
         html_source = browser.page_source.encode('utf-8')
@@ -47,8 +49,12 @@ class ScrapeLokSabha(OpenGovParser):
             #member = row.find_all('td')[4].text.strip()
             member = row.find_all('td')[4].text.strip().split(",")
             members_list = []
-            for i in range(0,len(member),2):
-                members_list.append(member[i+1]+" "+ member[i])
+            if len(member) % 2 == 0:
+                for i in range(0,len(member),2):
+                    members_list.append(member[i+1]+" "+ member[i])
+            else:
+                members_list = []
+                continue
             subject = row.find_all('td')[5].text.strip()
             question_link = row.find_all('td')[5].find_all('a')[-1]['href']
             formed_url = "http://loksabhaph.nic.in/Questions/" + question_link
@@ -69,8 +75,8 @@ class ScrapeLokSabha(OpenGovParser):
             #break
         ScrapeLokSabha.page_count += 1
         print("/////////////////////////////////////////////////",ScrapeLokSabha.page_count)
-        if ScrapeLokSabha.page_count > page_no:
-            ScrapeLokSabha.page_count = 1
+        if ScrapeLokSabha.page_count > 10: #replace with page_no
+            #ScrapeLokSabha.page_count = 1
             return
         else:
             self.nextPageQuestions(browser)
@@ -95,7 +101,8 @@ class ScrapeLokSabha(OpenGovParser):
         print("============================================================================================")
         return [question,answer]
     def load_debates(self):
-        browser = webdriver.Chrome(ChromeDriverManager().install(),options=options)
+        #browser = webdriver.Chrome(ChromeDriverManager().install(),options=options)
+        browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=options)
         browser.implicitly_wait(5)
         browser.get(self.url)
         html_source = browser.page_source.encode('utf-8')
@@ -131,7 +138,7 @@ class ScrapeLokSabha(OpenGovParser):
         page_no = int(total_pages.find("span",{"id":"ContentPlaceHolder1_lblfrom"}).text.strip().split(" ")[1])
         ScrapeLokSabha.page_count += 1
         print("/////////////////////////////////////////////////",ScrapeLokSabha.page_count)
-        if ScrapeLokSabha.page_count > page_no:
+        if ScrapeLokSabha.page_count > 10: # replace with page_no
             return
         else:
             self.nextPageDebates(browser)

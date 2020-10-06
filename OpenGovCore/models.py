@@ -168,6 +168,8 @@ class Candidate(models.Model):
     photo = models.ImageField(null=True, blank=True)
     present_address = models.TextField(blank=True)
     permanent_address = models.TextField(blank=True)
+    source = models.URLField(max_length = 400)
+
 
     def __str__(self):
         return self.name

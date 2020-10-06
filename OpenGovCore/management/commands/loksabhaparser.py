@@ -88,8 +88,9 @@ class LoksabhaParser(OpenGovParser):
 				mobile = more_items[21].text.strip()
 			except:
 				mobile = 'Not Available'
-
+			
 			print("Name : ", mp_name)
+			print("Source:",url)
 			#print("Constituency : ", constituency)
 			#print("State : ", state)
 			#print("Party : ", party)
@@ -113,10 +114,15 @@ class LoksabhaParser(OpenGovParser):
 			data.append(present_address)
 			data.append(mobile)
 			data.append(image_name)
+			data.append(url)
 			OpenGovParser.load_candidate_data(self,*data)
 			OpenGovParser.load_candidature_data(self,*data)
 			print(mp_name,"Added to the database")
-		print("All the MP data are added")
+			row+=1
+			if(row == 50):
+				print("All the MP data are added")
+				break
+				
 
 
 #loksabha_parser = LoksabhaParser(url = "http://loksabhaph.nic.in/Members/AlphabeticalList.aspx")

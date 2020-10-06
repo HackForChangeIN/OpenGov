@@ -17,7 +17,7 @@ class OpenGovParser:
         return self.soup
 
     def load_candidate_data(self, *args):
-        mp_name,constituency,state,party,email,dob,education,profession,permanent_address,present_address,mobile,image_name= args
+        mp_name,constituency,state,party,email,dob,education,profession,permanent_address,present_address,mobile,image_name,url= args
         try:
             candidate_obj = Candidate.objects.get(name__contains = mp_name)
             candidate_obj.name=mp_name
@@ -28,7 +28,8 @@ class OpenGovParser:
             candidate_obj.profession=profession 
             candidate_obj.present_address=present_address 
             candidate_obj.permanent_address=permanent_address
-            candidate_obj.photo = image_name 
+            candidate_obj.photo = image_name
+            candidate_obj.source = url 
             candidate_obj.save()      
         except Candidate.DoesNotExist:
             candidate_obj = Candidate.objects.create(name=mp_name, dob=dob, qualification=education,
@@ -36,7 +37,7 @@ class OpenGovParser:
 
     
     def load_candidature_data(self,*args):
-        mp_name,constituency,state,party,email,dob,education,profession,permanent_address,present_address,mobile,image_name= args
+        mp_name,constituency,state,party,email,dob,education,profession,permanent_address,present_address,mobile,image_name,url= args
         try:
             state_obj = States.objects.get(name=state)
         except States.DoesNotExist:
