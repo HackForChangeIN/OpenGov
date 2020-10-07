@@ -1,6 +1,13 @@
 from .opengovparser import OpenGovParser
 import requests
 import shutil
+import os
+import urllib
+from django.conf import settings
+from django.core.files import File
+from urllib.request import urlopen
+from tempfile import NamedTemporaryFile
+
 
 
 class LoksabhaParser(OpenGovParser):
@@ -19,14 +26,21 @@ class LoksabhaParser(OpenGovParser):
 		unique_urls = list(dict.fromkeys(urls))
 		return unique_urls
 
-	def download_image(self, img_src):
+	"""def download_image(self, img_src):
 		response = requests.get(img_src, stream=True)
 		filename = img_src.rsplit("/")[-1]
-		file = open("media/{}".format(filename), 'wb')
-		response.raw.decode_content = True
-		shutil.copyfileobj(response.raw, file)
-		del response
-		return filename
+		#file = open("media/{}".format(filename), 'wb')
+		#response.raw.decode_content = True
+		#shutil.copyfileobj(response.raw, file)
+		#del response
+		urllib.request.urlretrieve(url,os.path.join("media","344.jpg" ))
+		return filename"""
+	def download_image( self,img_src):
+		filename = img_src.rsplit("/")[-1]
+		img_temp = NamedTemporaryFile(delete=True)
+		img_temp.write(urlopen(img_src).read())
+		img_temp.flush()
+		return filename,img_temp
 
 	def load_candidate_data(self):
 		super().load_parser()
@@ -37,7 +51,7 @@ class LoksabhaParser(OpenGovParser):
 			super().load_parser()
 			img = self.soup.find("img", attrs={"id": "ContentPlaceHolder1_Image1"})
 			img_src = img['src']
-			image_name = self.download_image(img_src)
+			image_name,img_temp = self.download_image(img_src)
 			all_detail = self.soup.find(
 				"table", attrs={'id': 'ContentPlaceHolder1_Datagrid1'})
 			table_data = all_detail.find('td')
@@ -115,6 +129,7 @@ class LoksabhaParser(OpenGovParser):
 			data.append(mobile)
 			data.append(image_name)
 			data.append(url)
+			data.append(img_temp)
 			OpenGovParser.load_candidate_data(self,*data)
 			OpenGovParser.load_candidature_data(self,*data)
 			print(mp_name,"Added to the database")

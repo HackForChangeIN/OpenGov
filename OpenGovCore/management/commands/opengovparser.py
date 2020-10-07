@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup as bs
 from urllib.request import urlopen as uReq
+from django.core.files import File
 from OpenGovCore.models import States, Parliamentary_Constituencies, Parties, Candidate,Term,Candidature,Central_Legislatures,Questions,Debates
 
 class OpenGovParser:
@@ -17,7 +18,7 @@ class OpenGovParser:
         return self.soup
 
     def load_candidate_data(self, *args):
-        mp_name,constituency,state,party,email,dob,education,profession,permanent_address,present_address,mobile,image_name,url= args
+        mp_name,constituency,state,party,email,dob,education,profession,permanent_address,present_address,mobile,image_name,url,img_temp = args
         try:
             candidate_obj = Candidate.objects.get(name__contains = mp_name)
             candidate_obj.name=mp_name
@@ -28,16 +29,18 @@ class OpenGovParser:
             candidate_obj.profession=profession 
             candidate_obj.present_address=present_address 
             candidate_obj.permanent_address=permanent_address
-            candidate_obj.photo = image_name
+            candidate_obj.photo.save(image_name,File(img_temp))
             candidate_obj.source = url 
             candidate_obj.save()      
         except Candidate.DoesNotExist:
             candidate_obj = Candidate.objects.create(name=mp_name, dob=dob, qualification=education,
-            contact_number=mobile, email=email, profession=profession, present_address=present_address, permanent_address=permanent_address,photo = image_name )
+            contact_number=mobile, email=email, profession=profession, present_address=present_address, permanent_address=permanent_address,source = url )
+            candidate_obj.photo.save(image_name,File(img_temp))
+            
 
     
     def load_candidature_data(self,*args):
-        mp_name,constituency,state,party,email,dob,education,profession,permanent_address,present_address,mobile,image_name,url= args
+        mp_name,constituency,state,party,email,dob,education,profession,permanent_address,present_address,mobile,image_name,url,img_temp= args
         try:
             state_obj = States.objects.get(name=state)
         except States.DoesNotExist:
