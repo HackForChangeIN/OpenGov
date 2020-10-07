@@ -20,8 +20,8 @@ options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
 class ScrapeLokSabha(OpenGovParser):
     page_count = 1
     def load_questions(self):
-        #browser = webdriver.Chrome(ChromeDriverManager().install(),options=options)
-        browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=options)
+        browser = webdriver.Chrome(ChromeDriverManager().install(),options=options)
+        #browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=options)
         browser.implicitly_wait(5)
         browser.get(self.url)
         html_source = browser.page_source.encode('utf-8')
@@ -104,8 +104,8 @@ class ScrapeLokSabha(OpenGovParser):
         print("============================================================================================")
         return [question,answer]
     def load_debates(self):
-        #browser = webdriver.Chrome(ChromeDriverManager().install(),options=options)
-        browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=options)
+        browser = webdriver.Chrome(ChromeDriverManager().install(),options=options)
+        #browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=options)
         browser.implicitly_wait(5)
         browser.get(self.url)
         html_source = browser.page_source.encode('utf-8')
