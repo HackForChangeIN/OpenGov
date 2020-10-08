@@ -13,7 +13,7 @@ class Command(BaseCommand):
         url = "http://loksabhaph.nic.in/Debates/Debatetextsearch16.aspx"
         sc = ScrapeLokSabha(url)
         sc.load_debates()
-        count = 0
+        """count = 0
         while True:
             try:
                 loksabha_parser = LoksabhaParser(url = "http://loksabhaph.nic.in/Members/AlphabeticalList.aspx")
@@ -48,4 +48,4 @@ class Command(BaseCommand):
                 if count == 4:
                     break
                 else:
-                    continue
+                    continue"""
