@@ -44,6 +44,7 @@ class ScrapeLokSabha(OpenGovParser):
         rows = table.find("table",{"class":"member_list_table"}).find("tbody").find_all("tr")
         total_pages = self.soup.find("table",{"class":"pagings"}).find("tbody").find_all("td")[2]
         page_no = int(total_pages.find("span",{"id":"ContentPlaceHolder1_lblfrom"}).text.strip().split(" ")[1])
+        page_count = 1
         for row in rows:
             question_number = row.find_all('td')[0].text.strip()
             type = row.find_all('td')[1].text.strip().split()[0]
@@ -77,9 +78,10 @@ class ScrapeLokSabha(OpenGovParser):
             print()
             #break
         ScrapeLokSabha.page_count += 1
+
         print("/////////////////////////////////////////////////",ScrapeLokSabha.page_count)
         if ScrapeLokSabha.page_count > 10: #replace with page_no
-            #ScrapeLokSabha.page_count = 1
+            ScrapeLokSabha.page_count = 1
             return
         else:
             self.nextPageQuestions(browser)
@@ -114,6 +116,7 @@ class ScrapeLokSabha(OpenGovParser):
     def fetch_debates(self,browser):
         div_sec = self.soup.find("div",{"id":"content"}).find("div",{"id":"ContentPlaceHolder1_Panel2"})
         tables = div_sec.find_all("table")
+        page_count = 1
         for i in range(1,len(tables) - 2):
             rows = tables[i].find("tbody").find_all("tr")
             debate_type = rows[0].find_all("td")[1].text.strip()
