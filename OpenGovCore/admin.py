@@ -133,7 +133,7 @@ admin.site.register(Assembly_Sessions, Assembly_Sessions_Admin)
 
 class Question_Admin(VersionAdmin):
     list_display = ('title', 'type', 'candidate_id', 'category', 'date', 'subject',
-                    'term_id', 'parliamentary_session_id', 'central_legislature_id','link')
+                    'term_id', 'parliamentary_session_id', 'central_legislature_id','source')
 
     class meta:
         model = Questions
@@ -142,7 +142,7 @@ class Question_Admin(VersionAdmin):
 admin.site.register(Questions, Question_Admin)
 
 class Debate_Admin(VersionAdmin):
-    list_display = ('title','type','candidate_id','central_legislature_id','term_id','date','link')
+    list_display = ('title','type','candidate_id','central_legislature_id','term_id','date','source')
 
     class meta:
         model = Debates
@@ -150,8 +150,15 @@ class Debate_Admin(VersionAdmin):
 admin.site.register(Debates,Debate_Admin)
 
 class Bill_Admin(VersionAdmin):
-    list_display = ('title','type','status','candidate_id','ministry','date','category','term_id','central_legislature_id','link')
+    list_display = ('title','type','status','candidate_id','date_of_introduction','debate_loksabha_date','debate_rajyasabha_date','term_id','central_legislature_id','source')
 
     class meta:
         model = Bills
 admin.site.register(Bills,Bill_Admin)
+
+class Attendance_Admin(VersionAdmin):
+    list_display = ('candidate_id','term_id','session_id','attendance_signed_days','attendance_not_signed_days')
+
+    class meta:
+        model = Attendance
+admin.site.register(Attendance,Attendance_Admin)

@@ -26,15 +26,6 @@ class LoksabhaParser(OpenGovParser):
 		unique_urls = list(dict.fromkeys(urls))
 		return unique_urls
 
-	"""def download_image(self, img_src):
-		response = requests.get(img_src, stream=True)
-		filename = img_src.rsplit("/")[-1]
-		#file = open("media/{}".format(filename), 'wb')
-		#response.raw.decode_content = True
-		#shutil.copyfileobj(response.raw, file)
-		#del response
-		urllib.request.urlretrieve(url,os.path.join("media","344.jpg" ))
-		return filename"""
 	def download_image( self,img_src):
 		filename = img_src.rsplit("/")[-1]
 		img_temp = NamedTemporaryFile(delete=True)
@@ -104,7 +95,7 @@ class LoksabhaParser(OpenGovParser):
 				mobile = 'Not Available'
 			
 			print("Name : ", mp_name)
-			print("Source:",url)
+			#print("Source:",url)
 			#print("Constituency : ", constituency)
 			#print("State : ", state)
 			#print("Party : ", party)

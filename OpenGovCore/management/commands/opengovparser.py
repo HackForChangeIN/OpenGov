@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup as bs
 from urllib.request import urlopen as uReq
 from django.core.files import File
-from OpenGovCore.models import States, Parliamentary_Constituencies, Parties, Candidate,Term,Candidature,Central_Legislatures,Questions,Debates
+from OpenGovCore.models import States, Parliamentary_Constituencies, Parties, Candidate,Term,Candidature,Central_Legislatures,Questions,Debates,Bills,Parliamentary_Sessions,Attendance
 
 class OpenGovParser:
 
@@ -21,17 +21,20 @@ class OpenGovParser:
         mp_name,constituency,state,party,email,dob,education,profession,permanent_address,present_address,mobile,image_name,url,img_temp = args
         try:
             candidate_obj = Candidate.objects.get(name__contains = mp_name)
-            candidate_obj.name=mp_name
-            candidate_obj.dob=dob
-            candidate_obj.qualification=education
-            candidate_obj.contact_number=mobile
-            candidate_obj.email=email 
-            candidate_obj.profession=profession 
-            candidate_obj.present_address=present_address 
-            candidate_obj.permanent_address=permanent_address
-            candidate_obj.photo.save(image_name,File(img_temp))
-            candidate_obj.source = url 
-            candidate_obj.save()      
+            candidate_obj.name = mp_name
+            candidate_obj.dob = dob
+            candidate_obj.qualification = education
+            candidate_obj.contact_number = mobile
+            candidate_obj.email = email 
+            candidate_obj.profession = profession 
+            candidate_obj.present_address = present_address
+            candidate_obj.permanent_address = permanent_address
+            candidate_obj.source = url
+            if candidate_obj.photo != image_name:
+                candidate_obj.photo.save(image_name,File(img_temp))
+            else:
+                print("candidate photo name",candidate_obj.photo," Not Updated")
+            candidate_obj.save()     
         except Candidate.DoesNotExist:
             candidate_obj = Candidate.objects.create(name=mp_name, dob=dob, qualification=education,
             contact_number=mobile, email=email, profession=profession, present_address=present_address, permanent_address=permanent_address,source = url )
@@ -87,10 +90,25 @@ class OpenGovParser:
             term = Term.objects.get(term_name = "17th")
             central_legislature = Central_Legislatures.objects.get(name = "Loksabha")
             debate_obj = Debates.objects.update_or_create(title = title,type = type,candidate_id = candidate_id,date = date,link = link,term_id = term,central_legislature_id = central_legislature)
+    def load_bills(self,*args):
+        title,type,status,date_of_introduction,debate_loksabha_date,debate_rajyasabha_date,source = args
+        bill_obj = Bills.objects.update_or_create(title = title,type = type,status = status,date_of_introduction = date_of_introduction,
+        debate_loksabha_date = debate_loksabha_date,debate_rajyasabha_date = debate_rajyasabha_date,source = source)
+
+
+
+
+    def load_attendance(self,*args):
+        candidate,session,attendance_signed_days,attendance_not_signed_days = args
+        try:
+            candidate_id = Candidate.objects.get(name__contains = candidate)
+        except Candidate.DoesNotExist:
+            candidate_id = Candidate.objects.create(name=candidate)
+        term = Term.objects.get(term_name = "17th")
+        session_id = Parliamentary_Sessions.objects.get(type = session)
+        attendance_obj = Attendance.objects.update_or_create(candidate_id = candidate_id,term_id= term,session_id= session_id,attendance_signed_days=attendance_signed_days,attendance_not_signed_days=attendance_not_signed_days)
+
+
         
-
-
-    def load_attendance(self):
-        pass
-    def load_bills(self):
-        pass
+        
+    

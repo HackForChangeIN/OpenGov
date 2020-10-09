@@ -7,6 +7,7 @@ import os
 import requests
 from urllib.request import urlopen as uReq
 from .opengovparser import OpenGovParser
+from selenium.webdriver.support.ui import Select
 
 
 options = webdriver.ChromeOptions()
@@ -15,12 +16,17 @@ options.add_argument('--headless')
 options.add_argument('--no-sandbox')
 options.add_argument('--disable-dev-shm-usage')
 options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+browser = webdriver.Chrome(ChromeDriverManager().install(),options=options)
+
 
 
 class ScrapeLokSabha(OpenGovParser):
     page_count = 1
+    att_page_no = 0
+    bill_count = 0
+    bills_page_no = 0
     def load_questions(self):
-        browser = webdriver.Chrome(ChromeDriverManager().install(),options=options)
+        #browser = webdriver.Chrome(ChromeDriverManager().install(),options=options)
         #browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=options)
         browser.implicitly_wait(5)
         browser.get(self.url)
@@ -106,7 +112,7 @@ class ScrapeLokSabha(OpenGovParser):
         print("============================================================================================")
         return [question,answer]
     def load_debates(self):
-        browser = webdriver.Chrome(ChromeDriverManager().install(),options=options)
+        #browser = webdriver.Chrome(ChromeDriverManager().install(),options=options)
         #browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=options)
         browser.implicitly_wait(5)
         browser.get(self.url)
@@ -159,6 +165,166 @@ class ScrapeLokSabha(OpenGovParser):
         html_source = browser.page_source.encode('utf-8')
         self.soup = bs(html_source,"html.parser")
         self.fetch_debates(browser)
+
+    ################### Bills############################
+
+    def load_bills(self):
+        #browser = webdriver.Chrome(ChromeDriverManager().install(),options=options)
+        browser.implicitly_wait(5)
+        browser.get(self.url)
+        html_source = browser.page_source.encode('utf-8')
+        self.soup = bs(html_source,"html.parser")
+        element = browser.find_element_by_id("ContentPlaceHolder1_RadioButtonList1_0").click()
+        bill_type = browser.find_element_by_id("ContentPlaceHolder1_RadioBttnbilltyp_0").click()
+        submit_element = browser.find_element_by_id("ContentPlaceHolder1_btnsbmt").click()
+        sleep(4)
+        html_source = browser.page_source.encode('utf-8')
+        self.soup = bs(html_source,"html.parser")
+        self.fetch_bills(browser)
+    def fetch_bills(self,browser):
+        table = self.soup.find("table",{"class":"member_list_table_td"}).find("tbody").find("table")
+        all_rows = table.find("tbody").find_all("tr")
+        total_bills = self.soup.find('table',{'id':'Table5'}).find("tbody").find("tr").find("td").find_all('span')[1].text.strip()
+        for i in range(3,len(all_rows)):
+            try:
+                year = all_rows[i].find_all("td")[0].text.strip()
+            except:
+                year = ""
+            try:
+                bill_no = all_rows[i].find_all("td")[1].text.strip()
+            except:
+                bill_no = ""
+            try:
+                bill_title = all_rows[i].find_all("td")[2].find('a').text.strip()
+            except:
+                bill_title = ""
+            try:
+                bill_link = all_rows[i].find_all("td")[2].find_all('a')[1]['href']
+            except:
+                bill_link = ""
+            try:
+                bill_type = all_rows[i].find_all("td")[3].text.strip()
+            except:
+                bill_type = ""
+            try:
+                date_of_intoduction = all_rows[i].find_all("td")[5].find_all('span')[0].text.strip()
+            except:
+                date_of_intoduction = ""
+            try:
+                house_introduced = all_rows[i].find_all("td")[5].find_all('span')[1].text.strip()
+            except:
+                house_introduced = ""
+            try:
+                debate_passed_date_loksabha = all_rows[i].find_all("td")[6].find('a').text.strip()
+            except:
+                debate_passed_date_loksabha = ""
+            try:
+                debate_passed_date_rajyasabha = all_rows[i].find_all("td")[7].text.strip()
+            except:
+                debate_passed_date_rajyasabha = ""
+            try:
+                status = all_rows[i].find_all("td")[11].text.strip()
+            except:
+                status = ""
+            print("Year : ",year)
+            print("Bill no : ",bill_no)
+            print("Bill title : ", bill_title)
+            print("Bill Link  : ",bill_link)
+            print("Bil type : ",bill_type)
+            print("Date of Introduction : ",date_of_intoduction)
+            print("House Introduced : ",house_introduced)
+            print("Debate Passed date loksabha : ",debate_passed_date_loksabha)
+            print("Debate Passed date Rajyasabha : ",debate_passed_date_rajyasabha)
+            print("Status : ",status)
+            data = []
+            data = [bill_title,bill_type,status,date_of_intoduction,debate_passed_date_loksabha,debate_passed_date_rajyasabha,bill_link]
+            OpenGovParser.load_bills(self,*data)
+            ScrapeLokSabha.bill_count += 1
+        if(ScrapeLokSabha.bill_count > 1400):  # replace 10 with total_bills
+            return
+        ScrapeLokSabha.bills_page_no += 1
+        if(ScrapeLokSabha.bills_page_no % 10 == 0):
+            return
+        self.nextPageBills(browser)
+    def nextPageBills(self,browser):
+        if ScrapeLokSabha.bills_page_no <= 10:
+            td_pages = browser.find_elements_by_xpath("//table[@id='ContentPlaceHolder1_GR1']/tbody/tr/td/table/tbody/tr/td")
+            td_page = td_pages[:len(td_pages)-1]
+        else:
+            td_pages = browser.find_elements_by_xpath("//table[@id='ContentPlaceHolder1_GR1']/tbody/tr/td/table/tbody/tr/td")
+            td_page = td_pages[2:len(td_pages)-1]
+        element = td_page[ScrapeLokSabha.bills_page_no%10]
+        element.click()
+        browser.implicitly_wait(5)
+        html_source = browser.page_source.encode('utf-8')
+        self.soup = bs(html_source,"html.parser")
+        self.fetch_bills(browser)
+        if ScrapeLokSabha.bills_page_no % 10 == 0:
+            element = browser.find_elements_by_xpath("//table[@id='ContentPlaceHolder1_GR1']/tbody/tr/td/table/tbody/tr/td")[-2]
+            element.click()
+            browser.implicitly_wait(5)
+            html_source = browser.page_source.encode('utf-8')
+            self.soup = bs(html_source,"html.parser")
+            self.fetch_bills(browser)
+    ########### Attendance ########################
+    def load_attendance(self):
+        #browser = webdriver.Chrome(ChromeDriverManager().install(),options=options)
+        browser.implicitly_wait(5)
+        browser.get(self.url)
+        html_source = browser.page_source.encode('utf-8')
+        self.soup = bs(html_source,"html.parser")
+        self.changeSessions(browser)
+    def fetch_attendance(self,browser,session_name):
+        table = self.soup.find("table",{"id":"ContentPlaceHolder1_DataGrid1"}).find("tbody")
+        rows = table.find_all("tr")
+		#no_pages = browser.find_elements_by_xpath("//table[@id='ContentPlaceHolder1_DataGrid1']/tbody/tr/td/a")
+        no_pages = self.soup.find("table",{"id":"ContentPlaceHolder1_DataGrid1"}).find("tbody").find("tr").find("td").find_all("a")
+        for i in range(2,len(rows)-1):
+            division_no = rows[i].find_all("td")[0].text.strip()
+            member_name = rows[i].find_all("td")[1].text.strip()
+            days_members_signed = rows[i].find_all("td")[2].text.strip()
+            days_members_notsigned = rows[i].find_all("td")[3].text.strip()
+            if '(' in session_name:
+                session_name = session_name.split('(')[0].strip()
+            else:
+                session_name = session_name
+            print("Session Name : ",session_name)
+            print("Division Number :",division_no)
+            print("Member Name : ",member_name)
+            print("Number of Days Members Signed Register : ",days_members_signed)
+            print("Number of Days Members not signed Register",days_members_notsigned)
+            data =[]
+            data = [member_name,session_name,days_members_signed,days_members_notsigned]
+            OpenGovParser.load_attendance(self,*data)
+        ScrapeLokSabha.att_page_no += 1
+        print("Page No : ",ScrapeLokSabha.att_page_no)
+        print("no pages : ",len(no_pages))
+        if(ScrapeLokSabha.att_page_no >= len(no_pages)):
+            ScrapeLokSabha.att_page_no = 0
+            td_pages = browser.find_elements_by_xpath("//table[@id='ContentPlaceHolder1_DataGrid1']/tbody/tr/td/a")
+            elements = td_pages[ScrapeLokSabha.att_page_no]
+            elements.click()
+            return
+        else:
+            self.nextPageAttendance(browser,session_name)
+    def nextPageAttendance(self,browser,session_name):
+        td_pages = browser.find_elements_by_xpath("//table[@id='ContentPlaceHolder1_DataGrid1']/tbody/tr/td/a")
+        elements = td_pages[ScrapeLokSabha.att_page_no]
+        elements.click()
+        sleep(4)
+        html_source = browser.page_source.encode('utf-8')
+        self.soup = bs(html_source,"html.parser")
+        self.fetch_attendance(browser,session_name)
+    def changeSessions(self,browser):
+        session_length = self.soup.find("select",{"id":"ContentPlaceHolder1_DropDownListSession"}).find_all("option")
+        for i in range(1,len(session_length)+1):
+            select = Select(browser.find_element_by_id("ContentPlaceHolder1_DropDownListSession"))
+            select.select_by_value(str(i))
+            element = session_length[-i]
+            session_name = element.text
+            html_source = browser.page_source.encode('utf-8')
+            self.soup = bs(html_source,"html.parser")
+            self.fetch_attendance(browser,session_name)
 
 
 

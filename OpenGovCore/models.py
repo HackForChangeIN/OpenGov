@@ -229,7 +229,7 @@ class Questions(models.Model):
         Central_Legislatures, on_delete=models.CASCADE, verbose_name='Central_Legislatures', blank=True, null=True)
     state_legislature_id = models.ForeignKey(
         State_Legislatures, on_delete=models.CASCADE, verbose_name='State_Legislatures', blank=True, null=True)
-    link = models.CharField(max_length=1000, blank=True)
+    source = models.CharField(max_length=1000, blank=True)
 
     def __str__(self):
         return self.title
@@ -251,7 +251,7 @@ class Debates(models.Model):
     term_id = models.ForeignKey(
         Term, on_delete=models.CASCADE, verbose_name='Term', blank=True, null=True)
     date = models.CharField(max_length=200, blank=True)
-    link = models.URLField(max_length = 400) 
+    source = models.URLField(max_length = 400) 
 
     def __str__(self):
         return self.title
@@ -266,7 +266,7 @@ class Bills(models.Model):
     candidate_id = models.ForeignKey(
         Candidate, on_delete=models.CASCADE, verbose_name='Introducer', blank=True, null=True)
     ministry = models.CharField(max_length=300, blank=True)
-    date = models.CharField(max_length=200, blank=True)
+    date_of_introduction = models.CharField(max_length=200, blank=True)
     category = models.CharField(max_length=200, blank=True) 
     term_id = models.ForeignKey(
         Term, on_delete=models.CASCADE, verbose_name='Term', blank=True, null=True)
@@ -276,12 +276,30 @@ class Bills(models.Model):
     assembly_session_id = models.ForeignKey(Assembly_Sessions, on_delete=models.CASCADE,verbose_name='Assembly_Sessions', blank=True, null=True)
     central_legislature_id =  models.ForeignKey(Central_Legislatures, on_delete=models.CASCADE, verbose_name='Central_Legislatures', blank=True, null=True)
     state_legislature_id = models.ForeignKey(State_Legislatures, on_delete=models.CASCADE, verbose_name='State_Legislatures', blank=True, null=True) 
-    link = models.URLField(max_length = 400)
+    source = models.URLField(max_length = 400)
+    debate_loksabha_date = models.CharField(max_length=200, blank=True)
+    debate_rajyasabha_date = models.CharField(max_length=200, blank=True)
+
     def __str__(self):
         return self.title
     class Meta:
         verbose_name = "Bill"
         verbose_name_plural = "Bills"
 
+class Attendance(models.Model):
+    candidate_id = models.ForeignKey(
+        Candidate, on_delete=models.CASCADE, verbose_name='Member Name', blank=True, null=True)
+    term_id = models.ForeignKey(
+        Term, on_delete=models.CASCADE, verbose_name='Term', blank=True, null=True)
+    session_id = models.ForeignKey(Parliamentary_Sessions, on_delete=models.CASCADE,verbose_name='Parliamentary_Sessions', blank=True, null=True)
+    attendance_signed_days = models.CharField(max_length=200, blank=True)
+    attendance_not_signed_days = models.CharField(max_length=200, blank=True)
+
+    class Meta:
+        verbose_name = "Attendance"
+        verbose_name_plural = "Attendance"
+                                                
+    
+    
 
     
