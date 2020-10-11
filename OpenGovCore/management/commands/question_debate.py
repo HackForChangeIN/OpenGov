@@ -240,7 +240,7 @@ class ScrapeLokSabha(OpenGovParser):
             data = [bill_title,bill_type,status,date_of_intoduction,debate_passed_date_loksabha,debate_passed_date_rajyasabha,bill_link]
             OpenGovParser.load_bills(self,*data)
             ScrapeLokSabha.bill_count += 1
-        if(ScrapeLokSabha.bill_count > 1400):  # replace 10 with total_bills
+        if(ScrapeLokSabha.bill_count > 100):  # replace 10 with total_bills
             return
         ScrapeLokSabha.bills_page_no += 1
         if(ScrapeLokSabha.bills_page_no % 10 == 0):

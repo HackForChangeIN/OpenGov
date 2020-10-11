@@ -94,7 +94,7 @@ class LoksabhaParser(OpenGovParser):
 			except:
 				mobile = 'Not Available'
 			
-			print("Name : ", mp_name)
+			#print("Name : ", mp_name)
 			#print("Source:",url)
 			#print("Constituency : ", constituency)
 			#print("State : ", state)
@@ -124,10 +124,11 @@ class LoksabhaParser(OpenGovParser):
 			OpenGovParser.load_candidate_data(self,*data)
 			OpenGovParser.load_candidature_data(self,*data)
 			print(mp_name,"Added to the database")
-			row+=1
-			if(row == 50):
-				print("All the MP data are added")
-				break
+		print("All the MP data are added")
+			#row+=1
+			#if(row == 50):
+				#print("All the MP data are added")
+				#break
 				
 
 

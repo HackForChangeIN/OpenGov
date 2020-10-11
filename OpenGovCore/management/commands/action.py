@@ -16,10 +16,10 @@ class Command(BaseCommand):
         #url = "http://loksabhaph.nic.in/Legislation/NewAdvsearch.aspx"
         #sc = ScrapeLokSabha(url)
         #sc.load_bills()
-        url = "http://loksabhaph.nic.in/Members/memberwisetotal.aspx"
-        sc = ScrapeLokSabha(url)
-        sc.load_attendance()
-        """count = 0
+        #url = "http://loksabhaph.nic.in/Members/memberwisetotal.aspx"
+        #sc = ScrapeLokSabha(url)
+        #sc.load_attendance()
+        count = 0
         while True:
             try:
                 loksabha_parser = LoksabhaParser(url = "http://loksabhaph.nic.in/Members/AlphabeticalList.aspx")
@@ -54,4 +54,16 @@ class Command(BaseCommand):
                 if count == 4:
                     break
                 else:
-                    continue"""
+                    continue
+        count = 0
+        while True:
+            try:
+                sc = ScrapeLokSabha(url = "http://loksabhaph.nic.in/Members/memberwisetotal.aspx")
+                sc.load_attendance()
+                break
+            except:
+                count += 1
+                if count == 4:
+                    break
+                else:
+                    continue
