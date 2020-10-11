@@ -4,7 +4,7 @@ from .question_debate import ScrapeLokSabha
 
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
-        loksabha_parser = LoksabhaParser(url = "http://loksabhaph.nic.in/Members/AlphabeticalList.aspx")
+        """loksabha_parser = LoksabhaParser(url = "http://loksabhaph.nic.in/Members/AlphabeticalList.aspx")
         loksabha_parser.load_candidate_data()
         
         url = "http://loksabhaph.nic.in/Questions/Qtextsearch.aspx"
@@ -18,52 +18,52 @@ class Command(BaseCommand):
         sc.load_bills()
         url = "http://loksabhaph.nic.in/Members/memberwisetotal.aspx"
         sc = ScrapeLokSabha(url)
-        sc.load_attendance()
-        """count = 0
+        sc.load_attendance()"""
+        c_count = 0
         while True:
             try:
                 loksabha_parser = LoksabhaParser(url = "http://loksabhaph.nic.in/Members/AlphabeticalList.aspx")
                 loksabha_parser.load_candidate_data()
                 break
             except:
-                count += 1
-                if count == 4:
+                c_count += 1
+                if c_count == 4:
                     break
                 else:
                     continue
-        count = 0
+        q_count = 0
         while True:
             try:
                 sc = ScrapeLokSabha(url = "http://loksabhaph.nic.in/Questions/Qtextsearch.aspx")
                 sc.load_questions()
                 break
             except:
-                count += 1
-                if count == 4:
+                q_count += 1
+                if q_count == 4:
                     break
                 else:
                     continue
-        count = 0
+        d_count = 0
         while True:
             try:
                 sc = ScrapeLokSabha(url = "http://loksabhaph.nic.in/Debates/Debatetextsearch16.aspx")
                 sc.load_debates()
                 break
             except:
-                count += 1
-                if count == 4:
+                d_count += 1
+                if d_count == 4:
                     break
                 else:
                     continue
-        count = 0
+        a_count = 0
         while True:
             try:
                 sc = ScrapeLokSabha(url = "http://loksabhaph.nic.in/Members/memberwisetotal.aspx")
                 sc.load_attendance()
                 break
             except:
-                count += 1
-                if count == 4:
+                a_count += 1
+                if a_count == 4:
                     break
                 else:
-                    continue"""
+                    continue
