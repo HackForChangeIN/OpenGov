@@ -99,14 +99,22 @@ class OpenGovParser:
 
 
     def load_attendance(self,*args):
-        candidate,session,attendance_signed_days,attendance_not_signed_days = args
+        session,candidate,constituency,attendance_signed_days = args
         try:
-            candidate_id = Candidate.objects.get(name__contains = candidate)
-        except Candidate.DoesNotExist:
-            candidate_id = Candidate.objects.create(name=candidate)
+            constituency_obj = Parliamentary_Constituencies.objects.get(name = constituency )
+        except:
+            print("Constituency name",constituency,"is not in Database")
+        candidature_obj = Candidature.objects.get(parliamentary_constituency_id = constituency_obj )
+        #print(candidature_obj)
+        candidate_obj = candidature_obj.candidate_id
+        #print(candidate_obj)
         term = Term.objects.get(term_name = "17th")
-        session_id = Parliamentary_Sessions.objects.get(type = session)
-        attendance_obj = Attendance.objects.update_or_create(candidate_id = candidate_id,term_id= term,session_id= session_id,attendance_signed_days=attendance_signed_days,attendance_not_signed_days=attendance_not_signed_days)
+        try:
+            session_id = Parliamentary_Sessions.objects.get(type = session)
+            attendance_obj = Attendance.objects.update_or_create(candidate_id = candidate_obj,term_id= term,session_id= session_id,attendance_signed_days=attendance_signed_days)
+        except:
+            session_id = Parliamentary_Sessions.objects.create(type = session,term_id = term)
+            attendance_obj = Attendance.objects.create(candidate_id = candidate_obj,term_id= term,session_id= session_id,attendance_signed_days=attendance_signed_days)
 
 
         

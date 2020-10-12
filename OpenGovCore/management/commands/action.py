@@ -31,7 +31,7 @@ class Command(BaseCommand):
                     break
                 else:
                     continue
-        q_count = 0
+        """q_count = 0
         while True:
             try:
                 sc = ScrapeLokSabha(url = "http://loksabhaph.nic.in/Questions/Qtextsearch.aspx")
@@ -54,11 +54,11 @@ class Command(BaseCommand):
                 if d_count == 4:
                     break
                 else:
-                    continue
+                    continue"""
         a_count = 0
         while True:
             try:
-                sc = ScrapeLokSabha(url = "http://loksabhaph.nic.in/Members/memberwisetotal.aspx")
+                sc = ScrapeLokSabha(url = "http://loksabhaph.nic.in/Members/SessionWiseAttn.aspx")
                 sc.load_attendance()
                 break
             except:
@@ -67,3 +67,15 @@ class Command(BaseCommand):
                     break
                 else:
                     continue
+        """b_count = 0
+        while True:
+            try:
+                sc = ScrapeLokSabha(url = "http://loksabhaph.nic.in/Legislation/NewAdvsearch.aspx")
+                sc.load_bills()
+                break
+            except:
+                b_count += 1
+                if b_count == 4:
+                    break
+                else:
+                    continue"""

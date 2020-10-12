@@ -58,7 +58,7 @@ class LoksabhaParser(OpenGovParser):
 				mp_name = m.join(member)
 			items = all_detail.find_all('td', attrs={'class': 'griditem2'})
 
-			constituency = items[0].text.strip().split(" ")[0]
+			constituency = items[0].text.strip().split("(")[0]
 			state = items[0].text.strip().rsplit("(")[-1].replace(")", "")
 
 			party = items[1].text.strip()

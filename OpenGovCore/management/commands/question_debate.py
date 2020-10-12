@@ -277,25 +277,26 @@ class ScrapeLokSabha(OpenGovParser):
     def fetch_attendance(self,browser,session_name):
         table = self.soup.find("table",{"id":"ContentPlaceHolder1_DataGrid1"}).find("tbody")
         rows = table.find_all("tr")
-		#no_pages = browser.find_elements_by_xpath("//table[@id='ContentPlaceHolder1_DataGrid1']/tbody/tr/td/a")
+        #no_pages = browser.find_elements_by_xpath("//table[@id='ContentPlaceHolder1_DataGrid1']/tbody/tr/td/a")
         no_pages = self.soup.find("table",{"id":"ContentPlaceHolder1_DataGrid1"}).find("tbody").find("tr").find("td").find_all("a")
         for i in range(2,len(rows)-1):
-            division_no = rows[i].find_all("td")[0].text.strip()
-            member_name = rows[i].find_all("td")[1].text.strip()
+            member_name = rows[i].find_all("td")[0].text.strip()
+            constituency = rows[i].find_all("td")[1].text.strip()
             days_members_signed = rows[i].find_all("td")[2].text.strip()
-            days_members_notsigned = rows[i].find_all("td")[3].text.strip()
             if '(' in session_name:
                 session_name = session_name.split('(')[0].strip()
             else:
                 session_name = session_name
             print("Session Name : ",session_name)
-            print("Division Number :",division_no)
             print("Member Name : ",member_name)
-            print("Number of Days Members Signed Register : ",days_members_signed)
-            print("Number of Days Members not signed Register",days_members_notsigned)
+            print("Constituency : ",constituency)
+            print("Number of Days Members signed Register",days_members_signed)
             data =[]
-            data = [member_name,session_name,days_members_signed,days_members_notsigned]
+            data = [session_name,member_name,constituency,days_members_signed]
             OpenGovParser.load_attendance(self,*data)
+            print(member_name," attendance data added")
+
+        print("All attendance data added")
         ScrapeLokSabha.att_page_no += 1
         print("Page No : ",ScrapeLokSabha.att_page_no)
         print("no pages : ",len(no_pages))
