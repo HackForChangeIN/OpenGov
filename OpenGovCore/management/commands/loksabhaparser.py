@@ -33,7 +33,7 @@ class LoksabhaParser(OpenGovParser):
 			img_temp.write(urlopen(img_src).read())
 			img_temp.flush()
 		except:
-			img_temp.write(urlopen("https://ourneta.com/wp-content/uploads/2020/01/Atul-Kumar-Singh.png").read())
+			img_temp.write(urlopen("http://loksabhadocs.nic.in/mpimagemk/photo/5144.jpg").read())
 			img_temp.flush()
 		return filename,img_temp
 
