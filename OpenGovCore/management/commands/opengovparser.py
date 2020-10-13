@@ -20,13 +20,18 @@ class OpenGovParser:
     def load_candidate_data(self, *args):
         mp_name,constituency,state,party,email,dob,education,profession,permanent_address,present_address,mobile,image_name,url,img_temp = args
         try:
-            candidate_obj = Candidate.objects.get(name__contains = mp_name)
+            #state_obj = States.objects.get(name=state)
+            #constituency_obj = Parliamentary_Constituencies.objects.get(name=constituency,state = state_obj )
+            #candidature_obj = Candidature.objects.get(parliamentary_constituency_id = constituency_obj)
+            #candidate_name = candidature_obj.name
+            #if mp_name == candidate_name:
+            candidate_obj = Candidate.objects.get(name = mp_name)
             candidate_obj.name = mp_name
             candidate_obj.dob = dob
             candidate_obj.qualification = education
             candidate_obj.contact_number = mobile
-            candidate_obj.email = email 
-            candidate_obj.profession = profession 
+            candidate_obj.email = email
+            candidate_obj.profession = profession
             candidate_obj.present_address = present_address
             candidate_obj.permanent_address = permanent_address
             candidate_obj.source = url
@@ -34,7 +39,11 @@ class OpenGovParser:
                 candidate_obj.photo.save(image_name,File(img_temp))
             else:
                 print("candidate photo name",candidate_obj.photo," Not Updated")
-            candidate_obj.save()     
+            candidate_obj.save()
+            """else:
+                candidate_obj = Candidate.objects.create(name=mp_name, dob=dob, qualification=education,
+                contact_number=mobile, email=email, profession=profession, present_address=present_address, permanent_address=permanent_address,source = url )
+                candidate_obj.photo.save(image_name,File(img_temp))"""
         except Candidate.DoesNotExist:
             candidate_obj = Candidate.objects.create(name=mp_name, dob=dob, qualification=education,
             contact_number=mobile, email=email, profession=profession, present_address=present_address, permanent_address=permanent_address,source = url )
