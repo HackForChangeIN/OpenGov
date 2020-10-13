@@ -29,8 +29,12 @@ class LoksabhaParser(OpenGovParser):
 	def download_image( self,img_src):
 		filename = img_src.rsplit("/")[-1]
 		img_temp = NamedTemporaryFile(delete=True)
-		img_temp.write(urlopen(img_src).read())
-		img_temp.flush()
+		try:
+			img_temp.write(urlopen(img_src).read())
+			img_temp.flush()
+		except:
+			img_temp.write(urlopen("https://ourneta.com/wp-content/uploads/2020/01/Atul-Kumar-Singh.png").read())
+			img_temp.flush()
 		return filename,img_temp
 
 	def load_candidate_data(self):
