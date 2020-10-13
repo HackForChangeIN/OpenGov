@@ -4,10 +4,10 @@ from .question_debate import ScrapeLokSabha
 
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
-        """loksabha_parser = LoksabhaParser(url = "http://loksabhaph.nic.in/Members/AlphabeticalList.aspx")
+        loksabha_parser = LoksabhaParser(url = "http://loksabhaph.nic.in/Members/AlphabeticalList.aspx")
         loksabha_parser.load_candidate_data()
         
-        url = "http://loksabhaph.nic.in/Questions/Qtextsearch.aspx"
+        """url = "http://loksabhaph.nic.in/Questions/Qtextsearch.aspx"
         sc = ScrapeLokSabha(url)
         sc.load_questions()
         url = "http://loksabhaph.nic.in/Debates/Debatetextsearch16.aspx"
@@ -19,7 +19,7 @@ class Command(BaseCommand):
         url = "http://loksabhaph.nic.in/Members/memberwisetotal.aspx"
         sc = ScrapeLokSabha(url)
         sc.load_attendance()"""
-        c_count = 0
+        """c_count = 0
         while True:
             try:
                 loksabha_parser = LoksabhaParser(url = "http://loksabhaph.nic.in/Members/AlphabeticalList.aspx")
@@ -31,7 +31,7 @@ class Command(BaseCommand):
                     break
                 else:
                     continue
-        """q_count = 0
+        q_count = 0
         while True:
             try:
                 sc = ScrapeLokSabha(url = "http://loksabhaph.nic.in/Questions/Qtextsearch.aspx")
@@ -54,7 +54,7 @@ class Command(BaseCommand):
                 if d_count == 4:
                     break
                 else:
-                    continue"""
+                    continue
         a_count = 0
         while True:
             try:
@@ -67,7 +67,7 @@ class Command(BaseCommand):
                     break
                 else:
                     continue
-        """b_count = 0
+        b_count = 0
         while True:
             try:
                 sc = ScrapeLokSabha(url = "http://loksabhaph.nic.in/Legislation/NewAdvsearch.aspx")
