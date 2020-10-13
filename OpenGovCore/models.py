@@ -169,6 +169,8 @@ class Candidate(models.Model):
     present_address = models.TextField(blank=True)
     permanent_address = models.TextField(blank=True)
     source = models.URLField(max_length = 400)
+    total_assets = models.CharField(max_length=500, blank=True)
+    total_liabilities = models.CharField(max_length=500, blank=True)
 
 
     def __str__(self):

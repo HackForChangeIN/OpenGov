@@ -15,10 +15,10 @@ class Command(BaseCommand):
         sc.load_debates()
         url = "http://loksabhaph.nic.in/Legislation/NewAdvsearch.aspx"
         sc = ScrapeLokSabha(url)
-        sc.load_bills()
+        sc.load_bills()"""
         url = "http://loksabhaph.nic.in/Members/memberwisetotal.aspx"
         sc = ScrapeLokSabha(url)
-        sc.load_attendance()"""
+        sc.load_attendance()
         """c_count = 0
         while True:
             try:
