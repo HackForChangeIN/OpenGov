@@ -61,7 +61,8 @@ class ScrapeLokSabha(OpenGovParser):
             members_list = []
             if len(member) % 2 == 0:
                 for i in range(0,len(member),2):
-                    members_list.append(member[i+1]+" "+ member[i])
+                    member_name_info = member[i+1].strip()+" "+ member[i].strip()
+                    members_list.append(member_name_info.strip())
             else:
                 members_list = []
                 continue
@@ -133,7 +134,8 @@ class ScrapeLokSabha(OpenGovParser):
             participants_list = []
             if len(participants) > 1:
                 for i in range(0,len(participants),2):
-                    participants_list.append(participants[i+1]+" "+ participants[i])
+                    participants_info = participants[i+1].strip()+" "+ participants[i].strip()
+                    participants_list.append(participants_info)
             else:
                 participants_list = participants
             debate_link = "http://loksabhaph.nic.in/Debates/" + rows[1].find_all("td")[1].find('a')["href"]

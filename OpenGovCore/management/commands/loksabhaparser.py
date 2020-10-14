@@ -55,7 +55,8 @@ class LoksabhaParser(OpenGovParser):
 			members_list = []
 			if len(member) > 1:
 				for i in range(0,len(member),2):
-					members_list.append(member[i+1]+" "+ member[i])
+					member_name_info = member[i+1].strip()+" "+ member[i].strip()
+					members_list.append(member_name_info.strip())
 					mp_name = members_list[0]
 			else:
 				m = ''
@@ -63,7 +64,7 @@ class LoksabhaParser(OpenGovParser):
 			items = all_detail.find_all('td', attrs={'class': 'griditem2'})
 
 			constituency = items[0].text.strip().split("(")[0].strip()
-			state = items[0].text.strip().rsplit("(")[-1].replace(")", "")
+			state = items[0].text.strip().rsplit("(")[-1].replace(")", "").strip()
 
 			party = items[1].text.strip()
 			if '(' in party:

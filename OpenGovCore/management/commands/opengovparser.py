@@ -80,7 +80,7 @@ class OpenGovParser:
         for candidate in candidates:
             print(candidate)
             try:
-                candidate_id = Candidate.objects.get(name__contains = candidate)
+                candidate_id = Candidate.objects.get(name = candidate)
             except Candidate.DoesNotExist:
                 candidate_id = Candidate.objects.create(name=candidate)
             term = Term.objects.get(term_name = "17th")
@@ -93,7 +93,7 @@ class OpenGovParser:
         for candidate in candidates:
             print(candidate)
             try:
-                candidate_id = Candidate.objects.get(name__contains = candidate)
+                candidate_id = Candidate.objects.get(name = candidate)
             except Candidate.DoesNotExist:
                 candidate_id = Candidate.objects.create(name=candidate)
             term = Term.objects.get(term_name = "17th")
