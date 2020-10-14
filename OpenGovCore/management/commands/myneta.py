@@ -10,7 +10,7 @@ class MyNetaParser(OpenGovParser):
         rows = html_page.find_all("table")[2].find_all("tr")[2:]
         for row in rows:
             member_name = row.find_all("td")[1].text.strip()
-            constituency = row.find_all("td")[2].text.strip().lower()
+            constituency = row.find_all("td")[2].text.strip().title()
             party = row.find_all("td")[3].text.strip()
             criminal_cases = row.find_all("td")[4].text.strip()
             total_assets = row.find_all("td")[6].text.strip()

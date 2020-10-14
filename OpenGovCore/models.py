@@ -21,7 +21,7 @@ class States(models.Model):
 
 class Parliamentary_Constituencies(models.Model):
     name = models.CharField(max_length=300)
-    constituency_number = models.CharField(max_length=10)
+    constituency_number = models.CharField(max_length=10,blank=True)
     state = models.ForeignKey(
         States, on_delete=models.CASCADE, verbose_name='State')
 
