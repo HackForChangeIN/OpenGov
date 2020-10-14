@@ -17,4 +17,4 @@ PyYAML==5.3.1
 django-autoslug==1.9.6
 selenium==3.141.0
 webdriver-manager==3.2.2
---upgrade sentry-sdk
+sentry-sdk
