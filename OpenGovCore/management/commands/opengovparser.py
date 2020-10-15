@@ -111,12 +111,11 @@ class OpenGovParser:
         session,candidate,constituency,attendance_signed_days = args
         try:
             constituency_obj = Parliamentary_Constituencies.objects.get(name = constituency )
+            candidature_obj = Candidature.objects.get(parliamentary_constituency_id = constituency_obj )
+            candidate_obj = candidature_obj.candidate_id
         except:
             print("Constituency name",constituency,"is not in Database")
-        candidature_obj = Candidature.objects.get(parliamentary_constituency_id = constituency_obj )
-        #print(candidature_obj)
-        candidate_obj = candidature_obj.candidate_id
-        #print(candidate_obj)
+            candidate_obj =Candidate.objects.get(name__contains = candidate)
         term = Term.objects.get(term_name = "17th")
         try:
             session_id = Parliamentary_Sessions.objects.get(type = session)
