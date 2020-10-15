@@ -99,6 +99,7 @@ class OpenGovParser:
             term = Term.objects.get(term_name = "17th")
             central_legislature = Central_Legislatures.objects.get(name = "Loksabha")
             debate_obj = Debates.objects.update_or_create(title = title,type = type,candidate_id = candidate_id,date = date,link = link,term_id = term,central_legislature_id = central_legislature)
+    
     def load_bills(self,*args):
         title,type,status,date_of_introduction,debate_loksabha_date,debate_rajyasabha_date,source = args
         bill_obj = Bills.objects.update_or_create(title = title,type = type,status = status,date_of_introduction = date_of_introduction,
@@ -128,8 +129,8 @@ class OpenGovParser:
         except:
             session_id = Parliamentary_Sessions.objects.create(type = session,term_id = term)
             attendance_obj = Attendance.objects.create(candidate_id = candidate_obj,term_id= term,session_id= session_id,attendance_signed_days=attendance_signed_days)
-
-
         
+        def load_asset_criminal_cases(self,*args):
+            pass        
         
     

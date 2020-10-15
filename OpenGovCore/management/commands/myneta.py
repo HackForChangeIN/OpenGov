@@ -1,11 +1,11 @@
 from urllib.request import urlopen as uReq
-from opengovparser import OpenGovParser
+from .opengovparser import OpenGovParser
 from bs4 import BeautifulSoup as bs
 from time import sleep, time
 
 
 class MyNetaParser(OpenGovParser):
-    def load_personal_data(self):
+    def load_asset_criminal_cases(self):
         html_page = super().load_parser()
         rows = html_page.find_all("table")[2].find_all("tr")[2:]
         for row in rows:
@@ -24,5 +24,4 @@ class MyNetaParser(OpenGovParser):
 			
 
 
-myneta = MyNetaParser( url = "https://myneta.info/LokSabha2019/index.php?action=show_winners&sort=default")
-myneta.load_personal_data()
+
