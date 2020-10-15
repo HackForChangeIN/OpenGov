@@ -119,7 +119,8 @@ class OpenGovParser:
                 candidate_obj =Candidate.objects.get(name__contains = candidate)
             except:
                 print("candidate",candidate,"Not found")
-                break
+                return 
+                
         term = Term.objects.get(term_name = "17th")
         try:
             session_id = Parliamentary_Sessions.objects.get(type = session)
