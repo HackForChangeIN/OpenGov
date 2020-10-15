@@ -86,7 +86,7 @@ class OpenGovParser:
                 return
             term = Term.objects.get(term_name = "17th")
             central_legislature = Central_Legislatures.objects.get(name = "Loksabha")
-            question_obj = Questions.objects.update_or_create(title = title,answer = answer,candidate_id = candidate_id, category = category,date =  date,subject = subject,term_id = term,central_legislature_id = central_legislature,link = link,type = type  )
+            question_obj = Questions.objects.update_or_create(title = title,answer = answer,candidate_id = candidate_id, category = category,date =  date,subject = subject,term_id = term,central_legislature_id = central_legislature,source = link,type = type  )
         
 
     def load_debates(self,*args):
