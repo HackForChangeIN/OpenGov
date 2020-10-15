@@ -131,21 +131,25 @@ class OpenGovParser:
             session_id = Parliamentary_Sessions.objects.create(type = session,term_id = term)
             attendance_obj = Attendance.objects.create(candidate_id = candidate_obj,term_id= term,session_id= session_id,attendance_signed_days=attendance_signed_days)
         
-        """def load_asset_criminal_cases(self,*args):
+        def load_asset_criminal_cases(self,*args):
             candidate,constituency,criminal_cases,total_assets,liabilities = args
             try:
                 constituency_obj = Parliamentary_Constituencies.objects.get(name = constituency )
                 candidature_obj = Candidature.objects.get(parliamentary_constituency_id = constituency_obj )
                 candidate_id = candidature_obj.candidate_id
-                candidate_obj = Candidate.objects.get(name = candidate_id )
-
+                
             except:
                 print("Constituency name",constituency,"is not in Database")
                 try:
                     candidate_id =Candidate.objects.get(name__contains = candidate)
                 except:
                     print("candidate",candidate,"Not found")
-                    return"""
+                    return
+            candidate_id.criminal_cases = criminal_cases
+            candidate_id.total_assets = total_assets
+            candidate_id.total_liabilities = liabilities
+            candidate_id.save()
+            
             
 
                

@@ -11,17 +11,17 @@ class Command(BaseCommand):
         """url = "http://loksabhaph.nic.in/Questions/Qtextsearch.aspx"
         sc = ScrapeLokSabha(url)
         sc.load_questions()"""
-        url = "http://loksabhaph.nic.in/Debates/Debatetextsearch16.aspx"
-        sc = ScrapeLokSabha(url)
-        sc.load_debates()
+        #url = "http://loksabhaph.nic.in/Debates/Debatetextsearch16.aspx"
+        #sc = ScrapeLokSabha(url)
+        #sc.load_debates()
         """url = "http://loksabhaph.nic.in/Legislation/NewAdvsearch.aspx"
         sc = ScrapeLokSabha(url)
         sc.load_bills()"""
         """url = "http://loksabhaph.nic.in/Members/SessionWiseAttn.aspx"
         sc = ScrapeLokSabha(url)
         sc.load_attendance()"""
-        #myneta = MyNetaParser( url = "https://myneta.info/LokSabha2019/index.php?action=show_winners&sort=default")
-        #myneta.load_asset_criminal_cases()
+        myneta = MyNetaParser( url = "https://myneta.info/LokSabha2019/index.php?action=show_winners&sort=default")
+        myneta.load_asset_criminal_cases()
         """c_count = 0
         while True:
             try:
