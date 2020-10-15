@@ -21,6 +21,13 @@ class MyNetaParser(OpenGovParser):
             print("Criminal Cases : ",criminal_cases)
             print("Total Assets : ",total_assets)
             print("Liabilities : ",liabilities)
+            data = [member_name,constituency,criminal_cases,total_assets,liabilities]
+            OpenGovParser.load_asset_criminal_cases(self,*data)
+            print(member_name,"asset and case added")
+        print("All members data added")
+
+
+
 			
 
 

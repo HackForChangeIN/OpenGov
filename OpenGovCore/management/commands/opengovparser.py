@@ -95,10 +95,11 @@ class OpenGovParser:
             try:
                 candidate_id = Candidate.objects.get(name = candidate)
             except Candidate.DoesNotExist:
+                print(candidate,"does not exist")
                 candidate_id = Candidate.objects.create(name=candidate)
             term = Term.objects.get(term_name = "17th")
             central_legislature = Central_Legislatures.objects.get(name = "Loksabha")
-            debate_obj = Debates.objects.update_or_create(title = title,type = type,candidate_id = candidate_id,date = date,link = link,term_id = term,central_legislature_id = central_legislature)
+            debate_obj = Debates.objects.update_or_create(title = title,type = type,candidate_id = candidate_id,date = date,source = link,term_id = term,central_legislature_id = central_legislature)
     
     def load_bills(self,*args):
         title,type,status,date_of_introduction,debate_loksabha_date,debate_rajyasabha_date,source = args
@@ -130,7 +131,23 @@ class OpenGovParser:
             session_id = Parliamentary_Sessions.objects.create(type = session,term_id = term)
             attendance_obj = Attendance.objects.create(candidate_id = candidate_obj,term_id= term,session_id= session_id,attendance_signed_days=attendance_signed_days)
         
-        def load_asset_criminal_cases(self,*args):
-            pass        
+        """def load_asset_criminal_cases(self,*args):
+            candidate,constituency,criminal_cases,total_assets,liabilities = args
+            try:
+                constituency_obj = Parliamentary_Constituencies.objects.get(name = constituency )
+                candidature_obj = Candidature.objects.get(parliamentary_constituency_id = constituency_obj )
+                candidate_id = candidature_obj.candidate_id
+                candidate_obj = Candidate.objects.get(name = candidate_id )
+
+            except:
+                print("Constituency name",constituency,"is not in Database")
+                try:
+                    candidate_id =Candidate.objects.get(name__contains = candidate)
+                except:
+                    print("candidate",candidate,"Not found")
+                    return"""
+            
+
+               
         
     
