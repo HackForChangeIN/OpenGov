@@ -115,7 +115,11 @@ class OpenGovParser:
             candidate_obj = candidature_obj.candidate_id
         except:
             print("Constituency name",constituency,"is not in Database")
-            candidate_obj =Candidate.objects.get(name__contains = candidate)
+            try:
+                candidate_obj =Candidate.objects.get(name__contains = candidate)
+            except:
+                print("candidate",candidate,"Not found")
+                break
         term = Term.objects.get(term_name = "17th")
         try:
             session_id = Parliamentary_Sessions.objects.get(type = session)
