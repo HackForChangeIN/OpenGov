@@ -4,8 +4,8 @@ from .question_debate import ScrapeLokSabha
 
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
-        loksabha_parser = LoksabhaParser(url = "http://loksabhaph.nic.in/Members/AlphabeticalList.aspx")
-        loksabha_parser.load_candidate_data()
+        #loksabha_parser = LoksabhaParser(url = "http://loksabhaph.nic.in/Members/AlphabeticalList.aspx")
+        #loksabha_parser.load_candidate_data()
         
         """url = "http://loksabhaph.nic.in/Questions/Qtextsearch.aspx"
         sc = ScrapeLokSabha(url)
