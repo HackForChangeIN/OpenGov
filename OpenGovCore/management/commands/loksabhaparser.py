@@ -41,6 +41,7 @@ class LoksabhaParser(OpenGovParser):
 		super().load_parser()
 		urls = self.find_all_urls()
 		row = 0
+		term = self.term
 		for url in urls:
 			self.url = url
 			super().load_parser()
@@ -126,6 +127,7 @@ class LoksabhaParser(OpenGovParser):
 			data.append(image_name)
 			data.append(url)
 			data.append(img_temp)
+			data.append(term)
 			OpenGovParser.load_candidate_data(self,*data)
 			OpenGovParser.load_candidature_data(self,*data)
 			print(mp_name,"Added to the database")

@@ -19,6 +19,7 @@ class OldLoksabhaParser(OpenGovParser):
 				constituency = sheet.cell_value(row, 2)
 				state = sheet.cell_value(row, 3)
 				term = int(sheet.cell_value(row, 4))
+				term = str(term)+'th'
 				image_src = sheet.cell_value(row, 5)
 				education = sheet.cell_value(row, 6)
 				permanent_address = sheet.cell_value(row, 8)
@@ -26,16 +27,18 @@ class OldLoksabhaParser(OpenGovParser):
 				criminal_cases = sheet.cell_value(row, 10)
 				assests = sheet.cell_value(row, 11)
 				liabilities = sheet.cell_value(row, 12)
+				
 				#print(candidate_name,party,constituency,state,term,image_url,education,permanent_address,email,criminal_cases,assests,liabilities)
 				filename,img = self.download_image(image_src,row,term)
 				#print(filename)
-				if term == 16:
+				if term == "16th":
 					source = "https://myneta.info/ls2014/index.php?action=show_winners&sort=default"
-				if term == 15:
+				if term == "15th":
 					source = "https://myneta.info/ls2009/index.php?action=show_winners&sort=default"
 				#print(candidate_name,party,constituency,state,term,image_src,education,permanent_address,email,criminal_cases,assests,liabilities,source)
 				data = [candidate_name,constituency,state,party,email,education,permanent_address,filename,img,term,criminal_cases,assests,liabilities,source]
 				OpenGovParser.load_old_candidate_data(self,*data)
+				#print(term,source)
 				print(candidate_name, "is added")
 			print("All data added")
 

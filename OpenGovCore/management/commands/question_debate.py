@@ -50,6 +50,7 @@ class ScrapeLokSabha(OpenGovParser):
         rows = table.find("table",{"class":"member_list_table"}).find("tbody").find_all("tr")
         total_pages = self.soup.find("table",{"class":"pagings"}).find("tbody").find_all("td")[2]
         page_no = int(total_pages.find("span",{"id":"ContentPlaceHolder1_lblfrom"}).text.strip().split(" ")[1])
+        term = self.term
         
         for row in rows:
             try:
@@ -102,6 +103,7 @@ class ScrapeLokSabha(OpenGovParser):
             print("Ministry ",ministry)
             print("Member ",members_list)
             print("Subject ",subject)
+            print("term",term)
             self.url = formed_url
             try:
                 super().load_parser()
@@ -109,8 +111,8 @@ class ScrapeLokSabha(OpenGovParser):
                 continue
             question,answer = self.getQuestionText()
             print("Question",question)
-            data = [date,ministry,members_list,subject,question,answer,formed_url,question_type]
-            OpenGovParser.load_questions(self,*data)
+            data = [date,ministry,members_list,subject,question,answer,formed_url,question_type,term]
+            #OpenGovParser.load_questions(self,*data)
             print("Question added to Database")
             
         ScrapeLokSabha.page_count += 1
@@ -157,6 +159,7 @@ class ScrapeLokSabha(OpenGovParser):
     def fetch_debates(self,browser):
         div_sec = self.soup.find("div",{"id":"content"}).find("div",{"id":"ContentPlaceHolder1_Panel2"})
         tables = div_sec.find_all("table")
+        term = self.term
 
         for i in range(1,len(tables) - 2):
             try:
@@ -205,7 +208,8 @@ class ScrapeLokSabha(OpenGovParser):
             print("Debate Date : ",debate_date)
             print("Debate Perticipants : ",participants_list)
             print("Debate Link : ",debate_link)
-            data = [debate_title,debate_type,debate_date,participants_list,debate_link]
+            print ("Term",term)
+            data = [debate_title,debate_type,debate_date,participants_list,debate_link,term]
             OpenGovParser.load_debates(self,*data)
             print("Debate data added")
 
