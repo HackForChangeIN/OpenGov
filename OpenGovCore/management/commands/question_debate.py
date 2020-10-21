@@ -25,9 +25,8 @@ class ScrapeLokSabha(OpenGovParser):
     att_page_no = 0
     bill_count = 0
     bills_page_no = 0
+
     def load_questions(self):
-        #browser = webdriver.Chrome(ChromeDriverManager().install(),options=options)
-        #browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=options)
         browser.implicitly_wait(5)
         browser.get(self.url)
         html_source = browser.page_source.encode('utf-8')
@@ -45,55 +44,89 @@ class ScrapeLokSabha(OpenGovParser):
         self.soup = bs(html_source,"html.parser")
         self.fetch_questions(browser)
     
+
     def fetch_questions(self,browser):
         table = self.soup.find('table', { "id" : "ContentPlaceHolder1_tblMember" }).find("tbody")
         rows = table.find("table",{"class":"member_list_table"}).find("tbody").find_all("tr")
         total_pages = self.soup.find("table",{"class":"pagings"}).find("tbody").find_all("td")[2]
         page_no = int(total_pages.find("span",{"id":"ContentPlaceHolder1_lblfrom"}).text.strip().split(" ")[1])
-        page_count = 1
+        
         for row in rows:
-            question_number = row.find_all('td')[0].text.strip()
-            type = row.find_all('td')[1].text.strip().split()[0]
-            date = row.find_all('td')[2].text.strip()
-            ministry = row.find_all('td')[3].text.strip()
-            #member = row.find_all('td')[4].text.strip()
-            member = row.find_all('td')[4].text.strip().split(",")
-            members_list = []
-            if len(member) % 2 == 0:
-                for i in range(0,len(member),2):
-                    member_name_info = member[i+1].strip()+" "+ member[i].strip()
-                    members_list.append(member_name_info.strip())
-            else:
+            try:
+                question_number = row.find_all('td')[0].text.strip()
+            except:
+                question_number = ""
+            try:
+                question_type = row.find_all('td')[1].text.strip().split()[0]
+            except: 
+                question_type = ""
+            try:
+                date = row.find_all('td')[2].text.strip()
+            except: 
+                date = ""
+            try:
+                ministry = row.find_all('td')[3].text.strip()
+            except: 
+                ministry = ""
+            try:
+                member = row.find_all('td')[4].text.strip().split(",")
                 members_list = []
+                if len(member) % 2 == 0:
+                    for i in range(0,len(member),2):
+                        member_name_info = member[i+1].strip()+" "+ member[i].strip()
+                        members_list.append(member_name_info.strip())
+                elif len(member) == 1:
+                    try:
+                        single_member = member[0].split(" ",1)[1].strip() + " " + member[0].split(" ",1)[0].strip()
+                        members_list.append(single_member)
+                    except:
+                        single_member = member[0].split("-")[1].strip() + " " + member[0].split(" ",1)[0].strip()
+                        members_list.append(single_member)
+                else:
+                    members_list = []
+                    continue
+            except:
                 continue
-            subject = row.find_all('td')[5].text.strip()
-            question_link = row.find_all('td')[5].find_all('a')[-1]['href']
+            try:
+                subject = row.find_all('td')[5].text.strip()
+            except:
+                subject = ""
+            try:
+                question_link = row.find_all('td')[5].find_all('a')[-1]['href']
+            except:
+                question_link = ""
             formed_url = "http://loksabhaph.nic.in/Questions/" + question_link
             print("Question Number ", question_number)
-            print("Question Type",type)
+            print("Question Type",question_type)
             print("Date ",date)
             print("Ministry ",ministry)
             print("Member ",members_list)
             print("Subject ",subject)
             self.url = formed_url
-            super().load_parser()
+            try:
+                super().load_parser()
+            except:
+                continue
             question,answer = self.getQuestionText()
             print("Question",question)
-            #print("Answer",answer)
-            data = [date,ministry,members_list,subject,question,answer,formed_url,type]
+            data = [date,ministry,members_list,subject,question,answer,formed_url,question_type]
             OpenGovParser.load_questions(self,*data)
-            print()
-            #break
+            print("Question added to Database")
+            
         ScrapeLokSabha.page_count += 1
-
         print("/////////////////////////////////////////////////",ScrapeLokSabha.page_count)
         if ScrapeLokSabha.page_count > 10: #replace with page_no
             ScrapeLokSabha.page_count = 1
             return
         else:
             self.nextPageQuestions(browser)
+
+
     def getQuestionText(self):
-        main_table = self.soup.find_all('table')[1]
+        try:
+            main_table = self.soup.find_all('table')[1]
+        except:
+            return
         othertables = main_table.find_all('table')
         question_num = othertables[4].find_all('span')[1].text
         answered_on = othertables[5].find('span').text
@@ -110,8 +143,9 @@ class ScrapeLokSabha(OpenGovParser):
         #print("Question Number : ",question_num)
         #print("Answered On : ",answered_on)
         #print("Question : ",question)
-        print("============================================================================================")
         return [question,answer]
+
+
     def load_debates(self):
         #browser = webdriver.Chrome(ChromeDriverManager().install(),options=options)
         #browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=options)
@@ -120,6 +154,8 @@ class ScrapeLokSabha(OpenGovParser):
         html_source = browser.page_source.encode('utf-8')
         self.soup = bs(html_source,"html.parser")
         self.fetch_debates(browser)
+
+
     def fetch_debates(self,browser):
         div_sec = self.soup.find("div",{"id":"content"}).find("div",{"id":"ContentPlaceHolder1_Panel2"})
         tables = div_sec.find_all("table")
