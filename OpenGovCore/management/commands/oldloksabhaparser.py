@@ -1,64 +1,55 @@
-from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
-from bs4 import BeautifulSoup as bs
-from opengovparser import OpenGovParser
-from selenium.webdriver.support.ui import Select
-
-
-options = webdriver.ChromeOptions()
-options.headless = True
-
-browser = webdriver.Chrome(ChromeDriverManager().install(),options=options)
-
-
-
+import xlrd
+from .opengovparser import OpenGovParser
+import requests
+import shutil
+import os
+import urllib
+from django.conf import settings
+from django.core.files import File
+from urllib.request import urlopen
+from tempfile import NamedTemporaryFile
 
 class OldLoksabhaParser(OpenGovParser):
+	def load_candidate_data(self):
+		workbook = xlrd.open_workbook(self.url)
+		for sheet in workbook.sheets():
+			for row in range(1, sheet.nrows):
+				candidate_name = sheet.cell_value(row, 0)
+				party = sheet.cell_value(row, 1)
+				constituency = sheet.cell_value(row, 2)
+				state = sheet.cell_value(row, 3)
+				term = int(sheet.cell_value(row, 4))
+				image_src = sheet.cell_value(row, 5)
+				education = sheet.cell_value(row, 6)
+				permanent_address = sheet.cell_value(row, 8)
+				email = sheet.cell_value(row, 9)
+				criminal_cases = sheet.cell_value(row, 10)
+				assests = sheet.cell_value(row, 11)
+				liabilities = sheet.cell_value(row, 12)
+				#print(candidate_name,party,constituency,state,term,image_url,education,permanent_address,email,criminal_cases,assests,liabilities)
+				filename,img = self.download_image(image_src,row,term)
+				#print(filename)
+				if term == 16:
+					source = "https://myneta.info/ls2014/index.php?action=show_winners&sort=default"
+				if term == 15:
+					source = "https://myneta.info/ls2009/index.php?action=show_winners&sort=default"
+				#print(candidate_name,party,constituency,state,term,image_src,education,permanent_address,email,criminal_cases,assests,liabilities,source)
+				data = [candidate_name,constituency,state,party,email,education,permanent_address,filename,img,term,criminal_cases,assests,liabilities,source]
+				OpenGovParser.load_old_candidate_data(self,*data)
+				print(candidate_name, "is added")
+			print("All data added")
 
 
-	def load_candidate_details(self):
-		table = self.soup.find("table",{"id":"ContentPlaceHolder1_tblMember"}).find("tbody").find_all("tr")[0].find("td")
-		all_rows = table.find("table",{"class":"member_list_table"}).find("tbody").find_all("tr")
-		for row in all_rows:
-			member = row.find_all("td")[1].text.strip().split(",")
-			member_name_info = member[1].strip()+" "+ member[0].strip()
-
-			party = row.find_all("td")[2].text.strip()
-			constituency = row.find_all("td")[3].text.strip().split("(")[0].strip()
-			#state = row.find_all("td")[3].text.strip().split("(")[1].replace(')',"").strip()
-			
-			print("Member Name: ",member_name_info)
-			print("Party: ",party)
-			print("constituency: ",constituency)
-			#print("State: ",state)
 
 
-	def load_data(self):
-		browser.get(self.url)
-		browser.implicitly_wait(5)
-		html_source = browser.page_source
-		self.soup = bs(html_source, "html.parser")
-		self.load_candidate_details()
+	def download_image( self,img_src,row,term):
+		filename = str(term)+"_"+str(row)+'.jpg'
+		img_temp = NamedTemporaryFile(delete=True)
+		try:
+			img_temp.write(urlopen(img_src).read())
+			img_temp.flush()
+		except:
+			img_temp.write(urlopen("https://via.placeholder.com/150").read())
+			img_temp.flush()
+		return filename,img_temp			
 
-
-
-
-
-
-
-# 16th term
-url = "http://loksabhaph.nic.in/Members/lokaralpha.aspx?lsno=16&tab=0"
-lok = OldLoksabhaParser(url=url)
-lok.load_data()
-
-
-# 15th term
-url = "http://loksabhaph.nic.in/Members/lokaralpha.aspx?lsno=15&tab=1"
-lok = OldLoksabhaParser(url=url)
-lok.load_data()
-
-
-# 14th term
-url = "http://loksabhaph.nic.in/Members/lokaralpha.aspx?lsno=14&tab=2"
-lok = OldLoksabha(url=url)
-lok.load_data()

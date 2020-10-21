@@ -2,26 +2,29 @@ from django.core.management.base import BaseCommand
 from .loksabhaparser import LoksabhaParser
 from .question_debate import ScrapeLokSabha
 from .myneta import MyNetaParser
+from .oldloksabhaparser import OldLoksabhaParser
 
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
-        #loksabha_parser = LoksabhaParser(url = "http://loksabhaph.nic.in/Members/AlphabeticalList.aspx")
-        #loksabha_parser.load_candidate_data()
+        loksabha_parser = LoksabhaParser(url = "http://loksabhaph.nic.in/Members/AlphabeticalList.aspx")
+        loksabha_parser.load_candidate_data()
         
-        url = "http://loksabhaph.nic.in/Questions/Qtextsearch.aspx"
-        sc = ScrapeLokSabha(url)
-        sc.load_questions()
+        #url = "http://loksabhaph.nic.in/Questions/Qtextsearch.aspx"
+        #sc = ScrapeLokSabha(url)
+        #sc.load_questions()
         #url = "http://loksabhaph.nic.in/Debates/Debatetextsearch16.aspx"
         #sc = ScrapeLokSabha(url)
         #sc.load_debates()
-        url = "http://loksabhaph.nic.in/Legislation/NewAdvsearch.aspx"
-        sc = ScrapeLokSabha(url)
-        sc.load_bills()
+        #url = "http://loksabhaph.nic.in/Legislation/NewAdvsearch.aspx"
+        #sc = ScrapeLokSabha(url)
+        #sc.load_bills()
         """url = "http://loksabhaph.nic.in/Members/SessionWiseAttn.aspx"
         sc = ScrapeLokSabha(url)
         sc.load_attendance()"""
         #myneta = MyNetaParser( url = "https://myneta.info/LokSabha2019/index.php?action=show_winners&sort=default")
         #myneta.load_asset_criminal_cases()
+        #oldmp = OldLoksabhaParser(url = "OpenGovCore/data/raw_data/old_loksabha_data.xlsx")
+        #oldmp.load_candidate_data()
         """c_count = 0
         while True:
             try:

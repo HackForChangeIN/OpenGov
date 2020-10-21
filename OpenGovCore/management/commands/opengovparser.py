@@ -150,9 +150,47 @@ class OpenGovParser:
         candidate_id.total_assets = total_assets
         candidate_id.total_liabilities = liabilities
         candidate_id.save()
+    def load_old_candidate_data(self,*args):
+        mp_name,constituency,state,party,email,education,permanent_address,image_name,img_temp,term,criminal_cases,total_assets,total_liabilities,source = args
+        if criminal_cases =="":
+            criminal_cases = "Not Avialable"
+        else:
+            criminal_cases = int(criminal_cases)
+            print(criminal_cases)
+        term = Term.objects.get(term_name = term)
+        state_obj = States.objects.get(name=state)
+        try:
+            constituency_obj = Parliamentary_Constituencies.objects.get(name=constituency,state = state_obj )
+        except:
+            constituency_obj = Parliamentary_Constituencies.objects.create(name=constituency,state = state_obj )
+        central_legislature = Central_Legislatures.objects.get(name = "Loksabha")
+        try:
+            party_obj = Parties.objects.get(acronym=party)
+        except:
+            party_obj = Parties.objects.create(acronym=party)
+        try:
+            candidate_obj = Candidate.objects.get(name=mp_name)
+            candidature_obj = Candidature.objects.create(candidate_id = candidate_obj,party_id = party_obj
+            ,state_id = state_obj ,type = "MP",parliamentary_constituency_id = constituency_obj  ,term_id = term ,central_legislature_id = central_legislature)
+            print(mp_name,"is already present")
+        except:
+            candidate_obj = Candidate.objects.create(name=mp_name, qualification=education, email=email, permanent_address=permanent_address,criminal_cases = criminal_cases,total_assets = total_assets,total_liabilities = total_liabilities,source = source )
+            candidate_obj.photo.save(image_name,File(img_temp))
+            candidature_obj = Candidature.objects.create(candidate_id = candidate_obj,party_id = party_obj
+            ,state_id = state_obj ,type = "MP",parliamentary_constituency_id = constituency_obj  ,term_id = term ,central_legislature_id = central_legislature)
+            print(mp_name,"stored to database")
 
             
 
+
+
+
+
+        
+
+
+        
+         
                
         
     
