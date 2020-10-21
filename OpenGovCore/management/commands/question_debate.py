@@ -147,8 +147,6 @@ class ScrapeLokSabha(OpenGovParser):
 
 
     def load_debates(self):
-        #browser = webdriver.Chrome(ChromeDriverManager().install(),options=options)
-        #browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=options)
         browser.implicitly_wait(5)
         browser.get(self.url)
         html_source = browser.page_source.encode('utf-8')
@@ -159,21 +157,48 @@ class ScrapeLokSabha(OpenGovParser):
     def fetch_debates(self,browser):
         div_sec = self.soup.find("div",{"id":"content"}).find("div",{"id":"ContentPlaceHolder1_Panel2"})
         tables = div_sec.find_all("table")
-        page_count = 1
+
         for i in range(1,len(tables) - 2):
-            rows = tables[i].find("tbody").find_all("tr")
-            debate_type = rows[0].find_all("td")[1].text.strip()
-            debate_title = rows[1].find_all("td")[1].text.strip()
-            debate_date = rows[2].find_all("td")[1].text.strip()
-            #participants = rows[3].find_all("td")[1].text.strip()
-            participants = rows[3].find_all("td")[1].text.strip().split(",")
-            participants_list = []
-            if len(participants) > 1:
-                for i in range(0,len(participants),2):
-                    participants_info = participants[i+1].strip()+" "+ participants[i].strip()
-                    participants_list.append(participants_info)
-            else:
-                participants_list = participants
+            try:
+                rows = tables[i].find("tbody").find_all("tr")
+            except:
+                continue
+
+            try:
+                debate_type = rows[0].find_all("td")[1].text.strip()
+            except:
+                debate_type = ""
+            try:
+                debate_title = rows[1].find_all("td")[1].text.strip()
+            except:
+                debate_title = ""
+            try:
+                debate_date = rows[2].find_all("td")[1].text.strip()
+            except:
+                debate_date = ""
+            try:
+                participants = rows[3].find_all("td")[1].text.strip().split(",")
+                participants_list = []
+            except:
+                continue
+            
+            try:
+                if len(participants) > 1:
+                    for i in range(0,len(participants),2):
+                        participants_info = participants[i+1].strip()+" "+ participants[i].strip()
+                        participants_list.append(participants_info)
+                elif len(participants) == 1:
+                    try:
+                        participant = participants[0].split(" ",1)[1].strip() + " " + participants[0].split(" ",1)[0].strip()
+                        participants_list.append(participant)
+                    except:
+                        participant = participants[0].split("-")[1].strip() + " " + participants[0].split(" ",1)[0].strip()
+                        participants_list.append(participant)
+                else:
+                    participants_list = participants
+            except:
+                continue
+
             debate_link = "http://loksabhaph.nic.in/Debates/" + rows[1].find_all("td")[1].find('a')["href"]
             print("Debate Type: ",debate_type)
             print("Debate Title : ",debate_title)
