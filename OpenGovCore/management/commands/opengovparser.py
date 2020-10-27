@@ -36,10 +36,10 @@ class OpenGovParser:
             candidate_obj.present_address = present_address
             candidate_obj.permanent_address = permanent_address
             candidate_obj.source = url
-            if candidate_obj.photo != image_name:
+            """if candidate_obj.photo != image_name:
                 candidate_obj.photo.save(image_name,File(img_temp))
             else:
-                print("candidate photo name",candidate_obj.photo," Not Updated")
+                print("candidate photo name",candidate_obj.photo," Not Updated")"""
             candidate_obj.save()
             """else:
                 candidate_obj = Candidate.objects.create(name=mp_name, dob=dob, qualification=education,
@@ -181,6 +181,41 @@ class OpenGovParser:
             candidature_obj = Candidature.objects.create(candidate_id = candidate_obj,party_id = party_obj
             ,state_id = state_obj ,type = "MP",parliamentary_constituency_id = constituency_obj  ,term_id = term ,central_legislature_id = central_legislature)
             print(mp_name,"stored to database")
+    def load_rajyasabha_candidature_data(self,*args):
+        mp_name,constituency,state,party,email,dob,education,profession,permanent_address,present_address,mobile,image_name,url,img_temp = args
+        try:
+            state_obj = States.objects.get(name=state)
+        except States.DoesNotExist:
+            state_obj = States.objects.create(name = state)
+        try:
+            party_obj = Parties.objects.get(party_name=party)
+        except Parties.DoesNotExist:
+            party_obj = Parties.objects.create(party_name=party)
+        candidate_obj = Candidate.objects.get(name=mp_name, dob=dob)
+        central_legislature = Central_Legislatures.objects.get(name = "Rajyasabha")
+        try:
+            candidature_obj = Candidature.objects.update_or_create(candidate_id = candidate_obj,party_id = party_obj
+            ,state_id = state_obj ,type = "MP",central_legislature_id = central_legislature)
+        except Candidate.DoesNotExist:
+            print("Candidate data not found")
+    def load_rajyasabha_question(self,*args):
+        date,category,candidate,subject,title,link,type,session = args
+        try:
+            candidate_id = Candidate.objects.get(name = candidate)
+        except Candidate.DoesNotExist:
+            #candidate_id = Candidate.objects.create(name=candidate)
+            return
+        session = Parliamentary_Sessions.objects.get(type = session)
+        central_legislature = Central_Legislatures.objects.get(name = "Rajyasabha")
+        question_obj = Questions.objects.update_or_create(title = title,candidate_id = candidate_id, category = category,date =  date,subject = subject,parliamentary_session_id = session,central_legislature_id = central_legislature,source = link,type = type  )
+
+
+
+
+        
+
+        
+        
 
             
 

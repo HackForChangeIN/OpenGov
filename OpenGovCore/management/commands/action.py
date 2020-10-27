@@ -3,6 +3,7 @@ from .loksabhaparser import LoksabhaParser
 from .question_debate import ScrapeLokSabha
 from .myneta import MyNetaParser
 from .oldloksabhaparser import OldLoksabhaParser
+from .rajyasabhaparser import RajyaSabhaParser
 
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
@@ -34,9 +35,9 @@ class Command(BaseCommand):
         #oldmp = OldLoksabhaParser(url = "OpenGovCore/data/raw_data/old_loksabha_data.xlsx",term ="16th")
         #oldmp.load_candidate_data()
 
-        url = "http://loksabhaph.nic.in/Questions/qsearch15.aspx?lsno=16"
+        """url = "http://loksabhaph.nic.in/Questions/qsearch15.aspx?lsno=16"
         sc = ScrapeLokSabha(url,term ="16th")
-        sc.load_questions()
+        sc.load_questions()"""
         
         """url = "http://loksabhaph.nic.in/Debates/DebateAdvSearch16.aspx"
         sc = ScrapeLokSabha(url,term ="16th")
@@ -50,6 +51,15 @@ class Command(BaseCommand):
         """url = "http://loksabhaph.nic.in/Debates/DebateAdvSearch15.aspx"
         sc = ScrapeLokSabha(url,term ="15th")
         sc.load_debates()"""
+
+        ##### Rajyasabha ###################
+        url = "https://rajyasabha.nic.in/rsnew/member_site/memberlist.aspx"
+        obj = RajyaSabhaParser(url ,term = "None")
+        obj.load_candidate_data()
+
+        """url = "https://rajyasabha.nic.in/rsnew/Questions/Search_SessionWise.aspx"
+        obj = RajyaSabhaParser(url = url,term="None")
+        obj.load_questions()"""
 
        
         
