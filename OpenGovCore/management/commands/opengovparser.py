@@ -98,7 +98,8 @@ class OpenGovParser:
                 candidate_id = Candidate.objects.get(name = candidate)
             except Candidate.DoesNotExist:
                 print(candidate,"does not exist")
-                candidate_id = Candidate.objects.create(name=candidate)
+                #candidate_id = Candidate.objects.create(name=candidate)
+                return
             term = Term.objects.get(term_name = term)
             central_legislature = Central_Legislatures.objects.get(name = "Loksabha")
             debate_obj = Debates.objects.update_or_create(title = title,type = type,candidate_id = candidate_id,date = date,source = link,term_id = term,central_legislature_id = central_legislature)

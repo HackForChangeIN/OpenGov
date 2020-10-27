@@ -112,7 +112,7 @@ class ScrapeLokSabha(OpenGovParser):
             question,answer = self.getQuestionText()
             print("Question",question)
             data = [date,ministry,members_list,subject,question,answer,formed_url,question_type,term]
-            #OpenGovParser.load_questions(self,*data)
+            OpenGovParser.load_questions(self,*data)
             print("Question added to Database")
             
         ScrapeLokSabha.page_count += 1
