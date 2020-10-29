@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup as bs
 from urllib.request import urlopen as uReq
 from django.core.files import File
 from OpenGovCore.models import States, Parliamentary_Constituencies, Parties, Candidate,Term,Candidature,Central_Legislatures,Questions,Debates,Bills,Parliamentary_Sessions,Attendance
-
+from django.db.models import Q
 class OpenGovParser:
 
     url = ''
@@ -181,6 +181,7 @@ class OpenGovParser:
             candidature_obj = Candidature.objects.create(candidate_id = candidate_obj,party_id = party_obj
             ,state_id = state_obj ,type = "MP",parliamentary_constituency_id = constituency_obj  ,term_id = term ,central_legislature_id = central_legislature)
             print(mp_name,"stored to database")
+    
     def load_rajyasabha_candidature_data(self,*args):
         mp_name,constituency,state,party,email,dob,education,profession,permanent_address,present_address,mobile,image_name,url,img_temp = args
         try:
@@ -198,16 +199,40 @@ class OpenGovParser:
             ,state_id = state_obj ,type = "MP",central_legislature_id = central_legislature)
         except Candidate.DoesNotExist:
             print("Candidate data not found")
+    
     def load_rajyasabha_question(self,*args):
-        date,category,candidate,subject,title,link,type,session = args
+        date,category,candidate,subject,link,type,session = args
         try:
-            candidate_id = Candidate.objects.get(name = candidate)
-        except Candidate.DoesNotExist:
-            #candidate_id = Candidate.objects.create(name=candidate)
+            candidate = candidate.split(' ')
+            lastname = candidate.pop()
+            firstname = ' '.join(candidate)
+            candidates = Candidate.objects.filter(Q(name__contains = lastname)& Q(name__contains = firstname))
+            candidate_id = candidates[0]
+
+        except:
+            print(firstname,"does not exist")
             return
         session = Parliamentary_Sessions.objects.get(type = session)
         central_legislature = Central_Legislatures.objects.get(name = "Rajyasabha")
-        question_obj = Questions.objects.update_or_create(title = title,candidate_id = candidate_id, category = category,date =  date,subject = subject,parliamentary_session_id = session,central_legislature_id = central_legislature,source = link,type = type  )
+        question_obj = Questions.objects.update_or_create(candidate_id = candidate_id, category = category,date =  date,subject = subject,parliamentary_session_id = session,central_legislature_id = central_legislature,source = link,type = type  )
+    
+    def load_rajyasabha_attendance_data(self,*args):
+        candidate,days_signed_register,session,source = args
+        try:
+            candidate = candidate.split(' ')
+            lastname = candidate.pop()
+            firstname = ' '.join(candidate)
+            candidates = Candidate.objects.filter(Q(name__contains = lastname)& Q(name__contains = firstname))
+            candidate_id = candidates[0]
+        except:
+            print(firstname,"does not exist")
+            return
+        session = Parliamentary_Sessions.objects.get(type = session)
+        attendance_obj = Attendance.objects.update_or_create(candidate_id = candidate_id,session_id= session,attendance_signed_days=days_signed_register,source=source)
+
+
+
+
 
 
 

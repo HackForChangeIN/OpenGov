@@ -157,7 +157,7 @@ class Bill_Admin(VersionAdmin):
 admin.site.register(Bills,Bill_Admin)
 
 class Attendance_Admin(VersionAdmin):
-    list_display = ('candidate_id','term_id','session_id','attendance_signed_days','attendance_not_signed_days')
+    list_display = ('candidate_id','term_id','session_id','attendance_signed_days','source')
 
     class meta:
         model = Attendance

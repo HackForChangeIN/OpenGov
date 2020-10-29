@@ -168,7 +168,7 @@ class Candidate(models.Model):
     photo = models.ImageField(null=True, blank=True)
     present_address = models.TextField(blank=True)
     permanent_address = models.TextField(blank=True)
-    source = models.URLField(max_length = 400)
+    source = models.URLField(max_length = 400,blank=True)
     total_assets = models.CharField(max_length=500, blank=True)
     total_liabilities = models.CharField(max_length=500, blank=True)
 
@@ -253,7 +253,7 @@ class Debates(models.Model):
     term_id = models.ForeignKey(
         Term, on_delete=models.CASCADE, verbose_name='Term', blank=True, null=True)
     date = models.CharField(max_length=200, blank=True)
-    source = models.URLField(max_length = 400) 
+    source = models.URLField(max_length = 400,blank=True) 
 
     def __str__(self):
         return self.title
@@ -278,7 +278,7 @@ class Bills(models.Model):
     assembly_session_id = models.ForeignKey(Assembly_Sessions, on_delete=models.CASCADE,verbose_name='Assembly_Sessions', blank=True, null=True)
     central_legislature_id =  models.ForeignKey(Central_Legislatures, on_delete=models.CASCADE, verbose_name='Central_Legislatures', blank=True, null=True)
     state_legislature_id = models.ForeignKey(State_Legislatures, on_delete=models.CASCADE, verbose_name='State_Legislatures', blank=True, null=True) 
-    source = models.URLField(max_length = 400)
+    source = models.URLField(max_length = 400,blank=True)
     debate_loksabha_date = models.CharField(max_length=200, blank=True)
     debate_rajyasabha_date = models.CharField(max_length=200, blank=True)
 
@@ -296,6 +296,7 @@ class Attendance(models.Model):
     session_id = models.ForeignKey(Parliamentary_Sessions, on_delete=models.CASCADE,verbose_name='Parliamentary_Sessions', blank=True, null=True)
     attendance_signed_days = models.CharField(max_length=200, blank=True)
     attendance_not_signed_days = models.CharField(max_length=200, blank=True)
+    source = models.URLField(max_length = 400,blank=True)
 
     class Meta:
         verbose_name = "Attendance"

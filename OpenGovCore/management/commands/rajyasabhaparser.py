@@ -223,7 +223,37 @@ class RajyaSabhaParser(OpenGovParser):
 		sleep(4)
 		browser.implicitly_wait(4)
 		self.question_detail(browser)
-	
+	############### Attendance#####################################
+	def load_attendance(self):
+		self.load_parser()
+		source= self.url
+		session = self.url.split('=')[1]
+		print(session)
+		session_name = self.soup.find("span",{"id":"ctl00_ContentPlaceHolder1_lb_sessionname"}).text.strip()
+		session_start_date = self.soup.find("span",{"id":"ctl00_ContentPlaceHolder1_lb_period"}).text.strip().split("To")[0].replace("(","").strip()
+		session_end_date = self.soup.find("span",{"id":"ctl00_ContentPlaceHolder1_lb_period"}).text.strip().split("To")[1].replace(")","").strip()
+		all_rows = self.soup.find("table",{"id":"ctl00_ContentPlaceHolder1_GridView1"}).find_all("tr")
+		for i in range(1,len(all_rows)):
+			division = all_rows[i].find_all("td")[1].text.strip()
+			member_name = all_rows[i].find_all("td")[2].text.strip()
+			state = all_rows[i].find_all("td")[3].text.strip()
+			days_signed_register = all_rows[i].find_all("td")[4].text.strip()
+			#print("Division :",division)
+			print("Member Name :",member_name)
+			print("State :",state)
+			print("Days signed Register :",days_signed_register)
+			print("Session Name :",session_name)
+			print("Session Start date",session_start_date)
+			print("Session end date :",session_end_date)
+			
+			data = [member_name,days_signed_register,session,source]
+			OpenGovParser.load_rajyasabha_attendance_data(self,*data)
+			print(member_name,"is added to Attendance")
+		print("All candidate added to attendance for session",session )
+
+
+
+
 
 
 
