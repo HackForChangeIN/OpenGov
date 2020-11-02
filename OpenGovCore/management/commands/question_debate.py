@@ -8,6 +8,8 @@ import requests
 from urllib.request import urlopen as uReq
 from .opengovparser import OpenGovParser
 from selenium.webdriver.support.ui import Select
+from OpenGovCore.models import Questions,Term,Debates,Bills
+import datetime
 
 
 options = webdriver.ChromeOptions()
@@ -62,7 +64,12 @@ class ScrapeLokSabha(OpenGovParser):
             except: 
                 question_type = ""
             try:
-                date = row.find_all('td')[2].text.strip()
+                date = row.find_all('td')[2].text.strip()  #23.09.2020
+                date=date.split(".") #23.09.2020
+                date = date[2] + "-" + date[1] + "-" + date[0]
+                format_str = '%Y-%m-%d'
+                date=datetime.datetime.strptime(date, format_str).date()
+
             except: 
                 date = ""
             try:
@@ -111,6 +118,14 @@ class ScrapeLokSabha(OpenGovParser):
                 continue
             question,answer = self.getQuestionText()
             print("Question",question)
+            """ Date checking"""
+            term_id=Term.objects.get(term_name = term)
+            latest_date = Questions.objects.filter(term_id=term_id).latest('date')
+            if date >= latest_date.date:
+                print(" New Question inserted")
+            else:
+                print("Question already present")
+                return
             data = [date,ministry,members_list,subject,question,answer,formed_url,question_type,term]
             OpenGovParser.load_questions(self,*data)
             print("Question added to Database")
@@ -147,7 +162,7 @@ class ScrapeLokSabha(OpenGovParser):
         #print("Question : ",question)
         return [question,answer]
 
-
+    #########################   Debates  ######################
     def load_debates(self):
         browser.implicitly_wait(5)
         browser.get(self.url)
@@ -177,6 +192,11 @@ class ScrapeLokSabha(OpenGovParser):
                 debate_title = ""
             try:
                 debate_date = rows[2].find_all("td")[1].text.strip()
+                debate_date=debate_date.split("-") #23-09-2020
+                debate_date = debate_date[2] + "-" + debate_date[1] + "-" + debate_date[0]
+                format_str = '%Y-%m-%d'
+                debate_date=datetime.datetime.strptime(debate_date, format_str).date()
+
             except:
                 debate_date = ""
             try:
@@ -209,6 +229,13 @@ class ScrapeLokSabha(OpenGovParser):
             print("Debate Perticipants : ",participants_list)
             print("Debate Link : ",debate_link)
             print ("Term",term)
+            term_id = Term.objects.get(term_name = term)
+            latest_date = Debates.objects.filter(term_id=term_id).latest('date')
+            if debate_date >= latest_date.date:
+                print("New debate inserted")
+            else:
+                print("Debate already exist")
+                return
             data = [debate_title,debate_type,debate_date,participants_list,debate_link,term]
             OpenGovParser.load_debates(self,*data)
             print("Debate data added")
@@ -275,6 +302,11 @@ class ScrapeLokSabha(OpenGovParser):
                 bill_type = ""
             try:
                 date_of_intoduction = all_rows[i].find_all("td")[5].find_all('span')[0].text.strip()
+                date_of_intoduction=date_of_intoduction.split("/") #22/09/2020
+                date_of_intoduction = date_of_intoduction[2] + "-" + date_of_intoduction[1] + "-" + date_of_intoduction[0]
+                format_str = '%Y-%m-%d'
+                date_of_intoduction=datetime.datetime.strptime(date_of_intoduction, format_str).date()
+
             except:
                 date_of_intoduction = ""
             try:
@@ -303,6 +335,12 @@ class ScrapeLokSabha(OpenGovParser):
             print("Debate Passed date loksabha : ",debate_passed_date_loksabha)
             print("Debate Passed date Rajyasabha : ",debate_passed_date_rajyasabha)
             print("Status : ",status)
+            latest_date = Bills.objects.latest('date_of_introduction')
+            if date_of_intoduction >= latest_date.date_of_introduction:
+                print("New Bill inserted")
+            else:
+                print("Bill already exist")
+                return
             data = []
             data = [bill_title,bill_type,status,date_of_intoduction,debate_passed_date_loksabha,debate_passed_date_rajyasabha,bill_link]
             OpenGovParser.load_bills(self,*data)
@@ -333,7 +371,8 @@ class ScrapeLokSabha(OpenGovParser):
             html_source = browser.page_source.encode('utf-8')
             self.soup = bs(html_source,"html.parser")
             self.fetch_bills(browser)
-    ########### Attendance ########################
+    
+    ###########    Attendance    ########################
     def load_attendance(self):
         #browser = webdriver.Chrome(ChromeDriverManager().install(),options=options)
         browser.implicitly_wait(5)
@@ -359,7 +398,7 @@ class ScrapeLokSabha(OpenGovParser):
             print("Constituency : ",constituency)
             print("Number of Days Members signed Register",days_members_signed)
             data =[]
-            data = [session_name,member_name,constituency,days_members_signed]
+            data = [session_name,member_name,constituency,days_members_signed,self.term]
             OpenGovParser.load_attendance(self,*data)
             print(member_name," attendance data added")
 
@@ -385,6 +424,8 @@ class ScrapeLokSabha(OpenGovParser):
         self.fetch_attendance(browser,session_name)
     def changeSessions(self,browser):
         session_length = self.soup.find("select",{"id":"ContentPlaceHolder1_DropDownListSession"}).find_all("option")
+        latest_term = self.soup.find("select",{"id":"ContentPlaceHolder1_DropDownListLoksabha"}).find_all("option")[0].text.strip() + 'th'
+        self.term = latest_term
         for i in range(1,len(session_length)+1):
             select = Select(browser.find_element_by_id("ContentPlaceHolder1_DropDownListSession"))
             select.select_by_value(str(i))

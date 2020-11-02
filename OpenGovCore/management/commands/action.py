@@ -11,17 +11,17 @@ class Command(BaseCommand):
         #loksabha_parser = LoksabhaParser(url = "http://loksabhaph.nic.in/Members/AlphabeticalList.aspx")
         #loksabha_parser.load_candidate_data()
         
-        #url = "http://loksabhaph.nic.in/Questions/Qtextsearch.aspx"
-        #sc = ScrapeLokSabha(url)
-        #sc.load_questions()
+        """url = "http://loksabhaph.nic.in/Questions/Qtextsearch.aspx"
+        sc = ScrapeLokSabha(url,term ="17th")
+        sc.load_questions()"""
 
-        #url = "http://loksabhaph.nic.in/Debates/Debatetextsearch16.aspx"
-        #sc = ScrapeLokSabha(url)
-        #sc.load_debates()
+        """url = "http://loksabhaph.nic.in/Debates/Debatetextsearch16.aspx"
+        sc = ScrapeLokSabha(url,term="17th")
+        sc.load_debates()"""
 
-        #url = "http://loksabhaph.nic.in/Legislation/NewAdvsearch.aspx"
-        #sc = ScrapeLokSabha(url)
-        #sc.load_bills()
+        """url = "http://loksabhaph.nic.in/Legislation/NewAdvsearch.aspx"
+        sc = ScrapeLokSabha(url,term="17th")
+        sc.load_bills()"""
         
         """url = "http://loksabhaph.nic.in/Members/SessionWiseAttn.aspx"
         sc = ScrapeLokSabha(url)
@@ -53,9 +53,9 @@ class Command(BaseCommand):
         sc.load_debates()"""
 
         ##### Rajyasabha ###################
-        url = "https://rajyasabha.nic.in/rsnew/member_site/memberlist.aspx"
+        """url = "https://rajyasabha.nic.in/rsnew/member_site/memberlist.aspx"
         obj = RajyaSabhaParser(url ,term = "None")
-        obj.load_candidate_data()
+        obj.load_candidate_data()"""
 
         """url = "https://rajyasabha.nic.in/rsnew/Questions/Search_SessionWise.aspx"
         obj = RajyaSabhaParser(url = url,term="None")
@@ -64,6 +64,10 @@ class Command(BaseCommand):
         """url = "https://rajyasabha.nic.in/rsnew/member_site/sessionwiseresults.aspx?vsessionno=252"
         obj = RajyaSabhaParser(url = url,term ="None")
         obj.load_attendance()"""
+        
+        url = "https://rajyasabha.nic.in/rsnew/member_site/newsessionwise_attendance.aspx"
+        obj = RajyaSabhaParser(url = url,term =None)
+        obj.load_attendance()
 
        
         

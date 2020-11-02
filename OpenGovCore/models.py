@@ -7,6 +7,11 @@ PARTY_TYPE = (
 
 )
 
+SESSION_NAME = (
+    ('Monsoon Session','Monsoon Session'),
+    ('Budget Session','Budget Session'),
+    ('Winter Session','Winter Session')
+)
 
 class States(models.Model):
     name = models.CharField(max_length=200)
@@ -125,10 +130,11 @@ class Parliamentary_Sessions(models.Model):
     type = models.CharField(max_length=200, blank=True)
     term_id = models.ForeignKey(
         Term, on_delete=models.CASCADE, verbose_name='Term', blank=True, null=True)
-    start_date = models.CharField(max_length=100, blank=True)
-    end_date = models.CharField(max_length=100, blank=True)
+    start_date = models.DateField(blank=True)
+    end_date = models.DateField(blank=True)
     central_legislature_id = models.ForeignKey(
         Central_Legislatures, on_delete=models.CASCADE, verbose_name='Central_Legislatures', blank=True, null=True)
+    session_name = models.CharField(choices=SESSION_NAME, max_length=100,blank=True)
 
     def __str__(self):
         return self.type
@@ -142,10 +148,11 @@ class Assembly_Sessions(models.Model):
     type = models.CharField(max_length=200, blank=True)
     sitting_id = models.ForeignKey(
         Sittings, on_delete=models.CASCADE, verbose_name='Sittings', blank=True, null=True)
-    start_date = models.CharField(max_length=100, blank=True)
-    end_date = models.CharField(max_length=100, blank=True)
+    start_date = models.DateField(blank=True)
+    end_date = models.DateField(blank=True)
     state_legislature_id = models.ForeignKey(
         State_Legislatures, on_delete=models.CASCADE, verbose_name='State_Legislatures', blank=True, null=True)
+    session_name = models.CharField(choices=SESSION_NAME, max_length=100,blank=True)
 
     def __str__(self):
         return self.type
@@ -217,7 +224,7 @@ class Questions(models.Model):
     candidate_id = models.ForeignKey(
         Candidate, on_delete=models.CASCADE, verbose_name='Asked by', blank=True, null=True)
     category = models.CharField(max_length=500, blank=True)
-    date = models.CharField(max_length=200, blank=True)
+    date = models.DateField(blank=True)
     subject = models.CharField(max_length=500, blank=True)
     term_id = models.ForeignKey(
         Term, on_delete=models.CASCADE, verbose_name='Term', blank=True, null=True)
@@ -252,7 +259,7 @@ class Debates(models.Model):
                                                  verbose_name='Parliamentary_Sessions', blank=True, null=True)
     term_id = models.ForeignKey(
         Term, on_delete=models.CASCADE, verbose_name='Term', blank=True, null=True)
-    date = models.CharField(max_length=200, blank=True)
+    date = models.DateField(blank=True)
     source = models.URLField(max_length = 400,blank=True) 
 
     def __str__(self):
@@ -268,7 +275,7 @@ class Bills(models.Model):
     candidate_id = models.ForeignKey(
         Candidate, on_delete=models.CASCADE, verbose_name='Introducer', blank=True, null=True)
     ministry = models.CharField(max_length=300, blank=True)
-    date_of_introduction = models.CharField(max_length=200, blank=True)
+    date_of_introduction = models.DateField(blank=True)
     category = models.CharField(max_length=200, blank=True) 
     term_id = models.ForeignKey(
         Term, on_delete=models.CASCADE, verbose_name='Term', blank=True, null=True)

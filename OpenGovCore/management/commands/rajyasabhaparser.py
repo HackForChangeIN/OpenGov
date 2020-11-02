@@ -12,6 +12,8 @@ import shutil
 from tempfile import NamedTemporaryFile
 from urllib.request import urlopen
 import re
+import datetime
+from OpenGovCore.models import Questions,Parliamentary_Sessions
 
 options = webdriver.ChromeOptions()
 #options.headless = True
@@ -144,6 +146,7 @@ class RajyaSabhaParser(OpenGovParser):
 	def parser(self,browser):
 		html_source = browser.page_source.encode('utf-8')
 		self.soup = bs(html_source, "html.parser")
+	#######################Question#####################
 
 
 	def load_questions(self):
@@ -160,6 +163,7 @@ class RajyaSabhaParser(OpenGovParser):
 		table  = self.soup.find("table",{"id":"ctl00_ContentPlaceHolder1_DG1"}).find("tbody").find_all("tr")
 		pages = len(table[0].find("td").find_all('a'))
 		rows = table[2:len(table)-1]
+		session = self.soup.find("select",{"id":"ctl00_ContentPlaceHolder1_DRSession"}).find_all("option")[0].text.strip()
 
 		total_records = self.soup.find("span",{"id":"ctl00_ContentPlaceHolder1_Label4"}).text.strip().split("=")[1].strip().split(" ")[0].strip()
 		max_pages = int(self.soup.find("span",{"id":"ctl00_ContentPlaceHolder1_Label4"}).text.strip().split("of ")[1].strip())
@@ -177,6 +181,22 @@ class RajyaSabhaParser(OpenGovParser):
 			subject = row.find_all("td")[6].text.strip()
 			english_file_link = row.find_all("td")[7].find("a")["href"]
 			hindi_file_link = row.find_all("td")[8].find("a")["href"]
+			date=date.split(".") #23.09.2020
+			date = date[2] + "-" + date[1] + "-" + date[0]
+			format_str = '%Y-%m-%d'
+			date=datetime.datetime.strptime(date, format_str).date()
+			#session = "252"
+			session_id = Parliamentary_Sessions.objects.get(type = session)
+			latest_date = Questions.objects.filter(parliamentary_session_id = session_id).latest('date')
+			
+			if date >= latest_date.date:
+				print(" New Question inserted")
+			else:
+				print("Question already present")
+				return
+			
+
+
 
 			print("Sno :",sno)
 			print("Ques No :",quesno)
@@ -187,7 +207,7 @@ class RajyaSabhaParser(OpenGovParser):
 			print("Subject :",subject)
 			print("English File Link :",english_file_link)
 			#print("hindi File Link :",hindi_file_link)
-			session = "252"
+			
 			data = [date,ministry,member,subject,english_file_link,q_type,session]
 			OpenGovParser.load_rajyasabha_question(self,*data)
 			print(sno,"is added")
@@ -226,30 +246,53 @@ class RajyaSabhaParser(OpenGovParser):
 	############### Attendance#####################################
 	def load_attendance(self):
 		self.load_parser()
-		source= self.url
-		session = self.url.split('=')[1]
-		print(session)
-		session_name = self.soup.find("span",{"id":"ctl00_ContentPlaceHolder1_lb_sessionname"}).text.strip()
+		table = self.soup.find("table",{"id":"ctl00_ContentPlaceHolder1_DataGrid1"}).find_all("tr")[1].find_all("td")
+		session_no = table[0].text.strip()
+		session_link = "https://rajyasabha.nic.in/rsnew/member_site/" + table[0].find('a')['href']
+		self.url = session_link
+		self.attendance_data(session_no)
+	
+	def date_conversion(self,date):
+		date=date.split("-") #23-09-2020
+		date = date[2] + "-" + date[1] + "-" + date[0]
+		format_str = '%Y-%m-%d'
+		date=datetime.datetime.strptime(date,format_str).date()
+		return date
+
+	def attendance_data(self,session_no):
+		self.load_parser()
+		session = self.soup.find("span",{"id":"ctl00_ContentPlaceHolder1_lb_sessionname"}).text.strip()
 		session_start_date = self.soup.find("span",{"id":"ctl00_ContentPlaceHolder1_lb_period"}).text.strip().split("To")[0].replace("(","").strip()
 		session_end_date = self.soup.find("span",{"id":"ctl00_ContentPlaceHolder1_lb_period"}).text.strip().split("To")[1].replace(")","").strip()
+		session_start_date = self.date_conversion(session_start_date)
+		session_end_date = self.date_conversion(session_end_date)
 		all_rows = self.soup.find("table",{"id":"ctl00_ContentPlaceHolder1_GridView1"}).find_all("tr")
+
 		for i in range(1,len(all_rows)):
 			division = all_rows[i].find_all("td")[1].text.strip()
 			member_name = all_rows[i].find_all("td")[2].text.strip()
 			state = all_rows[i].find_all("td")[3].text.strip()
 			days_signed_register = all_rows[i].find_all("td")[4].text.strip()
-			#print("Division :",division)
+			source = self.url
+			
+
+
+
+			print("Division :",division)
 			print("Member Name :",member_name)
 			print("State :",state)
 			print("Days signed Register :",days_signed_register)
-			print("Session Name :",session_name)
+			print("Session Name :",session)
 			print("Session Start date",session_start_date)
 			print("Session end date :",session_end_date)
+			print("session_no:",session_no)
 			
-			data = [member_name,days_signed_register,session,source]
+		
+			
+			data = [member_name,days_signed_register,session_no,source,session_start_date,session_end_date]
 			OpenGovParser.load_rajyasabha_attendance_data(self,*data)
 			print(member_name,"is added to Attendance")
-		print("All candidate added to attendance for session",session )
+		print("All candidate added to attendance for session",session_no )
 
 
 

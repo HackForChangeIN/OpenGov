@@ -111,7 +111,7 @@ admin.site.register(Candidature, Candidature_Admin)
 
 class Parliamentary_Sessions_Admin(VersionAdmin):
     list_display = ('type', 'term_id', 'start_date',
-                    'end_date', 'central_legislature_id')
+                    'end_date', 'central_legislature_id','session_name')
 
     class meta:
         model = Parliamentary_Sessions
@@ -122,7 +122,7 @@ admin.site.register(Parliamentary_Sessions, Parliamentary_Sessions_Admin)
 
 class Assembly_Sessions_Admin(VersionAdmin):
     list_display = ('type', 'sitting_id', 'start_date',
-                    'end_date', 'state_legislature_id')
+                    'end_date', 'state_legislature_id','session_name')
 
     class meta:
         model = Assembly_Sessions

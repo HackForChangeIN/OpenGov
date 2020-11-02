@@ -113,7 +113,7 @@ class OpenGovParser:
 
 
     def load_attendance(self,*args):
-        session,candidate,constituency,attendance_signed_days = args
+        session,candidate,constituency,attendance_signed_days,term = args
         try:
             constituency_obj = Parliamentary_Constituencies.objects.get(name = constituency )
             candidature_obj = Candidature.objects.get(parliamentary_constituency_id = constituency_obj )
@@ -126,13 +126,13 @@ class OpenGovParser:
                 print("candidate",candidate,"Not found")
                 return 
                 
-        term = Term.objects.get(term_name = "17th")
+        term_id = Term.objects.get(term_name = term)
         try:
             session_id = Parliamentary_Sessions.objects.get(type = session)
-            attendance_obj = Attendance.objects.update_or_create(candidate_id = candidate_obj,term_id= term,session_id= session_id,attendance_signed_days=attendance_signed_days)
+            attendance_obj = Attendance.objects.update_or_create(candidate_id = candidate_obj,term_id= term_id,session_id= session_id,attendance_signed_days=attendance_signed_days)
         except:
-            session_id = Parliamentary_Sessions.objects.create(type = session,term_id = term)
-            attendance_obj = Attendance.objects.create(candidate_id = candidate_obj,term_id= term,session_id= session_id,attendance_signed_days=attendance_signed_days)
+            session_id = Parliamentary_Sessions.objects.create(type = session,term_id = term_id)
+            attendance_obj = Attendance.objects.create(candidate_id = candidate_obj,term_id= term_id,session_id= session_id,attendance_signed_days=attendance_signed_days)
         
     def load_asset_criminal_cases(self,*args):
         candidate,constituency,criminal_cases,total_assets,liabilities = args
@@ -217,7 +217,7 @@ class OpenGovParser:
         question_obj = Questions.objects.update_or_create(candidate_id = candidate_id, category = category,date =  date,subject = subject,parliamentary_session_id = session,central_legislature_id = central_legislature,source = link,type = type  )
     
     def load_rajyasabha_attendance_data(self,*args):
-        candidate,days_signed_register,session,source = args
+        candidate,days_signed_register,session,source,session_start_date,session_end_date = args
         try:
             candidate = candidate.split(' ')
             lastname = candidate.pop()
@@ -227,8 +227,13 @@ class OpenGovParser:
         except:
             print(firstname,"does not exist")
             return
-        session = Parliamentary_Sessions.objects.get(type = session)
-        attendance_obj = Attendance.objects.update_or_create(candidate_id = candidate_id,session_id= session,attendance_signed_days=days_signed_register,source=source)
+        try:
+            session_id = Parliamentary_Sessions.objects.get(type = session)
+        except:
+            print(session,"Does not exist")
+            central_legislature = Central_Legislatures.objects.get(name = "Rajyasabha")
+            session_id = Parliamentary_Sessions.objects.create(type = session,start_date=session_start_date,end_date =session_end_date,central_legislature_id = central_legislature )
+        attendance_obj = Attendance.objects.update_or_create(candidate_id = candidate_id,session_id= session_id,attendance_signed_days=days_signed_register,source=source)
 
 
 
