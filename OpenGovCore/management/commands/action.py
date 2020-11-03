@@ -23,9 +23,9 @@ class Command(BaseCommand):
         sc = ScrapeLokSabha(url,term="17th")
         sc.load_bills()"""
         
-        """url = "http://loksabhaph.nic.in/Members/SessionWiseAttn.aspx"
-        sc = ScrapeLokSabha(url)
-        sc.load_attendance()"""
+        url = "http://loksabhaph.nic.in/Members/SessionWiseAttn.aspx"
+        sc = ScrapeLokSabha(url,term="17th")
+        sc.load_attendance()
         
         #myneta = MyNetaParser( url = "https://myneta.info/LokSabha2019/index.php?action=show_winners&sort=default")
         #myneta.load_asset_criminal_cases()
@@ -65,9 +65,9 @@ class Command(BaseCommand):
         obj = RajyaSabhaParser(url = url,term ="None")
         obj.load_attendance()"""
         
-        url = "https://rajyasabha.nic.in/rsnew/member_site/newsessionwise_attendance.aspx"
+        """url = "https://rajyasabha.nic.in/rsnew/member_site/newsessionwise_attendance.aspx"
         obj = RajyaSabhaParser(url = url,term =None)
-        obj.load_attendance()
+        obj.load_attendance()"""
 
        
         

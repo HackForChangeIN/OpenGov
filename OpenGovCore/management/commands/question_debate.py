@@ -380,11 +380,20 @@ class ScrapeLokSabha(OpenGovParser):
         html_source = browser.page_source.encode('utf-8')
         self.soup = bs(html_source,"html.parser")
         self.changeSessions(browser)
-    def fetch_attendance(self,browser,session_name):
+    def date_conversion(self,date):
+        date=date.split(".") #23.09.2020
+        date = date[2] + "-" + date[1] + "-" + date[0]
+        format_str = '%Y-%m-%d'
+        date=datetime.datetime.strptime(date,format_str).date()
+        return date
+    def fetch_attendance(self,browser,session_name,session_start_date,session_end_date):
         table = self.soup.find("table",{"id":"ContentPlaceHolder1_DataGrid1"}).find("tbody")
         rows = table.find_all("tr")
         #no_pages = browser.find_elements_by_xpath("//table[@id='ContentPlaceHolder1_DataGrid1']/tbody/tr/td/a")
         no_pages = self.soup.find("table",{"id":"ContentPlaceHolder1_DataGrid1"}).find("tbody").find("tr").find("td").find_all("a")
+        if type(session_start_date)=="str":
+            session_start_date = self.date_conversion(session_start_date)
+            session_end_date = self.date_conversion(session_end_date)
         for i in range(2,len(rows)-1):
             member_name = rows[i].find_all("td")[0].text.strip()
             constituency = rows[i].find_all("td")[1].text.strip()
@@ -393,12 +402,13 @@ class ScrapeLokSabha(OpenGovParser):
                 session_name = session_name.split('(')[0].strip()
             else:
                 session_name = session_name
+            
             print("Session Name : ",session_name)
             print("Member Name : ",member_name)
             print("Constituency : ",constituency)
             print("Number of Days Members signed Register",days_members_signed)
             data =[]
-            data = [session_name,member_name,constituency,days_members_signed,self.term]
+            data = [session_name,member_name,constituency,days_members_signed,self.term,session_start_date,session_end_date]
             OpenGovParser.load_attendance(self,*data)
             print(member_name," attendance data added")
 
@@ -413,15 +423,15 @@ class ScrapeLokSabha(OpenGovParser):
             elements.click()
             return
         else:
-            self.nextPageAttendance(browser,session_name)
-    def nextPageAttendance(self,browser,session_name):
+            self.nextPageAttendance(browser,session_name,session_start_date,session_end_date)
+    def nextPageAttendance(self,browser,session_name,session_start_date,session_end_date):
         td_pages = browser.find_elements_by_xpath("//table[@id='ContentPlaceHolder1_DataGrid1']/tbody/tr/td/a")
         elements = td_pages[ScrapeLokSabha.att_page_no]
         elements.click()
         sleep(4)
         html_source = browser.page_source.encode('utf-8')
         self.soup = bs(html_source,"html.parser")
-        self.fetch_attendance(browser,session_name)
+        self.fetch_attendance(browser,session_name,session_start_date ,session_end_date)
     def changeSessions(self,browser):
         session_length = self.soup.find("select",{"id":"ContentPlaceHolder1_DropDownListSession"}).find_all("option")
         latest_term = self.soup.find("select",{"id":"ContentPlaceHolder1_DropDownListLoksabha"}).find_all("option")[0].text.strip() + 'th'
@@ -431,9 +441,11 @@ class ScrapeLokSabha(OpenGovParser):
             select.select_by_value(str(i))
             element = session_length[-i]
             session_name = element.text
+            session_start_date = self.soup.find("select",{"id":"ContentPlaceHolder1_DropDownListSession"}).find_all("option")[-i].text.strip().split("(")[1].split(" to ")[0].strip()
+            session_end_date = self.soup.find("select",{"id":"ContentPlaceHolder1_DropDownListSession"}).find_all("option")[-i].text.strip().split(" to ")[-1].replace(")","").strip()
             html_source = browser.page_source.encode('utf-8')
             self.soup = bs(html_source,"html.parser")
-            self.fetch_attendance(browser,session_name)
+            self.fetch_attendance(browser,session_name,session_start_date,session_end_date)
 
 
 

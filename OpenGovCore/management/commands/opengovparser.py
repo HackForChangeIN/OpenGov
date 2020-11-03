@@ -113,7 +113,7 @@ class OpenGovParser:
 
 
     def load_attendance(self,*args):
-        session,candidate,constituency,attendance_signed_days,term = args
+        session,candidate,constituency,attendance_signed_days,term,session_start_date,session_end_date = args
         try:
             constituency_obj = Parliamentary_Constituencies.objects.get(name = constituency )
             candidature_obj = Candidature.objects.get(parliamentary_constituency_id = constituency_obj )
@@ -131,7 +131,8 @@ class OpenGovParser:
             session_id = Parliamentary_Sessions.objects.get(type = session)
             attendance_obj = Attendance.objects.update_or_create(candidate_id = candidate_obj,term_id= term_id,session_id= session_id,attendance_signed_days=attendance_signed_days)
         except:
-            session_id = Parliamentary_Sessions.objects.create(type = session,term_id = term_id)
+            central_legislature = Central_Legislatures.objects.get(name = "Loksabha")
+            session_id = Parliamentary_Sessions.objects.create(type = session,term_id = term_id,start_date=session_start_date,end_date =session_end_date,central_legislature_id = central_legislature)
             attendance_obj = Attendance.objects.create(candidate_id = candidate_obj,term_id= term_id,session_id= session_id,attendance_signed_days=attendance_signed_days)
         
     def load_asset_criminal_cases(self,*args):
