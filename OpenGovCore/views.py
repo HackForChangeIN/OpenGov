@@ -103,7 +103,7 @@ class MembersByParty(View):
             data = paginator.page(1)
         except EmptyPage:
             data = paginator.page(paginator.num_pages)
-        return render(request,self.template_name, {'members':data})
+        return render(request,self.template_name, {'members':data,'check':party_name,'urlvar':'party'})
 
 class MembersByState(View):
     template_name = "member_term.html"
@@ -120,7 +120,7 @@ class MembersByState(View):
             data = paginator.page(1)
         except EmptyPage:
             data = paginator.page(paginator.num_pages)
-        return render(request,self.template_name, {'members':data})
+        return render(request,self.template_name, {'members':data,'check':state_name,'urlvar':'state'})
 
 
 class MembersByConstituency(View):
@@ -143,6 +143,15 @@ class MembersByConstituency(View):
             data = paginator.page(1)
         except EmptyPage:
             data = paginator.page(paginator.num_pages)
-        return render(request,self.template_name, {'members':data})
+        return render(request,self.template_name, {'members':data,'check':const_name,'urlvar':'constituency'})
+
+
+class MemberInfo(View):
+    template_name = "member.html"
+
+    def get(self,request,name):
+        candidate_obj = Candidate.objects.get(name=name)
+        candidature_obj = Candidature.objects.filter(candidate_id=candidate_obj)
+        return render(request,self.template_name, {'members':candidature_obj[0]})
 
 
