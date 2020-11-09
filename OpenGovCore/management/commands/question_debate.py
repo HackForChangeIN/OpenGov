@@ -118,14 +118,15 @@ class ScrapeLokSabha(OpenGovParser):
                 continue
             question,answer = self.getQuestionText()
             print("Question",question)
+
             """ Date checking"""
-            term_id=Term.objects.get(term_name = term)
-            latest_date = Questions.objects.filter(term_id=term_id).latest('date')
-            if date >= latest_date.date:
-                print(" New Question inserted")
-            else:
-                print("Question already present")
-                return
+            #term_id=Term.objects.get(term_name = term)
+            #latest_date = Questions.objects.filter(term_id=term_id).latest('date')
+            #if date >= latest_date.date:
+            #    print(" New Question inserted")
+            #else:
+            #    print("Question already present")
+            #    return
             data = [date,ministry,members_list,subject,question,answer,formed_url,question_type,term]
             OpenGovParser.load_questions(self,*data)
             print("Question added to Database")
@@ -229,13 +230,13 @@ class ScrapeLokSabha(OpenGovParser):
             print("Debate Perticipants : ",participants_list)
             print("Debate Link : ",debate_link)
             print ("Term",term)
-            term_id = Term.objects.get(term_name = term)
-            latest_date = Debates.objects.filter(term_id=term_id).latest('date')
-            if debate_date >= latest_date.date:
-                print("New debate inserted")
-            else:
-                print("Debate already exist")
-                return
+            #term_id = Term.objects.get(term_name = term)
+            #latest_date = Debates.objects.filter(term_id=term_id).latest('date')
+            #if debate_date >= latest_date.date:
+            #    print("New debate inserted")
+            #else:
+            #    print("Debate already exist")
+            #    return
             data = [debate_title,debate_type,debate_date,participants_list,debate_link,term]
             OpenGovParser.load_debates(self,*data)
             print("Debate data added")
@@ -335,12 +336,12 @@ class ScrapeLokSabha(OpenGovParser):
             print("Debate Passed date loksabha : ",debate_passed_date_loksabha)
             print("Debate Passed date Rajyasabha : ",debate_passed_date_rajyasabha)
             print("Status : ",status)
-            latest_date = Bills.objects.latest('date_of_introduction')
-            if date_of_intoduction >= latest_date.date_of_introduction:
-                print("New Bill inserted")
-            else:
-                print("Bill already exist")
-                return
+            #latest_date = Bills.objects.latest('date_of_introduction')
+            #if date_of_intoduction >= latest_date.date_of_introduction:
+            #    print("New Bill inserted")
+            #else:
+            #    print("Bill already exist")
+            #    return
             data = []
             data = [bill_title,bill_type,status,date_of_intoduction,debate_passed_date_loksabha,debate_passed_date_rajyasabha,bill_link]
             OpenGovParser.load_bills(self,*data)
@@ -351,6 +352,7 @@ class ScrapeLokSabha(OpenGovParser):
         if(ScrapeLokSabha.bills_page_no % 10 == 0):
             return
         self.nextPageBills(browser)
+
     def nextPageBills(self,browser):
         if ScrapeLokSabha.bills_page_no <= 10:
             td_pages = browser.find_elements_by_xpath("//table[@id='ContentPlaceHolder1_GR1']/tbody/tr/td/table/tbody/tr/td")
@@ -374,24 +376,28 @@ class ScrapeLokSabha(OpenGovParser):
     
     ###########    Attendance    ########################
     def load_attendance(self):
-        #browser = webdriver.Chrome(ChromeDriverManager().install(),options=options)
         browser.implicitly_wait(5)
         browser.get(self.url)
+        element = browser.find_elements_by_xpath("//select[@id='ContentPlaceHolder1_DropDownListLoksabha']/option")
+        element[2].click()  #replace 1  with 2 for 15th term
+        sleep(4)
         html_source = browser.page_source.encode('utf-8')
         self.soup = bs(html_source,"html.parser")
         self.changeSessions(browser)
+
     def date_conversion(self,date):
         date=date.split(".") #23.09.2020
         date = date[2] + "-" + date[1] + "-" + date[0]
         format_str = '%Y-%m-%d'
-        date=datetime.datetime.strptime(date,format_str).date()
+        date = datetime.datetime.strptime(date,format_str).date()
         return date
+
     def fetch_attendance(self,browser,session_name,session_start_date,session_end_date):
         table = self.soup.find("table",{"id":"ContentPlaceHolder1_DataGrid1"}).find("tbody")
         rows = table.find_all("tr")
         #no_pages = browser.find_elements_by_xpath("//table[@id='ContentPlaceHolder1_DataGrid1']/tbody/tr/td/a")
         no_pages = self.soup.find("table",{"id":"ContentPlaceHolder1_DataGrid1"}).find("tbody").find("tr").find("td").find_all("a")
-        if type(session_start_date)=="str":
+        if type(session_start_date) == type("str"):
             session_start_date = self.date_conversion(session_start_date)
             session_end_date = self.date_conversion(session_end_date)
         for i in range(2,len(rows)-1):
@@ -402,7 +408,6 @@ class ScrapeLokSabha(OpenGovParser):
                 session_name = session_name.split('(')[0].strip()
             else:
                 session_name = session_name
-            
             print("Session Name : ",session_name)
             print("Member Name : ",member_name)
             print("Constituency : ",constituency)
@@ -424,6 +429,7 @@ class ScrapeLokSabha(OpenGovParser):
             return
         else:
             self.nextPageAttendance(browser,session_name,session_start_date,session_end_date)
+
     def nextPageAttendance(self,browser,session_name,session_start_date,session_end_date):
         td_pages = browser.find_elements_by_xpath("//table[@id='ContentPlaceHolder1_DataGrid1']/tbody/tr/td/a")
         elements = td_pages[ScrapeLokSabha.att_page_no]
@@ -432,9 +438,11 @@ class ScrapeLokSabha(OpenGovParser):
         html_source = browser.page_source.encode('utf-8')
         self.soup = bs(html_source,"html.parser")
         self.fetch_attendance(browser,session_name,session_start_date ,session_end_date)
+
     def changeSessions(self,browser):
         session_length = self.soup.find("select",{"id":"ContentPlaceHolder1_DropDownListSession"}).find_all("option")
-        latest_term = self.soup.find("select",{"id":"ContentPlaceHolder1_DropDownListLoksabha"}).find_all("option")[0].text.strip() + 'th'
+        #latest_term = self.soup.find("select",{"id":"ContentPlaceHolder1_DropDownListLoksabha"}).find_all("option")[0].text.strip() + 'th'
+        latest_term = "15th"
         self.term = latest_term
         for i in range(1,len(session_length)+1):
             select = Select(browser.find_element_by_id("ContentPlaceHolder1_DropDownListSession"))
