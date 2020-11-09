@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+{% extends "basic_layout.html" %}
+    {% block style %}
+    <style>
+        /* body{
+            margin-top:20px;
+            background: #f5f5f5;
+        } */
+
+        .ui-w-100 {
+            width: 100px !important;
+            height: auto;
+        }
+
+        .card {
+            background-clip: padding-box;
+            box-shadow: 0 1px 4px rgba(24,28,33,0.012);
+        }
+
+        .user-view-table td:first-child {
+            width: 9rem;
+        }
+        .user-view-table td {
+            padding-right: 0;
+            padding-left: 0;
+            border: 0;
+        }
+
+        .text-light {
+            color: #babbbc !important;
+        }
+
+        .card .row-bordered>[class*=" col-"]::after {
+            border-color: rgba(24,28,33,0.075);
+        }    
+
+        .text-xlarge {
+            font-size: 170% !important;
+        }
+    </style>
+    {% endblock %}
+    {% block title %}
+        Members
+    {% endblock %}
+    {% block subheader %}
+        <h4>Members</h4>
+    {% endblock %}
+
+    {% block body_block %}
+        {% if members %}
+            <div class="container bootdey flex-grow-1 container-p-y">
+                <div class="media align-items-center py-3 mb-3">
+                    <img src="{{ members.candidate_id.photo.url }}" width="200" height="250" alt="NA" class="d-block ui-w-100 rounded-circle">
+                    <div class="media-body ml-4">
+                        <h4 class="font-weight-bold mb-0">{{ members.candidate_id }}<span class="text-muted font-weight-normal"></span></h4>
+                        <div class="text-muted mb-2">Member: <span>{{ members.central_legislature_id }}</span></div>
+                        <div class="font-weight-bold">Party: <span class="text-muted font-weight-normal">{{ members.party_id.acronym }}</span></div>
+                        <div class="font-weight-bold">State: <span class="text-muted font-weight-normal">{{ members.state_id }} </span></div>
+                        <div class="font-weight-bold">Constituency: <span class="text-muted font-weight-normal">{{ members.parliamentary_constituency_id }} </span></div>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h6 class="mt-4 mb-3">Personal Details</h6>
+                        <table class="table user-view-table m-0">
+                            <tbody>
+                                <tr>
+                                    <td>Gender:</td>
+                                    <td>{{ members.candidate_id.gender }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Date of Birth:</td>
+                                    <td>{{ members.candidate_id.dob }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Profession:</td>
+                                    <td>{{ members.candidate_id.profession }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <hr class="border-light m-0">
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="mt-4 mb-3">Educational Details</h6>
+                        <table class="table user-view-table m-0">
+                            <tbody>
+                                <tr>
+                                    <td>Education:</td>
+                                    <td>{{ members.candidate_id.qualification }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <hr>
+                        <h6 class="mt-4 mb-3">Contacts</h6>
+                        <table class="table user-view-table m-0">
+                            <tbody>
+                                <tr>
+                                    <td>Phone:</td>
+                                    <td>{{ members.candidate_id.contact_number }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Email:</td>
+                                    <td>{{ members.candidate_id.email }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <hr>
+
+                        <h6 class="mt-4 mb-3">Address</h6>
+                        <table class="table user-view-table m-0">
+                            <tbody>
+                                <tr>
+                                    <td>Premanent Address:</td>
+                                    <td>{{ members.candidate_id.permanent_address }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Present Address:</td>
+                                    <td>{{ members.candidate_id.present_address }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <hr>
+
+                        <h6 class="mt-4 mb-3">Assets & Liabilities</h6>
+                        <table class="table user-view-table m-0">
+                            <tbody>
+                                <tr>
+                                    <td>Total Assets:</td>
+                                    <td>{{ members.candidate_id.total_assets }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Total Liabilities:</td>
+                                    <td>{{ members.candidate_id.total_liabilities }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <hr>
+                        
+                        <h6 class="mt-4 mb-3">Criminal Cases</h6>
+                        <table class="table user-view-table m-0">
+                            <tbody>
+                                <tr>
+                                    <td>Number of Cases:</td>
+                                    <td>{{ members.candidate_id.criminal_cases }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endblock %}
