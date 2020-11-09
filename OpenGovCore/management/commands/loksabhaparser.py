@@ -40,7 +40,7 @@ class LoksabhaParser(OpenGovParser):
 	def load_candidate_data(self):
 		super().load_parser()
 		urls = self.find_all_urls()
-		row = 0
+		#row = 0
 		term = self.term
 		for url in urls:
 			self.url = url
