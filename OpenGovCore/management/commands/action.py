@@ -8,26 +8,26 @@ from .rajyasabhaparser import RajyaSabhaParser
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         #17th term
-        #loksabha_parser = LoksabhaParser(url = "http://loksabhaph.nic.in/Members/AlphabeticalList.aspx")
+        #loksabha_parser = LoksabhaParser(url = "http://loksabhaph.nic.in/Members/AlphabeticalList.aspx",term ="17th")
         #loksabha_parser.load_candidate_data()
         
-        """url = "http://loksabhaph.nic.in/Questions/Qtextsearch.aspx"
-        sc = ScrapeLokSabha(url,term ="17th")
-        sc.load_questions()"""
+        #url = "http://loksabhaph.nic.in/Questions/Qtextsearch.aspx"
+        #sc = ScrapeLokSabha(url,term ="17th")
+        #sc.load_questions()
 
-        """url = "http://loksabhaph.nic.in/Debates/Debatetextsearch16.aspx"
-        sc = ScrapeLokSabha(url,term="17th")
-        sc.load_debates()"""
+        #url = "http://loksabhaph.nic.in/Debates/Debatetextsearch16.aspx"
+        #sc = ScrapeLokSabha(url,term="17th")
+        #sc.load_debates()
 
-        """url = "http://loksabhaph.nic.in/Legislation/NewAdvsearch.aspx"
-        sc = ScrapeLokSabha(url,term="17th")
-        sc.load_bills()"""
+        #url = "http://loksabhaph.nic.in/Legislation/NewAdvsearch.aspx"
+        #sc = ScrapeLokSabha(url,term="17th")
+        #sc.load_bills()
         
-        url = "http://loksabhaph.nic.in/Members/SessionWiseAttn.aspx"
-        sc = ScrapeLokSabha(url,term="17th")
-        sc.load_attendance()
+        #url = "http://loksabhaph.nic.in/Members/SessionWiseAttn.aspx"
+        #sc = ScrapeLokSabha(url,term="15th")
+        #sc.load_attendance()
         
-        #myneta = MyNetaParser( url = "https://myneta.info/LokSabha2019/index.php?action=show_winners&sort=default")
+        #myneta = MyNetaParser( url = "https://myneta.info/LokSabha2019/index.php?action=show_winners&sort=default",term="17th")
         #myneta.load_asset_criminal_cases()
         
         #16th term #####
@@ -35,22 +35,22 @@ class Command(BaseCommand):
         #oldmp = OldLoksabhaParser(url = "OpenGovCore/data/raw_data/old_loksabha_data.xlsx",term ="16th")
         #oldmp.load_candidate_data()
 
-        """url = "http://loksabhaph.nic.in/Questions/qsearch15.aspx?lsno=16"
-        sc = ScrapeLokSabha(url,term ="16th")
-        sc.load_questions()"""
+        #url = "http://loksabhaph.nic.in/Questions/qsearch15.aspx?lsno=16"
+        #sc = ScrapeLokSabha(url,term ="16th")
+        #sc.load_questions()
         
-        """url = "http://loksabhaph.nic.in/Debates/DebateAdvSearch16.aspx"
-        sc = ScrapeLokSabha(url,term ="16th")
-        sc.load_debates()"""
+        #url = "http://loksabhaph.nic.in/Debates/DebateAdvSearch16.aspx"
+        #sc = ScrapeLokSabha(url,term ="16th")
+        #sc.load_debates()
 
         ## 15th term#######
-        """url = "http://loksabhaph.nic.in/Questions/qsearch15.aspx?lsno=15"
-        sc = ScrapeLokSabha(url,term ="15th")
-        sc.load_questions()"""
+        #url = "http://loksabhaph.nic.in/Questions/qsearch15.aspx?lsno=15"
+        #sc = ScrapeLokSabha(url,term ="15th")
+        #sc.load_questions()
         
-        """url = "http://loksabhaph.nic.in/Debates/DebateAdvSearch15.aspx"
-        sc = ScrapeLokSabha(url,term ="15th")
-        sc.load_debates()"""
+        #url = "http://loksabhaph.nic.in/Debates/DebateAdvSearch15.aspx"
+        #sc = ScrapeLokSabha(url,term ="15th")
+        #sc.load_debates()
 
         ##### Rajyasabha ###################
         """url = "https://rajyasabha.nic.in/rsnew/member_site/memberlist.aspx"
