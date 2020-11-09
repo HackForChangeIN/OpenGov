@@ -19,7 +19,7 @@ class OpenGovParser:
         return self.soup
 
     def load_candidate_data(self, *args):
-        mp_name,constituency,state,party,email,dob,education,profession,permanent_address,present_address,mobile,image_name,url,img_temp = args
+        mp_name,constituency,state,party,email,dob,education,profession,permanent_address,present_address,mobile,image_name,url,img_temp,term = args
         try:
             #state_obj = States.objects.get(name=state)
             #constituency_obj = Parliamentary_Constituencies.objects.get(name=constituency,state = state_obj )
@@ -153,6 +153,7 @@ class OpenGovParser:
         candidate_id.total_assets = total_assets
         candidate_id.total_liabilities = liabilities
         candidate_id.save()
+        
     def load_old_candidate_data(self,*args):
         mp_name,constituency,state,party,email,education,permanent_address,image_name,img_temp,term,criminal_cases,total_assets,total_liabilities,source = args
         if criminal_cases =="":
