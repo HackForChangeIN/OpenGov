@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <style> 
+      .navbar-nav { 
+          margin-left: auto; 
+      } 
+      #nav2{
+        margin-left: auto; 
+      }
+      div.container{
+        padding-top: 20px;
+      }
+      h3{
+        text-align: center;
+      }
+      .sp-1{
+        font-weight: 600;
+      }
+    </style> 
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <a class="navbar-brand" href="#">Logo</a>
+          <a class="navbar-brand" href="#">IndiaInsider</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'members' %}">Members</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Debates</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Bills</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Questions</a>
+              </li>
+            </ul>
+          </div>
+      </nav>
+      <div class="nav-scroller bg-white shadow-sm">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" id="nav2">
+          {% block subheader %}{% endblock %}
+          <ul class="navbar-nav">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="{% url 'members_house' house='Loksabha' %}" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  House
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="{% url 'members_house' house='Loksabha' %}">Lok Sabha</a>
+                  <a class="dropdown-item" href="{% url 'members_house' house='Rajyasabha' %}">Rajya Sabha</a>
+                </div>
+              </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="{% url 'members_term' term='17th' %}" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Term
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="{% url 'members_term' term='17th' %}">17th</a>
+                <a class="dropdown-item" href="{% url 'members_term' term='16th' %}">16th</a>
+                <a class="dropdown-item" href="{% url 'members_term' term='15th' %}">15th</a>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Party
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                <div class="md-form mt-0">
+                    <form class="form-inline" method="GET" action="{% url 'members_party' %}">
+                      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name='party'>
+                      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                </div>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                State
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                <div class="md-form mt-0">
+                  <form class="form-inline" method="GET" action="{% url 'members_state' %}">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name='state'>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                  </form>
+                </div>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Constituency
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                <div class="md-form mt-0">
+                  <form class="form-inline" method="GET" action="{% url 'members_const' %}">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name='constituency'>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                  </form>
+                </div>
+              </div>
+            </li>
+          </ul> 
+        </nav>
+      </div>
+    </header>
+    <div class="container-fluid">
+      {% block body_block %}
+
+      {% endblock %}
+    </div>
+    
+    <!-- Footer -->
+    <footer class="bg-light text-center text-lg-left">
+      <!-- Grid container -->
+      <div class="container p-4">
+        <!--Grid row-->
+        <div class="row">
+          <!--Grid column-->
+          <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+            <h5 class="text-uppercase">Footer Content</h5>
+
+            <p>
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste atque ea quis
+              molestias. Fugiat pariatur maxime quis culpa corporis vitae repudiandae aliquam
+              voluptatem veniam, est atque cumque eum delectus sint!
+            </p>
+          </div>
+          <!--Grid column-->
+
+          <!--Grid column-->
+          <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+            <h5 class="text-uppercase">Links</h5>
+
+            <ul class="list-unstyled mb-0">
+              <li>
+                <a href="#!" class="text-dark">Link 1</a>
+              </li>
+              <li>
+                <a href="#!" class="text-dark">Link 2</a>
+              </li>
+              <li>
+                <a href="#!" class="text-dark">Link 3</a>
+              </li>
+              <li>
+                <a href="#!" class="text-dark">Link 4</a>
+              </li>
+            </ul>
+          </div>
+          <!--Grid column-->
+
+          <!--Grid column-->
+          <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+            <h5 class="text-uppercase mb-0">Links</h5>
+
+            <ul class="list-unstyled">
+              <li>
+                <a href="#!" class="text-dark">Link 1</a>
+              </li>
+              <li>
+                <a href="#!" class="text-dark">Link 2</a>
+              </li>
+              <li>
+                <a href="#!" class="text-dark">Link 3</a>
+              </li>
+              <li>
+                <a href="#!" class="text-dark">Link 4</a>
+              </li>
+            </ul>
+          </div>
+          <!--Grid column-->
+        </div>
+        <!--Grid row-->
+      </div>
+      <!-- Grid container -->
+
+      <!-- Copyright -->
+      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        © 2020 Copyright:
+        <a class="text-dark" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+      </div>
+      <!-- Copyright -->
+    </footer>
+    <!-- Footer -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  </body>
+</html>
