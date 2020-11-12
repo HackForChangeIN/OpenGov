@@ -5,6 +5,12 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 
+class Home(View):
+    template_name = 'home.html'
+
+    def get(self,request):
+        return render(request,self.template_name)
+
 class Members(View):
     template_name = 'members_data.html'
     def get(self,request):
@@ -150,8 +156,13 @@ class MemberInfo(View):
     template_name = "member.html"
 
     def get(self,request,name):
+        term = Term.objects.get(term_name = '16th')
         candidate_obj = Candidate.objects.get(name=name)
         candidature_obj = Candidature.objects.filter(candidate_id=candidate_obj)
-        return render(request,self.template_name, {'members':candidature_obj[0]})
+        questions = Questions.objects.filter(candidate_id=candidate_obj)
+        debates = Debates.objects.filter(candidate_id=candidate_obj)
+        attendance = Attendance.objects.filter(candidate_id=candidate_obj)
+        return render(request,self.template_name, {'members':candidature_obj[0],'questions':questions,
+                    'debates':debates, 'attendance':attendance})
 
 

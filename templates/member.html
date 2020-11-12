@@ -1,12 +1,7 @@
 <!DOCTYPE html>
-{% extends "basic_layout.html" %}
+{% extends "members_data.html" %}
     {% block style %}
     <style>
-        /* body{
-            margin-top:20px;
-            background: #f5f5f5;
-        } */
-
         .ui-w-100 {
             width: 100px !important;
             height: auto;
@@ -62,7 +57,7 @@
 
                 <div class="card mb-4">
                     <div class="card-body">
-                        <h6 class="mt-4 mb-3">Personal Details</h6>
+                        <h5 class="mt-4 mb-3">Personal Details</h5>
                         <table class="table user-view-table m-0">
                             <tbody>
                                 <tr>
@@ -85,7 +80,7 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <h6 class="mt-4 mb-3">Educational Details</h6>
+                        <h5 class="mt-4 mb-3">Educational Details</h5>
                         <table class="table user-view-table m-0">
                             <tbody>
                                 <tr>
@@ -95,7 +90,7 @@
                             </tbody>
                         </table>
                         <hr>
-                        <h6 class="mt-4 mb-3">Contacts</h6>
+                        <h5 class="mt-4 mb-3">Contacts</h5>
                         <table class="table user-view-table m-0">
                             <tbody>
                                 <tr>
@@ -110,7 +105,7 @@
                         </table>
                         <hr>
 
-                        <h6 class="mt-4 mb-3">Address</h6>
+                        <h5 class="mt-4 mb-3">Address</h5>
                         <table class="table user-view-table m-0">
                             <tbody>
                                 <tr>
@@ -125,7 +120,7 @@
                         </table>
                         <hr>
 
-                        <h6 class="mt-4 mb-3">Assets & Liabilities</h6>
+                        <h5 class="mt-4 mb-3">Assets & Liabilities</h5>
                         <table class="table user-view-table m-0">
                             <tbody>
                                 <tr>
@@ -140,7 +135,7 @@
                         </table>
                         <hr>
                         
-                        <h6 class="mt-4 mb-3">Criminal Cases</h6>
+                        <h5 class="mt-4 mb-3">Criminal Cases</h5>
                         <table class="table user-view-table m-0">
                             <tbody>
                                 <tr>
@@ -150,6 +145,91 @@
                             </tbody>
                         </table>
                     </div>
+                    <hr class="border-light m-0">
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="mt-4 mb-3">Attendance</h5>
+                        {% if attendance %}
+                        <table class="table user-view-table m-0">
+                            <thead>
+                                <td>Term</td>
+                                <td>Session</td>
+                                <td>Signed Days</td>
+                            </thead>
+                            {% for atten in attendance %}
+                            <tbody>
+                                <tr>
+                                    <td>{{ atten.term_id }}</td>
+                                    <td>{{ atten.session_id }}</td>
+                                    <td>{{ atten.attendance_signed_days }}</td>
+                                </tr>
+                            </tbody>
+                            {% endfor %}
+                        </table>
+                        {% else %}
+                            <h7>No Debates Found !</h7>
+                        {% endif %}
+                    </div>
+                    <hr class="border-light m-0">
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="mt-4 mb-3">Questions</h5>
+                        {% if questions %}
+                        <table class="table user-view-table m-0">
+                            <thead>
+                                <td>Type</td>
+                                <td>Date</td>
+                                <td>Category</td>
+                                <td>Subject</td>
+                            </thead>
+                            {% for ques in questions %}
+                            <tbody>
+                                <tr>
+                                    <td>{{ ques.type }}</td>
+                                    <td>{{ ques.date }}</td>
+                                    <td>{{ ques.category }}</td>
+                                    <td><a href="{{ ques.source }}">{{ ques.subject }}</a></td>
+                                </tr>
+                            </tbody>
+                            {% endfor %}
+                        </table>
+    
+                        {% else %}
+                            <h7>No Questions Found !</h7>
+                        {% endif %}
+                    </div>
+                    <hr class="border-light m-0">
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="mt-4 mb-3">Debates</h5>
+                        {% if debates %}
+                        <table class="table user-view-table m-0">
+                            <thead>
+                                <td>Type</td>
+                                <td>Date</td>
+                                <td>Title</td>
+                            </thead>
+                            {% for deb in debates%}
+                            <tbody>
+                                <tr>
+                                    <td>{{ deb.type }}</td>
+                                    <td>{{ deb.date }}</td>
+                                    <td><a href="{{ deb.source }}">{{ deb.title }}</a></td>
+                                </tr>
+                            </tbody>
+                            {% endfor %}
+                        </table>
+                        {% else %}
+                            <h7>No Debates Found !</h7>
+                        {% endif %}
+                    </div>
+                    <hr class="border-light m-0">
                 </div>
             </div>
         {% endif %}
