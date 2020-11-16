@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+{% extends "members_data.html" %}
+    {% block title %}
+        Members
+    {% endblock %}
+    {% block subheader %}
+        <h4>Members</h4>
+    {% endblock %}
+
+    {% block nav %}
+    <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="{% url 'members_house' house='Loksabha' %}" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            House
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="{% url 'members_house' house='Loksabha' %}">Lok Sabha</a>
+                <a class="dropdown-item" href="{% url 'members_house' house='Rajyasabha' %}">Rajya Sabha</a>
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="{% url 'members_session' session='252' %}" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Session
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="{% url 'members_session' session='252' %}">252</a>
+                </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Party
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                <div class="md-form mt-0">
+                    <form class="form-inline" method="GET" action="{% url 'members_party' house='Rajyasabha' %}">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name='party'>
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            State
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                <div class="md-form mt-0">
+                    <form class="form-inline" method="GET" action="{% url 'members_state' house='Rajyasabha' %}">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name='state'>
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Constituency
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                <div class="md-form mt-0">
+                    <form class="form-inline" method="GET" action="{% url 'members_const' house='Rajyasabha' %}">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name='constituency'>
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </li>
+    </ul>
+    {% endblock %}
+
+
+    {% block body_block %}
+        <br>
+        <div class="col-sm-8">
+            {% for i in members%}
+                <div class="card mb-3" style="max-width: 1000px;">
+                    <div class="row no-gutters">
+                        <div class="col-md-3">
+                            <img style="border: 1px solid black;" width="200" height="250" src="{{ i.candidate_id.photo.url }}" alt="NA" />
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title"><a href="{% url 'member_name'  house='Rajyasabha' name=i.candidate_id %}">{{ i.candidate_id }}</a></h5>
+                                <p class="card-text"><span class="sp-1">State :</span> {{ i.state_id}}</p>
+                                <p class="card-text"><span class="sp-1">Constituency :</span> {{ i.parliamentary_constituency_id}}</p>
+                                <p class="card-text"><span class="sp-1">Party :</span> {{ i.party_id}}</p>
+                                <p class="card-text"><span class="sp-1">Contact Number :</span> {{ i.candidate_id.contact_number}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+    
+            {% if members.has_other_pages %}
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        {% if check is None %}
+                            {% if members.num_pages != 1 %}
+                                <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+                            {% else %}
+                                <li class="page-item disabled"><a class="page-link" href="#">First</a></li>
+                            {% endif %}
+                            {% if members.has_previous %}
+                                <li class="page-item"><a class="page-link" href="?page={{ members.previous_page_number }}">&laquo;</a></li>
+                            {% else %}
+                                <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
+                            {% endif %}
+                            {% for i in members.paginator.page_range %}
+                                {% if members.number == i %}
+                                    <li class="page-item active"><a class="page-link" href="#">{{ i }} <span class="sr-only">(current)</span></a></li>
+                                {% elif members.number > i|add:"-5" and members.number < i|add:"+5"%}
+                                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if members.has_next %}
+                                <li class="page-item"><a class="page-link" href="?page={{ members.next_page_number }}">&raquo;</a></li>
+                            {% else %}
+                                <li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>
+                            {% endif %}
+                            {% if members.paginator.num_pages != members.number %}
+                                <li class="page-item"><a class="page-link" href="?page={{ members.paginator.num_pages }}">Last</a></li>
+                            {% else %}
+                                <li class="page-item disabled"><a class="page-link" href="#">Last</a></li>
+                            {% endif %}
+    
+                        {% else %}
+                            {% if members.num_pages != 1 %}
+                                <li class="page-item"><a class="page-link" href="?{{urlvar}}={{ check }}&page={{ i }}">First</a></li>
+                            {% else %}
+                                <li class="page-item disabled"><a class="page-link" href="#">First</a></li>
+                            {% endif %}
+                            {% if members.has_previous %}
+                                <li class="page-item"><a class="page-link" href="?{{urlvar}}={{ check }}&page={{ members.previous_page_number }}">&laquo;</a></li>
+                            {% else %}
+                                <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
+                            {% endif %}
+                            {% for i in members.paginator.page_range %}
+                                {% if members.number == i %}
+                                    <li class="page-item active"><a class="page-link" href="#">{{ i }} <span class="sr-only">(current)</span></a></li>
+                                {% elif members.number > i|add:"-5" and members.number < i|add:"+5"%}
+                                    <li class="page-item"><a class="page-link" href="?{{urlvar}}={{ check }}&page={{ i }}">{{ i }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if members.has_next %}
+                                <li class="page-item"><a class="page-link" href="?{{urlvar}}={{ check }}&page={{ members.next_page_number }}">&raquo;</a></li>
+                            {% else %}
+                                <li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>
+                            {% endif %}
+                            {% if members.paginator.num_pages != members.number %}
+                                <li class="page-item"><a class="page-link" href="?{{urlvar}}={{ check }}&page={{ members.paginator.num_pages }}">Last</a></li>
+                            {% else %}
+                                <li class="page-item disabled"><a class="page-link" href="#">Last</a></li>
+                            {% endif %}
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
+        </div>
+        <div class="col-sm-4">
+                
+        </div>
+    {% endblock %}
+        
