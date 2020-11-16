@@ -9,50 +9,22 @@
 
     {% block body_block %}
         <br>
-        <!--<table class="table table-hover table-sm table-striped">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Image</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Party</th>
-                    <th scope="col">Constituency</th>
-                    <th scope="col">State</th>
-                    <th scope="col">Profession</th>
-                    <th scope="col">Contact</th>
-                    <th scope="col">Criminal Cases</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for i in members%}
-                <tr>
-                    <td><img src="{{ i.candidate_id.photo.url }}" alt="NA" width="100" height="100"></td>
-                    <td>{{ i.candidate_id }}</td>
-                    <td>{{ i.party_id }}</td>
-                    <td>{{ i.parliamentary_constituency_id }}</td>
-                    <td>{{ i.state_id }}</td>
-                    <td>{{ i.candidate_id.profession }}</td>
-                    <td>{{ i.candidate_id.contact_number }}</td>
-                    <td>{{ i.candidate_id.criminal_cases }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>-->
         <div class="col-sm-8">
         {% for i in members%}
             <div class="card mb-3" style="max-width: 1000px;">
                 <div class="row no-gutters">
-                <div class="col-md-3">
-                    <img style="border: 1px solid black;" width="200" height="250" src="{{ i.candidate_id.photo.url }}" alt="NA" />
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                    <h5 class="card-title"><a href="{% url 'member_name' name=i.candidate_id %}">{{ i.candidate_id }}</a></h5>
-                    <p class="card-text"><span class="sp-1">State :</span> {{ i.state_id}}</p>
-                    <p class="card-text"><span class="sp-1">Constituency :</span> {{ i.parliamentary_constituency_id}}</p>
-                    <p class="card-text"><span class="sp-1">Party :</span> {{ i.party_id}}</p>
-                    <p class="card-text"><span class="sp-1">Contact Number :</span> {{ i.candidate_id.contact_number}}</p>
+                    <div class="col-md-3">
+                        <img style="border: 1px solid black;" width="200" height="250" src="{{ i.candidate_id.photo.url }}" alt="NA" />
                     </div>
-                </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title"><a href="{% url 'member_name' house='Loksabha' name=i.candidate_id %}">{{ i.candidate_id }}</a></h5>
+                            <p class="card-text"><span class="sp-1">State :</span> {{ i.state_id}}</p>
+                            <p class="card-text"><span class="sp-1">Constituency :</span> {{ i.parliamentary_constituency_id}}</p>
+                            <p class="card-text"><span class="sp-1">Party :</span> {{ i.party_id}}</p>
+                            <p class="card-text"><span class="sp-1">Contact Number :</span> {{ i.candidate_id.contact_number}}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         {% endfor %}
@@ -121,5 +93,9 @@
                 </ul>
             </nav>
             {% endif %}
+        </div>
+        <div class="col-sm-4">
+            
+        </div>
         {% endblock %}
-    </div>
+    
