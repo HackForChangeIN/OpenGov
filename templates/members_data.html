@@ -20,14 +20,14 @@
                 </div>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="{% url 'members_term' term='17th' %}" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Term
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="{% url 'members_term' term='17th' %}">17th</a>
-                    <a class="dropdown-item" href="{% url 'members_term' term='16th' %}">16th</a>
-                    <a class="dropdown-item" href="{% url 'members_term' term='15th' %}">15th</a>
-                </div>
+                    <a class="nav-link dropdown-toggle" href="{% url 'members_term' term='17th' %}" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Term
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{% url 'members_term' term='17th' %}">17th</a>
+                        <a class="dropdown-item" href="{% url 'members_term' term='16th' %}">16th</a>
+                        <a class="dropdown-item" href="{% url 'members_term' term='15th' %}">15th</a>
+                    </div>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -35,7 +35,7 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                     <div class="md-form mt-0">
-                        <form class="form-inline" method="GET" action="{% url 'members_party' %}">
+                        <form class="form-inline" method="GET" action="{% url 'members_party' house='Loksabha' %}">
                             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name='party'>
                             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                         </form>
@@ -48,7 +48,7 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                     <div class="md-form mt-0">
-                        <form class="form-inline" method="GET" action="{% url 'members_state' %}">
+                        <form class="form-inline" method="GET" action="{% url 'members_state' house='Loksabha' %}">
                             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name='state'>
                             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                         </form>
@@ -61,7 +61,7 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                     <div class="md-form mt-0">
-                        <form class="form-inline" method="GET" action="{% url 'members_const' %}">
+                        <form class="form-inline" method="GET" action="{% url 'members_const' house='Loksabha' %}">
                             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name='constituency'>
                             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                         </form>
