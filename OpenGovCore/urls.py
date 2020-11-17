@@ -12,4 +12,5 @@ urlpatterns = [
     path('members/party/',MembersByParty.as_view(),name="members_party"),
     path('members/state/',MembersByState.as_view(),name="members_state"),
     path('members/constituency/',MembersByConstituency.as_view(),name="members_const"),
+    path('bills/',A_Bill.as_view()),
 ]
