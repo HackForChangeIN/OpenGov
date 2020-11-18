@@ -174,4 +174,171 @@ class MemberInfo(View):
         return render(request,self.template_name, {'members':candidature_obj[0],'questions':questions,
                 'debates':debates, 'attendance':attendance,'house':house})
 
+# Questions
+class All_Questions(View):
+    template_name = 'questions.html'
+
+    def get(self,request):
+        all_ques = Questions.objects.all()
+        page = request.GET.get('page',1)
+        paginator = Paginator(all_ques,10)
+        try:
+            data = paginator.page(page)
+        except PageNotAnInteger:
+            data = paginator.page(1)
+        except EmptyPage:
+            data = paginator.page(paginator.num_pages)
+        return render(request,self.template_name, {'questions':data})
+
+class QuestionsByHouse(View):
+    template_name = 'questions.html'
+
+    def get(self,request,house):
+        centrail_leg_id = Central_Legislatures.objects.get(name=house)
+        ques = Questions.objects.filter(central_legislature_id=centrail_leg_id)
+        page = request.GET.get('page',1)
+        paginator = Paginator(ques,10)
+        try:
+            data = paginator.page(page)
+        except PageNotAnInteger:
+            data = paginator.page(1)
+        except EmptyPage:
+            data = paginator.page(paginator.num_pages)
+        return render(request,self.template_name, {'questions':data})
+
+
+class QuestionsByYear(View):
+    template_name = 'questions.html'
+
+    def get(self,request,year):
+        ques = Questions.objects.filter(date__year=year)
+        page = request.GET.get('page',1)
+        paginator = Paginator(ques,10)
+        try:
+            data = paginator.page(page)
+        except PageNotAnInteger:
+            data = paginator.page(1)
+        except EmptyPage:
+            data = paginator.page(paginator.num_pages)
+        return render(request,self.template_name, {'questions':data,'check':year,'urlvar':'year'})
+
+
+class QuestionsByType(View):
+    template_name = 'questions.html'
+
+    def get(self,request,type):
+        ques = Questions.objects.filter(type=type)
+        page = request.GET.get('page',1)
+        paginator = Paginator(ques,10)
+        try:
+            data = paginator.page(page)
+        except PageNotAnInteger:
+            data = paginator.page(1)
+        except EmptyPage:
+            data = paginator.page(paginator.num_pages)
+        return render(request,self.template_name, {'questions':data,'check':type,'urlvar':'type'})
+        
+
+class QuestionsByMinistry(View):
+    template_name = 'questions.html'
+
+    def get(self,request):
+        category = request.GET["ministry"]
+        ques = Questions.objects.filter(category=category)
+        page = request.GET.get('page',1)
+        paginator = Paginator(ques,10)
+        try:
+            data = paginator.page(page)
+        except PageNotAnInteger:
+            data = paginator.page(1)
+        except EmptyPage:
+            data = paginator.page(paginator.num_pages)
+        return render(request,self.template_name, {'questions':data,'check':category,'urlvar':'ministry'})
+
+
+class QuestionsByMember(View):
+    template_name = 'questions.html'
+
+    def get(self,request):
+        member = request.GET['member']
+        c_id = Candidate.objects.get(name=member)
+        ques = Questions.objects.filter(candidate_id=c_id)
+        page = request.GET.get('page',1)
+        paginator = Paginator(ques,10)
+        try:
+            data = paginator.page(page)
+        except PageNotAnInteger:
+            data = paginator.page(1)
+        except EmptyPage:
+            data = paginator.page(paginator.num_pages)
+        return render(request,self.template_name, {'questions':data,'check':member,'urlvar':'member'})
+
+
+# Debates
+class All_Debates(View):
+    template_name = 'debates.html'
+
+    def get(self,request):
+        deb = Debates.objects.all()
+        page = request.GET.get('page',1)
+        paginator = Paginator(deb,10)
+        try:
+            data = paginator.page(page)
+        except PageNotAnInteger:
+            data = paginator.page(1)
+        except EmptyPage:
+            data = paginator.page(paginator.num_pages)
+        return render(request,self.template_name, {'debates':data})
+
+
+class DebatesByType(View):
+    template_name = 'debates.html'
+
+    def get(self,request):
+        type = request.GET['type']
+        deb = Debates.objects.filter(type=type)
+        page = request.GET.get('page',1)
+        paginator = Paginator(deb,10)
+        try:
+            data = paginator.page(page)
+        except PageNotAnInteger:
+            data = paginator.page(1)
+        except EmptyPage:
+            data = paginator.page(paginator.num_pages)
+        return render(request,self.template_name, {'debates':data,'check':type,'urlvar':'type'})
+
+
+class DebatesByMember(View):
+    template_name = 'debates.html'
+
+    def get(self,request):
+        member = request.GET['member']
+        c_id = Candidate.objects.get(name=member)
+        deb = Debates.objects.filter(candidate_id=c_id)
+        page = request.GET.get('page',1)
+        paginator = Paginator(deb,10)
+        try:
+            data = paginator.page(page)
+        except PageNotAnInteger:
+            data = paginator.page(1)
+        except EmptyPage:
+            data = paginator.page(paginator.num_pages)
+        return render(request,self.template_name, {'debates':data,'check':member,'urlvar':'member'})
+
+class DebatesByYear(View):
+    template_name = 'debates.html'
+
+    def get(self,request,year):
+        deb = Debates.objects.filter(date__year=year)
+        page = request.GET.get('page',1)
+        paginator = Paginator(deb,10)
+        try:
+            data = paginator.page(page)
+        except PageNotAnInteger:
+            data = paginator.page(1)
+        except EmptyPage:
+            data = paginator.page(paginator.num_pages)
+        return render(request,self.template_name, {'debates':data,'check':year,'urlvar':'year'})
+
+
 
