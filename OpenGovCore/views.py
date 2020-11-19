@@ -342,3 +342,17 @@ class DebatesByYear(View):
 
 
 
+class A_Bill(View):
+    template_name = "bills.html"
+
+    def get(self, request):
+        bills_data = Bills.objects.all()
+        page = request.GET.get('page',1)
+        paginator = Paginator(bills_data,10)
+        try:
+            data = paginator.page(page)
+        except PageNotAnInteger:
+            data = paginator.page(1)
+        except EmptyPage:
+            data = paginator.page(paginator.num_pages)
+        return render(request,self.template_name, {'bills':data})

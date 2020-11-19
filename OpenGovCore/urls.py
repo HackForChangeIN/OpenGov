@@ -22,4 +22,5 @@ urlpatterns = [
     path('debates/year/<year>/',DebatesByYear.as_view(),name='debates_year'),
     path('debates/member/',DebatesByMember.as_view(),name='debates_member'),
     path('debates/type/',DebatesByType.as_view(),name='debates_type'),
+    path('bills/',A_Bill.as_view()),
 ]
