@@ -21,7 +21,7 @@ from django.conf.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('OpenGovCore.urls')),
+    path('IndiaInsider/',include('OpenGovCore.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

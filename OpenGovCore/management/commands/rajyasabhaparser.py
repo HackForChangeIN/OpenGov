@@ -187,13 +187,13 @@ class RajyaSabhaParser(OpenGovParser):
 			date=datetime.datetime.strptime(date, format_str).date()
 			#session = "252"
 			session_id = Parliamentary_Sessions.objects.get(type = session)
-			latest_date = Questions.objects.filter(parliamentary_session_id = session_id).latest('date')
 			
-			if date >= latest_date.date:
-				print(" New Question inserted")
-			else:
-				print("Question already present")
-				return
+			#latest_date = Questions.objects.filter(parliamentary_session_id = session_id).latest('date')
+			#if date >= latest_date.date:
+			#	print(" New Question inserted")
+			#else:
+			#	print("Question already present")
+			#	return
 			
 
 
