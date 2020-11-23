@@ -26,45 +26,6 @@
                     <a class="dropdown-item" href="{% url 'members_session' session='252' %}">252</a>
                 </div>
         </li>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Party
-            </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                <div class="md-form mt-0">
-                    <form class="form-inline" method="GET" action="{% url 'members_party' house='Rajyasabha' %}">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name='party'>
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                    </form>
-                </div>
-            </div>
-        </li>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            State
-            </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                <div class="md-form mt-0">
-                    <form class="form-inline" method="GET" action="{% url 'members_state' house='Rajyasabha' %}">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name='state'>
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                    </form>
-                </div>
-            </div>
-        </li>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Constituency
-            </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                <div class="md-form mt-0">
-                    <form class="form-inline" method="GET" action="{% url 'members_const' house='Rajyasabha' %}">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name='constituency'>
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                    </form>
-                </div>
-            </div>
-        </li>
     </ul>
     {% endblock %}
 
@@ -72,7 +33,7 @@
     {% block body_block %}
         <br>
         <div class="col-sm-8">
-            {% for i in members%}
+            {% for i in members %}
                 <div class="card mb-3" style="max-width: 1000px;">
                     <div class="row no-gutters">
                         <div class="col-md-3">
@@ -81,9 +42,9 @@
                         <div class="col-md-8">
                             <div class="card-body">
                                 <h5 class="card-title"><a href="{% url 'member_name'  house='Rajyasabha' name=i.candidate_id %}">{{ i.candidate_id }}</a></h5>
-                                <p class="card-text"><span class="sp-1">State :</span> {{ i.state_id}}</p>
-                                <p class="card-text"><span class="sp-1">Constituency :</span> {{ i.parliamentary_constituency_id}}</p>
-                                <p class="card-text"><span class="sp-1">Party :</span> {{ i.party_id}}</p>
+                                <p class="card-text"><span class="sp-1">State :</span><a href="{% url 'members_state' house='Rajyasabha' state=i.state_id %}">{{ i.state_id }}</a></p>
+                                <p class="card-text"><span class="sp-1">Constituency :</span><a href="{% url 'members_const' house='Rajyasabha' constituency=i.parliamentary_constituency_id %}">{{ i.parliamentary_constituency_id}}</a></p>
+                                <p class="card-text"><span class="sp-1">Party :</span><a href="{% url 'members_party' house='Rajyasabha' party=i.party_id %}">{{ i.party_id}}</a></p>
                                 <p class="card-text"><span class="sp-1">Contact Number :</span> {{ i.candidate_id.contact_number}}</p>
                             </div>
                         </div>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{% extends "debates.html" %}
+    {% block rightside %}
+        <div class="card" style="width: 20rem;">
+            <img class="card-img-top"  height="320" src="{{ member.candidate_id.photo.url }}" alt="NA">
+            <div class="card-body">
+                <h6 class="card-title"><a href="{% url 'member_det' member=member.candidate_id.name %}">{{ member.candidate_id.name }}</a></h6>
+                <p class="card-text"><span class="font-weight-bold">Member: </span>{{ member.central_legislature_id }}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><span class="font-weight-bold">State: </span>{{ member.state_id }}</li>
+                <li class="list-group-item"><span class="font-weight-bold">Constituency: </span>{{ member.parliamentary_constituency_id }}</li>
+                <li class="list-group-item"><span class="font-weight-bold">Party: </span>{{ member.party_id }}</li>
+                <li class="list-group-item"><span class="font-weight-bold">Debates Participated: </span>{{ deb_count }}</li>
+            </ul>
+            <!--<div class="card-body">
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+            </div>-->
+        </div>      
+    {% endblock %}

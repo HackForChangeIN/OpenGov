@@ -29,45 +29,6 @@
                         <a class="dropdown-item" href="{% url 'members_term' term='15th' %}">15th</a>
                     </div>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Party
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                    <div class="md-form mt-0">
-                        <form class="form-inline" method="GET" action="{% url 'members_party' house='Loksabha' %}">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name='party'>
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                        </form>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                State
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                    <div class="md-form mt-0">
-                        <form class="form-inline" method="GET" action="{% url 'members_state' house='Loksabha' %}">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name='state'>
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                        </form>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Constituency
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                    <div class="md-form mt-0">
-                        <form class="form-inline" method="GET" action="{% url 'members_const' house='Loksabha' %}">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name='constituency'>
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                        </form>
-                    </div>
-                </div>
-            </li>
         </ul>
     {% endblock %}
 
@@ -89,7 +50,7 @@
                 {% for i in members %}
                 <tr>
                     <td><img src="{{ i.photo.url }}" alt="NA" width="100" height="100"></td>
-                    <td>{{ i.name }}</td>
+                    <td><a href="{% url 'member_det' member=i.name %}">{{ i.name }}</a></td>
                     <td>{{ i.dob }}</td>
                     <td>{{ i.profession }}</td>
                     <td>{{ i.contact_number }}</td>

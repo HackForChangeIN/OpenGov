@@ -39,7 +39,6 @@
     {% endblock %}
     {% block subheader %}
         <h4>Members</h4>
-        {% include "filters.html" %}
     {% endblock %}
 
     {% block nav %}
@@ -75,46 +74,6 @@
                     </div>
                 </li>
             {% endif %}
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Party
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                    <div class="md-form mt-0">
-                        <form class="form-inline" method="GET" action="{% url 'members_party' house='Loksabha' %}">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name='party'>
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                        </form>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                State
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                    <div class="md-form mt-0">
-                        <form class="form-inline" method="GET" action="{% url 'members_state' house='Loksabha' %}">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name='state'>
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                        </form>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Constituency
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                    <div class="md-form mt-0">
-                        <form class="form-inline" method="GET" action="{% url 'members_const' house='Loksabha' %}">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name='constituency'>
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                        </form>
-                    </div>
-                </div>
-            </li>
-        </ul>
     {% endblock %}
 
     {% block body_block %}
@@ -246,64 +205,7 @@
                             {% endfor %}
                         </table>
                         {% else %}
-                            <h7>No Debates Found !</h7>
-                        {% endif %}
-                    </div>
-                    <hr class="border-light m-0">
-                </div>
-
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="mt-4 mb-3">Questions</h5>
-                        {% if questions %}
-                        <table class="table user-view-table m-0">
-                            <thead>
-                                <td>Type</td>
-                                <td>Date</td>
-                                <td>Category</td>
-                                <td>Subject</td>
-                            </thead>
-                            {% for ques in questions %}
-                            <tbody>
-                                <tr>
-                                    <td>{{ ques.type }}</td>
-                                    <td>{{ ques.date }}</td>
-                                    <td>{{ ques.category }}</td>
-                                    <td><a href="{{ ques.source }}">{{ ques.subject }}</a></td>
-                                </tr>
-                            </tbody>
-                            {% endfor %}
-                        </table>
-    
-                        {% else %}
-                            <h7>No Questions Found !</h7>
-                        {% endif %}
-                    </div>
-                    <hr class="border-light m-0">
-                </div>
-                
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="mt-4 mb-3">Debates</h5>
-                        {% if debates %}
-                        <table class="table user-view-table m-0">
-                            <thead>
-                                <td>Type</td>
-                                <td>Date</td>
-                                <td>Title</td>
-                            </thead>
-                            {% for deb in debates%}
-                            <tbody>
-                                <tr>
-                                    <td>{{ deb.type }}</td>
-                                    <td>{{ deb.date }}</td>
-                                    <td><a href="{{ deb.source }}">{{ deb.title }}</a></td>
-                                </tr>
-                            </tbody>
-                            {% endfor %}
-                        </table>
-                        {% else %}
-                            <h7>No Debates Found !</h7>
+                            <h7>No Attendance Found !</h7>
                         {% endif %}
                     </div>
                     <hr class="border-light m-0">

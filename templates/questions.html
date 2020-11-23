@@ -39,127 +39,107 @@
                     <a class="dropdown-item" href="{% url 'questions_type' type='UNSTARRED' %}">UNSTARRED</a>
                 </div>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Ministry
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                    <div class="md-form mt-0">
-                        <form class="form-inline" method="GET" action="{% url 'questions_ministry' %}">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name='ministry'>
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                        </form>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Member
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                    <div class="md-form mt-0">
-                        <form class="form-inline" method="GET" action="{% url 'questions_member'%}">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name='member'>
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                        </form>
-                    </div>
-                </div>
-            </li>
+        
         </ul>
     {% endblock %}
 
     {% block body_block %}
     <br>
-    <div class="col-sm-8">
-        <table class="table table-hover table-bordered">
-            <thead class="thead-light">
-                <tr>
-                    <th scope="col">Type</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Ministry</th>
-                    <th scope="col">Member</th>
-                    <th scope="col">Subject</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for i in questions %}
-                <tr>
-                    <td>{{ i.type }}</td>
-                    <td>{{ i.date}}</td>
-                    <td>{{ i.category }}</td>
-                    <td>{{ i.candidate_id }}</td>
-                    <td>{{ i.subject }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <div class="row">
+        <div class="col-sm-8">
+            <table class="table table-hover table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Type</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Ministry</th>
+                        <th scope="col">Member</th>
+                        <th scope="col">Subject</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in questions %}
+                    <tr>
+                        <td>{{ i.type }}</td>
+                        <td>{{ i.date}}</td>
+                        <td><a href="{% url 'questions_ministry' ministry=i.category %}">{{ i.category }}</a></td>
+                        <td><a href="{% url 'questions_member' member=i.candidate_id %}">{{ i.candidate_id }}</a></td>
+                        <td>{{ i.subject }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
 
-        {% if questions.has_other_pages %}
-            <nav aria-label="Page navigation">
-                <ul class="pagination justify-content-center">
-                    {% if check is None %}
-                        {% if questions.num_pages != 1 %}
-                            <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
-                        {% else %}
-                            <li class="page-item disabled"><a class="page-link" href="#">First</a></li>
-                        {% endif %}
-                        {% if questions.has_previous %}
-                            <li class="page-item"><a class="page-link" href="?page={{ questions.previous_page_number }}">&laquo;</a></li>
-                        {% else %}
-                            <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
-                        {% endif %}
-                        {% for i in questions.paginator.page_range %}
-                            {% if questions.number == i %}
-                                <li class="page-item active"><a class="page-link" href="#">{{ i }} <span class="sr-only">(current)</span></a></li>
-                            {% elif questions.number > i|add:"-5" and questions.number < i|add:"+5"%}
-                                <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+            {% if questions.has_other_pages %}
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        {% if check is None %}
+                            {% if questions.num_pages != 1 %}
+                                <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+                            {% else %}
+                                <li class="page-item disabled"><a class="page-link" href="#">First</a></li>
                             {% endif %}
-                        {% endfor %}
-                        {% if questions.has_next %}
-                            <li class="page-item"><a class="page-link" href="?page={{ questions.next_page_number }}">&raquo;</a></li>
-                        {% else %}
-                            <li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>
-                        {% endif %}
-                        {% if questions.paginator.num_pages != questions.number %}
-                            <li class="page-item"><a class="page-link" href="?page={{ questions.paginator.num_pages }}">Last</a></li>
-                        {% else %}
-                            <li class="page-item disabled"><a class="page-link" href="#">Last</a></li>
-                        {% endif %}
+                            {% if questions.has_previous %}
+                                <li class="page-item"><a class="page-link" href="?page={{ questions.previous_page_number }}">&laquo;</a></li>
+                            {% else %}
+                                <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
+                            {% endif %}
+                            {% for i in questions.paginator.page_range %}
+                                {% if questions.number == i %}
+                                    <li class="page-item active"><a class="page-link" href="#">{{ i }} <span class="sr-only">(current)</span></a></li>
+                                {% elif questions.number > i|add:"-5" and questions.number < i|add:"+5"%}
+                                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if questions.has_next %}
+                                <li class="page-item"><a class="page-link" href="?page={{ questions.next_page_number }}">&raquo;</a></li>
+                            {% else %}
+                                <li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>
+                            {% endif %}
+                            {% if questions.paginator.num_pages != questions.number %}
+                                <li class="page-item"><a class="page-link" href="?page={{ questions.paginator.num_pages }}">Last</a></li>
+                            {% else %}
+                                <li class="page-item disabled"><a class="page-link" href="#">Last</a></li>
+                            {% endif %}
 
-                    {% else %}
-                        {% if questions.num_pages != 1 %}
-                            <li class="page-item"><a class="page-link" href="?{{urlvar}}={{ check }}&page={{ i }}">First</a></li>
                         {% else %}
-                            <li class="page-item disabled"><a class="page-link" href="#">First</a></li>
-                        {% endif %}
-                        {% if questions.has_previous %}
-                            <li class="page-item"><a class="page-link" href="?{{urlvar}}={{ check }}&page={{ questions.previous_page_number }}">&laquo;</a></li>
-                        {% else %}
-                            <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
-                        {% endif %}
-                        {% for i in questions.paginator.page_range %}
-                            {% if questions.number == i %}
-                                <li class="page-item active"><a class="page-link" href="#">{{ i }} <span class="sr-only">(current)</span></a></li>
-                            {% elif questions.number > i|add:"-5" and questions.number < i|add:"+5"%}
-                                <li class="page-item"><a class="page-link" href="?{{urlvar}}={{ check }}&page={{ i }}">{{ i }}</a></li>
+                            {% if questions.num_pages != 1 %}
+                                <li class="page-item"><a class="page-link" href="?{{urlvar}}={{ check }}&page={{ i }}">First</a></li>
+                            {% else %}
+                                <li class="page-item disabled"><a class="page-link" href="#">First</a></li>
                             {% endif %}
-                        {% endfor %}
-                        {% if questions.has_next %}
-                            <li class="page-item"><a class="page-link" href="?{{urlvar}}={{ check }}&page={{ questions.next_page_number }}">&raquo;</a></li>
-                        {% else %}
-                            <li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>
+                            {% if questions.has_previous %}
+                                <li class="page-item"><a class="page-link" href="?{{urlvar}}={{ check }}&page={{ questions.previous_page_number }}">&laquo;</a></li>
+                            {% else %}
+                                <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
+                            {% endif %}
+                            {% for i in questions.paginator.page_range %}
+                                {% if questions.number == i %}
+                                    <li class="page-item active"><a class="page-link" href="#">{{ i }} <span class="sr-only">(current)</span></a></li>
+                                {% elif questions.number > i|add:"-5" and questions.number < i|add:"+5"%}
+                                    <li class="page-item"><a class="page-link" href="?{{urlvar}}={{ check }}&page={{ i }}">{{ i }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if questions.has_next %}
+                                <li class="page-item"><a class="page-link" href="?{{urlvar}}={{ check }}&page={{ questions.next_page_number }}">&raquo;</a></li>
+                            {% else %}
+                                <li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>
+                            {% endif %}
+                            {% if questions.paginator.num_pages != questions.number %}
+                                <li class="page-item"><a class="page-link" href="?{{urlvar}}={{ check }}&page={{ questions.paginator.num_pages }}">Last</a></li>
+                            {% else %}
+                                <li class="page-item disabled"><a class="page-link" href="#">Last</a></li>
+                            {% endif %}
                         {% endif %}
-                        {% if questions.paginator.num_pages != questions.number %}
-                            <li class="page-item"><a class="page-link" href="?{{urlvar}}={{ check }}&page={{ questions.paginator.num_pages }}">Last</a></li>
-                        {% else %}
-                            <li class="page-item disabled"><a class="page-link" href="#">Last</a></li>
-                        {% endif %}
-                    {% endif %}
-                </ul>
-            </nav>
+                    </ul>
+                </nav>
+            {% endif %}
         </div>
-    {% endif %}
-    <div class="col-sm-4">
-
+        <div class="col-sm-4">
+            {% block rightside %}
+                
+            {% endblock %}
+        </div>
     </div>
     {% endblock %}
+        
