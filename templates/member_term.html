@@ -19,10 +19,10 @@
                     <div class="col-md-8">
                         <div class="card-body">
                             <h5 class="card-title"><a href="{% url 'member_name' house='Loksabha' name=i.candidate_id %}">{{ i.candidate_id }}</a></h5>
-                            <p class="card-text"><span class="sp-1">State :</span> {{ i.state_id}}</p>
-                            <p class="card-text"><span class="sp-1">Constituency :</span> {{ i.parliamentary_constituency_id}}</p>
-                            <p class="card-text"><span class="sp-1">Party :</span> {{ i.party_id}}</p>
-                            <p class="card-text"><span class="sp-1">Contact Number :</span> {{ i.candidate_id.contact_number}}</p>
+                            <p class="card-text"><span class="sp-1">State :</span><a href="{% url 'members_state' house='Loksabha' state=i.state_id %}">{{ i.state_id }}</a></p>
+                            <p class="card-text"><span class="sp-1">Constituency :</span><a href="{% url 'members_const' house='Loksabha' constituency=i.parliamentary_constituency_id %}">{{ i.parliamentary_constituency_id }}</a></p>
+                            <p class="card-text"><span class="sp-1">Party :</span><a href="{% url 'members_party' house='Loksabha' party=i.party_id %}">{{ i.party_id }}</a></p>
+                            <p class="card-text"><span class="sp-1">Term :</span> {{ i.term_id }}</p>
                         </div>
                     </div>
                 </div>

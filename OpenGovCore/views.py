@@ -44,7 +44,7 @@ class MemebersByTerm(View):
         return render(request,self.template_name, {'members':data})
 
 
-class MemberBySession(View):
+class MembersBySession(View):
     template_name = 'rajyasabha_session.html'
 
     def get(self,request,session):
@@ -91,13 +91,10 @@ class MembersByHouse(View):
 class MembersByParty(View):
     template_name = "member_term.html"
 
-    def get(self,request,house):
-        party_name = request.GET["party"]
-
+    def get(self,request,house,party):
         if house == 'Rajyasabha':
             self.template_name = 'rajyasabha_session.html'
-
-        party_obj = Parties.objects.get(acronym=party_name)
+        party_obj = Parties.objects.get(party_name=party)
         centrail_leg_id = Central_Legislatures.objects.get(name=house)
         data = Candidature.objects.filter(party_id=party_obj, central_legislature_id=centrail_leg_id)
         page = request.GET.get('page',1)
@@ -108,18 +105,16 @@ class MembersByParty(View):
             data = paginator.page(1)
         except EmptyPage:
             data = paginator.page(paginator.num_pages)
-        return render(request,self.template_name, {'members':data,'check':party_name,'urlvar':'party'})
+        return render(request,self.template_name, {'members':data,'check':party,'urlvar':'party'})
 
 class MembersByState(View):
     template_name = "member_term.html"
 
-    def get(self,request,house):
-        state_name = request.GET["state"]
-
+    def get(self,request,house,state):
         if house == 'Rajyasabha':
             self.template_name = 'rajyasabha_session.html'
 
-        state_obj = States.objects.get(name=state_name)
+        state_obj = States.objects.get(name=state)
         centrail_leg_id = Central_Legislatures.objects.get(name=house)
         data = Candidature.objects.filter(state_id=state_obj,central_legislature_id=centrail_leg_id)
         page = request.GET.get('page',1)
@@ -130,19 +125,17 @@ class MembersByState(View):
             data = paginator.page(1)
         except EmptyPage:
             data = paginator.page(paginator.num_pages)
-        return render(request,self.template_name, {'members':data,'check':state_name,'urlvar':'state'})
+        return render(request,self.template_name, {'members':data,'check':state,'urlvar':'state'})
 
 
 class MembersByConstituency(View):
     template_name = "member_term.html"
 
-    def get(self,request,house):
-        const_name = request.GET["constituency"]
-
+    def get(self,request,house,constituency):
         if house == 'Rajyasabha':
             self.template_name = 'rajyasabha_session.html'
 
-        constit_obj = Parliamentary_Constituencies.objects.filter(name__contains=const_name)
+        constit_obj = Parliamentary_Constituencies.objects.filter(name=constituency)
         centrail_leg_id = Central_Legislatures.objects.get(name=house)
         data = []
         for i in constit_obj:
@@ -158,7 +151,7 @@ class MembersByConstituency(View):
             data = paginator.page(1)
         except EmptyPage:
             data = paginator.page(paginator.num_pages)
-        return render(request,self.template_name, {'members':data,'check':const_name,'urlvar':'constituency'})
+        return render(request,self.template_name, {'members':data,'check':constituency,'urlvar':'constituency'})
 
 
 class MemberInfo(View):
@@ -168,11 +161,18 @@ class MemberInfo(View):
         candidate_obj = Candidate.objects.get(name=name)
         centrail_leg_id = Central_Legislatures.objects.get(name=house)
         candidature_obj = Candidature.objects.filter(candidate_id=candidate_obj)
-        questions = Questions.objects.filter(candidate_id=candidate_obj)
-        debates = Debates.objects.filter(candidate_id=candidate_obj)
         attendance = Attendance.objects.filter(candidate_id=candidate_obj)
-        return render(request,self.template_name, {'members':candidature_obj[0],'questions':questions,
-                'debates':debates, 'attendance':attendance,'house':house})
+        return render(request,self.template_name, {'members':candidature_obj[0],'attendance':attendance,'house':house})
+
+class MemberDetail(View):
+    template_name = "member.html"
+
+    def get(self,request,member):
+        candidate_obj = Candidate.objects.get(name=member)
+        candidature_obj = Candidature.objects.filter(candidate_id=candidate_obj)
+        attendance = Attendance.objects.filter(candidate_id=candidate_obj)
+        house = candidature_obj[0].central_legislature_id
+        return render(request,self.template_name, {'members':candidature_obj[0],'attendance':attendance,'house':house})
 
 # Questions
 class All_Questions(View):
@@ -240,11 +240,10 @@ class QuestionsByType(View):
         
 
 class QuestionsByMinistry(View):
-    template_name = 'questions.html'
+    template_name = 'questions_ministry.html'
 
-    def get(self,request):
-        category = request.GET["ministry"]
-        ques = Questions.objects.filter(category=category)
+    def get(self,request,ministry):
+        ques = Questions.objects.filter(category=ministry)
         page = request.GET.get('page',1)
         paginator = Paginator(ques,10)
         try:
@@ -253,16 +252,19 @@ class QuestionsByMinistry(View):
             data = paginator.page(1)
         except EmptyPage:
             data = paginator.page(paginator.num_pages)
-        return render(request,self.template_name, {'questions':data,'check':category,'urlvar':'ministry'})
+        return render(request,self.template_name, {'questions':data,'check':ministry,'urlvar':'ministry'})
 
 
 class QuestionsByMember(View):
-    template_name = 'questions.html'
+    template_name = 'questions_mem_card.html'
 
-    def get(self,request):
-        member = request.GET['member']
+    def get(self,request,member):
         c_id = Candidate.objects.get(name=member)
+        candidature_obj = Candidature.objects.filter(candidate_id=c_id)
+        if candidature_obj.count() >= 1:
+            candidature_obj = candidature_obj[0]
         ques = Questions.objects.filter(candidate_id=c_id)
+        ques_count = ques.count()
         page = request.GET.get('page',1)
         paginator = Paginator(ques,10)
         try:
@@ -271,7 +273,8 @@ class QuestionsByMember(View):
             data = paginator.page(1)
         except EmptyPage:
             data = paginator.page(paginator.num_pages)
-        return render(request,self.template_name, {'questions':data,'check':member,'urlvar':'member'})
+        return render(request,self.template_name, {'questions':data,'check':member,'urlvar':'member',
+                     'member':candidature_obj, 'ques_count':ques_count})
 
 
 # Debates
@@ -292,10 +295,9 @@ class All_Debates(View):
 
 
 class DebatesByType(View):
-    template_name = 'debates.html'
+    template_name = 'debates_type.html'
 
-    def get(self,request):
-        type = request.GET['type']
+    def get(self,request,type):
         deb = Debates.objects.filter(type=type)
         page = request.GET.get('page',1)
         paginator = Paginator(deb,10)
@@ -309,12 +311,15 @@ class DebatesByType(View):
 
 
 class DebatesByMember(View):
-    template_name = 'debates.html'
+    template_name = 'debates_mem_card.html'
 
-    def get(self,request):
-        member = request.GET['member']
+    def get(self,request,member):
         c_id = Candidate.objects.get(name=member)
+        candidature_obj = Candidature.objects.filter(candidate_id=c_id)
+        if candidature_obj.count() >= 1:
+            candidature_obj = candidature_obj[0]
         deb = Debates.objects.filter(candidate_id=c_id)
+        deb_count = deb.count()
         page = request.GET.get('page',1)
         paginator = Paginator(deb,10)
         try:
@@ -323,7 +328,8 @@ class DebatesByMember(View):
             data = paginator.page(1)
         except EmptyPage:
             data = paginator.page(paginator.num_pages)
-        return render(request,self.template_name, {'debates':data,'check':member,'urlvar':'member'})
+        return render(request,self.template_name, {'debates':data,'check':member,'urlvar':'member',
+                        'member':candidature_obj,'deb_count':deb_count})
 
 class DebatesByYear(View):
     template_name = 'debates.html'
@@ -340,8 +346,24 @@ class DebatesByYear(View):
             data = paginator.page(paginator.num_pages)
         return render(request,self.template_name, {'debates':data,'check':year,'urlvar':'year'})
 
+class DebatesByHouse(View):
+    template_name = 'debates.html'
+
+    def get(self,request,house):
+        centrail_leg_id = Central_Legislatures.objects.get(name=house)
+        deb = Debates.objects.filter(central_legislature_id=centrail_leg_id)
+        page = request.GET.get('page',1)
+        paginator = Paginator(deb,10)
+        try:
+            data = paginator.page(page)
+        except PageNotAnInteger:
+            data = paginator.page(1)
+        except EmptyPage:
+            data = paginator.page(paginator.num_pages)
+        return render(request,self.template_name, {'debates':data})
 
 
+#Bills
 class A_Bill(View):
     template_name = "bills.html"
 
@@ -356,3 +378,51 @@ class A_Bill(View):
         except EmptyPage:
             data = paginator.page(paginator.num_pages)
         return render(request,self.template_name, {'bills':data})
+    
+
+class BillsByYear(View):
+    template_name = "bills.html"
+
+    def get(self,request,year):
+        bills_data = Bills.objects.filter(date_of_introduction__year=year)
+        page = request.GET.get('page',1)
+        paginator = Paginator(bills_data,10)
+        try:
+            data = paginator.page(page)
+        except PageNotAnInteger:
+            data = paginator.page(1)
+        except EmptyPage:
+            data = paginator.page(paginator.num_pages)
+        return render(request,self.template_name, {'bills':data,'check':year,'urlvar':'year'})
+
+
+class BillsByType(View):
+    template_name = "bills.html"
+
+    def get(self,request,type):
+        bills_data = Bills.objects.filter(type=type)
+        page = request.GET.get('page',1)
+        paginator = Paginator(bills_data,10)
+        try:
+            data = paginator.page(page)
+        except PageNotAnInteger:
+            data = paginator.page(1)
+        except EmptyPage:
+            data = paginator.page(paginator.num_pages)
+        return render(request,self.template_name, {'bills':data,'check':type,'urlvar':'type'})
+
+
+class BillsByStatus(View):
+    template_name = "bills.html"
+
+    def get(self,request,status):
+        bills_data = Bills.objects.filter(status=status)
+        page = request.GET.get('page',1)
+        paginator = Paginator(bills_data,10)
+        try:
+            data = paginator.page(page)
+        except PageNotAnInteger:
+            data = paginator.page(1)
+        except EmptyPage:
+            data = paginator.page(paginator.num_pages)
+        return render(request,self.template_name, {'bills':data,'check':status,'urlvar':'status'})
