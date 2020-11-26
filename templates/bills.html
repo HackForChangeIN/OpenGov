@@ -133,7 +133,18 @@
               {% endif %}
           </div>
           <div class="col-sm-4">
-              
+            {% block rightside %}
+                <div class="card border-dark mb-3" style="max-width: 30rem;">
+                    <div class="card-header font-weight-bold">Recently Passed Bills</div>
+                    <div class="card-body text-dark">
+                        <ul class="list-group list-group-flush">
+                            {% for i in latest_bills %}
+                                <li class="list-group-item"><a href="{{ i.source }}">{{ i.title }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div> 
+            {% endblock %}
           </div>
       </div>
     {% endblock %}

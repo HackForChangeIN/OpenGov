@@ -369,6 +369,7 @@ class A_Bill(View):
 
     def get(self, request):
         bills_data = Bills.objects.all()
+        latest_bills = Bills.objects.filter(status='Passed').order_by('-date_of_introduction')[:5]
         page = request.GET.get('page',1)
         paginator = Paginator(bills_data,10)
         try:
@@ -377,7 +378,7 @@ class A_Bill(View):
             data = paginator.page(1)
         except EmptyPage:
             data = paginator.page(paginator.num_pages)
-        return render(request,self.template_name, {'bills':data})
+        return render(request,self.template_name, {'bills':data,'latest_bills':latest_bills})
     
 
 class BillsByYear(View):
