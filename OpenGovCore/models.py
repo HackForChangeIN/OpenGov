@@ -134,7 +134,7 @@ class Parliamentary_Sessions(models.Model):
     end_date = models.DateField(blank=True)
     central_legislature_id = models.ForeignKey(
         Central_Legislatures, on_delete=models.CASCADE, verbose_name='Central_Legislatures', blank=True, null=True)
-    session_name = models.CharField(choices=SESSION_NAME, max_length=100,blank=True)
+    #session_name = models.CharField(choices=SESSION_NAME, max_length=100,blank=True)
 
     def __str__(self):
         return self.type
