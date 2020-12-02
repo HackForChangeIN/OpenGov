@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views import View
 from .models import *
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from gnewsclient import gnewsclient
 
 # Create your views here.
 
@@ -9,7 +10,10 @@ class Home(View):
     template_name = 'home.html'
 
     def get(self,request):
-        return render(request,self.template_name)
+        latest_bills = Bills.objects.filter(status='Passed').order_by('-date_of_introduction')[:5]
+        latest_ques = Questions.objects.all().order_by('-date')[:5]
+        latest_deb = Debates.objects.all().order_by('-date')[:5]
+        return render(request,self.template_name,{'lat_bills':latest_bills,'lat_ques':latest_ques,'lat_deb':latest_deb})
 
 class Members(View):
     template_name = 'members_data.html'
@@ -41,7 +45,7 @@ class MemebersByTerm(View):
             data = paginator.page(1)
         except EmptyPage:
             data = paginator.page(paginator.num_pages)
-        return render(request,self.template_name, {'members':data})
+        return render(request,self.template_name, {'members':data,'term_id':term_id})
 
 
 class MembersBySession(View):
@@ -158,11 +162,19 @@ class MemberInfo(View):
     template_name = "member.html"
 
     def get(self,request,house,name):
+        client = gnewsclient.NewsClient(language='english', location='india', topic=name, max_results=3)
+        news = {}
+        news = (client.get_news())
+        getValues = lambda key,inputData: [subVal[key] for subVal in inputData if key in subVal]
+        g_news_title  = getValues('title', news)
+        g_news_links  = getValues('link', news)
+
         candidate_obj = Candidate.objects.get(name=name)
         centrail_leg_id = Central_Legislatures.objects.get(name=house)
         candidature_obj = Candidature.objects.filter(candidate_id=candidate_obj)
         attendance = Attendance.objects.filter(candidate_id=candidate_obj)
-        return render(request,self.template_name, {'members':candidature_obj[0],'attendance':attendance,'house':house})
+        return render(request,self.template_name, {'members':candidature_obj[0],'attendance':attendance,'house':house,
+                        'g_news_title':g_news_title,'g_news_links':g_news_links})
 
 class MemberDetail(View):
     template_name = "member.html"
