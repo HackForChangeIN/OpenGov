@@ -18,3 +18,4 @@ django-autoslug==1.9.6
 selenium==3.141.0
 webdriver-manager==3.2.2
 sentry-sdk
+gnewsclient==1.12
