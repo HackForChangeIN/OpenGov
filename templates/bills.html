@@ -58,7 +58,7 @@
               <tbody>
                   {% for i in bills %}
                   <tr>
-                      <td><a href="{{ i.source }}">{{ i.title }}</a></td>
+                      <td>{{ i.title }} <a href="{{ i.source }}"><i class="fa fa-external-link-square" aria-hidden="true"></i></a></td>
                       <td>{{ i.type }}</td>
                       <td>{{ i.date_of_introduction }}</td>
                       <td>{{ i.status }}</td>
@@ -139,7 +139,7 @@
                     <div class="card-body text-dark">
                         <ul class="list-group list-group-flush">
                             {% for i in latest_bills %}
-                                <li class="list-group-item"><a href="{{ i.source }}">{{ i.title }}</a></li>
+                                <li class="list-group-item">{{ i.title }} <a href="{{ i.source }}"><i class="fa fa-external-link-square" aria-hidden="true"></i></a></li>
                             {% endfor %}
                         </ul>
                     </div>
