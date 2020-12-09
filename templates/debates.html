@@ -49,7 +49,7 @@
                 <tbody>
                     {% for i in debates %}
                     <tr>
-                        <td>{{ i.title }} <a href="{{ i.source }}"><i class="fa fa-external-link-square" aria-hidden="true"></i></a></td>
+                        <td>{{ i.title }} <a href="{{ i.source }}" target='_blank'><i class="fa fa-external-link-square" aria-hidden="true"></i></a></td>
                         <td><a href="{% url 'debates_type' type=i.type %}">{{ i.type }}</a></td>
                         <td>{{ i.date }}</td>
                         <td><a href="{% url 'debates_member' member=i.candidate_id %}">{{ i.candidate_id }}</a></td>

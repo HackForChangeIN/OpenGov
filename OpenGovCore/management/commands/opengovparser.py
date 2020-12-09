@@ -171,7 +171,7 @@ class OpenGovParser:
         try:
             party_obj = Parties.objects.get(acronym=party)
         except:
-            party_obj = Parties.objects.create(acronym=party)
+            party_obj = Parties.objects.create(party_name=party)
         try:
             candidate_obj = Candidate.objects.get(name=mp_name)
             candidature_obj = Candidature.objects.create(candidate_id = candidate_obj,party_id = party_obj
