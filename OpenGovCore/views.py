@@ -1,10 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.views import View
 from .models import *
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from gnewsclient import gnewsclient
 
 # Create your views here.
+
+class OpenGov(View):
+    def get(self,request):
+        return redirect('home')
 
 class Home(View):
     template_name = 'home.html'
