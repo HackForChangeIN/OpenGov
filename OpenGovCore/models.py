@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import FieldDoesNotExist
 from autoslug import AutoSlugField
 
 PARTY_TYPE = (
@@ -16,6 +17,7 @@ SESSION_NAME = (
 
 class States(models.Model):
     name = models.CharField(max_length=200)
+    name_slug=AutoSlugField(populate_from='name',blank=True)
 
     def __str__(self):
         return self.name
@@ -30,7 +32,7 @@ class Parliamentary_Constituencies(models.Model):
     constituency_number = models.CharField(max_length=10,blank=True)
     state = models.ForeignKey(
         States, on_delete=models.CASCADE, verbose_name='State')
-    name_slug=AutoSlugField(populate_from='name')
+    name_slug=AutoSlugField(populate_from='name',blank=True)
 
     def __str__(self):
         return self.name
@@ -45,7 +47,7 @@ class Assembly_Constituencies(models.Model):
     constituency_number = models.CharField(max_length=10,blank=True)
     state = models.ForeignKey(
         States, on_delete=models.CASCADE, verbose_name='State')
-    name_slug=AutoSlugField(populate_from='name')
+    name_slug=AutoSlugField(populate_from='name',blank=True)
 
     def __str__(self):
         return self.name
@@ -64,6 +66,7 @@ class Parties(models.Model):
     founder_name = models.CharField(max_length=200, blank=True)
     president_name = models.CharField(max_length=200, blank=True)
     website = models.CharField(max_length=500, blank=True)
+    party_name_slug=AutoSlugField(populate_from='party_name',blank=True)
 
     def __str__(self):
         return self.party_name
@@ -76,6 +79,8 @@ class Parties(models.Model):
 class Central_Legislatures(models.Model):
     name = models.CharField(max_length=100, blank=True)
     type = models.CharField(max_length=100, blank=True)
+    name_slug=AutoSlugField(populate_from='name',blank=True)
+    
 
 
     def __str__(self):
@@ -91,6 +96,7 @@ class State_Legislatures(models.Model):
     type = models.CharField(max_length=100, blank=True)
     state_id = models.ForeignKey(
         States, on_delete=models.CASCADE, verbose_name='State')
+    name_slug=AutoSlugField(populate_from='name',blank=True)
 
     def __str__(self):
         return self.name
@@ -139,6 +145,7 @@ class Parliamentary_Sessions(models.Model):
     central_legislature_id = models.ForeignKey(
         Central_Legislatures, on_delete=models.CASCADE, verbose_name='Central_Legislatures', blank=True, null=True)
     session_name = models.CharField(choices=SESSION_NAME, max_length=100,blank=True)
+    session_name_slug=AutoSlugField(populate_from='session_name',blank=True)
 
     def __str__(self):
         return self.type
@@ -157,6 +164,7 @@ class Assembly_Sessions(models.Model):
     state_legislature_id = models.ForeignKey(
         State_Legislatures, on_delete=models.CASCADE, verbose_name='State_Legislatures', blank=True, null=True)
     session_name = models.CharField(choices=SESSION_NAME, max_length=100,blank=True)
+    session_name_slug=AutoSlugField(populate_from='session_name',blank=True)
 
     def __str__(self):
         return self.type
@@ -182,6 +190,7 @@ class Candidate(models.Model):
     source = models.URLField(max_length = 400,blank=True)
     total_assets = models.CharField(max_length=500, blank=True)
     total_liabilities = models.CharField(max_length=500, blank=True)
+    name_slug=AutoSlugField(populate_from='name',blank=True)
 
 
     def __str__(self):
@@ -243,6 +252,8 @@ class Questions(models.Model):
     state_legislature_id = models.ForeignKey(
         State_Legislatures, on_delete=models.CASCADE, verbose_name='State_Legislatures', blank=True, null=True)
     source = models.CharField(max_length=1000, blank=True)
+    category_slug=AutoSlugField(populate_from='category',blank=True)
+    subject_slug=AutoSlugField(populate_from='subject',blank=True)
 
     def __str__(self):
         return self.title
@@ -264,7 +275,9 @@ class Debates(models.Model):
     term_id = models.ForeignKey(
         Term, on_delete=models.CASCADE, verbose_name='Term', blank=True, null=True)
     date = models.DateField(blank=True)
-    source = models.URLField(max_length = 400,blank=True) 
+    source = models.URLField(max_length = 400,blank=True)
+    type_slug=AutoSlugField(populate_from='type',blank=True)
+    title_slug=AutoSlugField(populate_from='title',blank=True)
 
     def __str__(self):
         return self.title
@@ -292,6 +305,8 @@ class Bills(models.Model):
     source = models.URLField(max_length = 400,blank=True)
     debate_loksabha_date = models.CharField(max_length=200, blank=True)
     debate_rajyasabha_date = models.CharField(max_length=200, blank=True)
+    title_slug=AutoSlugField(populate_from='title',blank=True)
+    type_slug=AutoSlugField(populate_from='type',blank=True)
 
     def __str__(self):
         return self.title
