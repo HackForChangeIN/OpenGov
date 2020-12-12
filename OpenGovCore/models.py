@@ -1,4 +1,5 @@
 from django.db import models
+from autoslug import AutoSlugField
 
 PARTY_TYPE = (
     ('National Party', 'National Party'),
@@ -29,6 +30,7 @@ class Parliamentary_Constituencies(models.Model):
     constituency_number = models.CharField(max_length=10,blank=True)
     state = models.ForeignKey(
         States, on_delete=models.CASCADE, verbose_name='State')
+    name_slug=AutoSlugField(populate_from='name')
 
     def __str__(self):
         return self.name
@@ -43,6 +45,7 @@ class Assembly_Constituencies(models.Model):
     constituency_number = models.CharField(max_length=10,blank=True)
     state = models.ForeignKey(
         States, on_delete=models.CASCADE, verbose_name='State')
+    name_slug=AutoSlugField(populate_from='name')
 
     def __str__(self):
         return self.name
@@ -73,6 +76,7 @@ class Parties(models.Model):
 class Central_Legislatures(models.Model):
     name = models.CharField(max_length=100, blank=True)
     type = models.CharField(max_length=100, blank=True)
+
 
     def __str__(self):
         return self.name
@@ -134,7 +138,7 @@ class Parliamentary_Sessions(models.Model):
     end_date = models.DateField(blank=True)
     central_legislature_id = models.ForeignKey(
         Central_Legislatures, on_delete=models.CASCADE, verbose_name='Central_Legislatures', blank=True, null=True)
-    #session_name = models.CharField(choices=SESSION_NAME, max_length=100,blank=True)
+    session_name = models.CharField(choices=SESSION_NAME, max_length=100,blank=True)
 
     def __str__(self):
         return self.type
