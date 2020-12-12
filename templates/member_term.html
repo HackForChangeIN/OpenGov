@@ -17,98 +17,111 @@
 
     {% block body_block %}
         <br>
-        <div class="col-sm-8">
-            <table class="table table-hover table-bordered">
-                <thead class="thead-light">
-                    <tr>
-                        <th scope="col">Image</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">State</th>
-                        <th scope="col">Constituency</th>
-                        <th scope="col">Party</th>
-                        <th scope="col">Term</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for i in members %}
-                    <tr>
-                        <td><img style="border: 1px solid black;" width="100" height="100" src="{{ i.candidate_id.photo.url }}" alt="NA" /></td>
-                        <td><a href="{% url 'member_name' house='Loksabha' name=i.candidate_id %}">{{ i.candidate_id }}</a></td>
-                        <td><a href="{% url 'members_state' house='Loksabha' state=i.state_id %}">{{ i.state_id }}</a></td>
-                        <td><a href="{% url 'members_const' house='Loksabha' constituency=i.parliamentary_constituency_id %}">{{ i.parliamentary_constituency_id }}</a></td>
-                        <td><a href="{% url 'members_party' house='Loksabha' party=i.party_id %}">{{ i.party_id }}</a></td>
-                        <td>{{ i.term_id }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% if members.has_other_pages %}
-            <nav aria-label="Page navigation">
-                <ul class="pagination justify-content-center">
-                    {% if check is None %}
-                        {% if members.num_pages != 1 %}
-                            <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
-                        {% else %}
-                            <li class="page-item disabled"><a class="page-link" href="#">First</a></li>
-                        {% endif %}
-                        {% if members.has_previous %}
-                            <li class="page-item"><a class="page-link" href="?page={{ members.previous_page_number }}">&laquo;</a></li>
-                        {% else %}
-                            <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
-                        {% endif %}
-                        {% for i in members.paginator.page_range %}
-                            {% if members.number == i %}
-                                <li class="page-item active"><a class="page-link" href="#">{{ i }} <span class="sr-only">(current)</span></a></li>
-                            {% elif members.number > i|add:"-5" and members.number < i|add:"+5"%}
-                                <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
-                            {% endif %}
+        <div class="row">
+            <div class="col-sm-8">
+                <table class="table table-hover table-bordered">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Image</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">State</th>
+                            <th scope="col">Constituency</th>
+                            <th scope="col">Party</th>
+                            <th scope="col">Term</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in members %}
+                        <tr>
+                            <td><img style="border: 1px solid black;" width="100" height="100" src="{{ i.candidate_id.photo.url }}" alt="NA" /></td>
+                            <td><a href="{% url 'member_name' house='Loksabha' name=i.candidate_id %}">{{ i.candidate_id }}</a></td>
+                            <td><a href="{% url 'members_state' house='Loksabha' state=i.state_id %}">{{ i.state_id }}</a></td>
+                            <td><a href="{% url 'members_const' house='Loksabha' constituency=i.parliamentary_constituency_id %}">{{ i.parliamentary_constituency_id }}</a></td>
+                            <td><a href="{% url 'members_party' house='Loksabha' party=i.party_id %}">{{ i.party_id }}</a></td>
+                            <td>{{ i.term_id }}</td>
+                        </tr>
                         {% endfor %}
-                        {% if members.has_next %}
-                            <li class="page-item"><a class="page-link" href="?page={{ members.next_page_number }}">&raquo;</a></li>
-                        {% else %}
-                            <li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>
-                        {% endif %}
-                        {% if members.paginator.num_pages != members.number %}
-                            <li class="page-item"><a class="page-link" href="?page={{ members.paginator.num_pages }}">Last</a></li>
-                        {% else %}
-                            <li class="page-item disabled"><a class="page-link" href="#">Last</a></li>
-                        {% endif %}
+                    </tbody>
+                </table>
+            {% if members.has_other_pages %}
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        {% if check is None %}
+                            {% if members.num_pages != 1 %}
+                                <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+                            {% else %}
+                                <li class="page-item disabled"><a class="page-link" href="#">First</a></li>
+                            {% endif %}
+                            {% if members.has_previous %}
+                                <li class="page-item"><a class="page-link" href="?page={{ members.previous_page_number }}">&laquo;</a></li>
+                            {% else %}
+                                <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
+                            {% endif %}
+                            {% for i in members.paginator.page_range %}
+                                {% if members.number == i %}
+                                    <li class="page-item active"><a class="page-link" href="#">{{ i }} <span class="sr-only">(current)</span></a></li>
+                                {% elif members.number > i|add:"-5" and members.number < i|add:"+5"%}
+                                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if members.has_next %}
+                                <li class="page-item"><a class="page-link" href="?page={{ members.next_page_number }}">&raquo;</a></li>
+                            {% else %}
+                                <li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>
+                            {% endif %}
+                            {% if members.paginator.num_pages != members.number %}
+                                <li class="page-item"><a class="page-link" href="?page={{ members.paginator.num_pages }}">Last</a></li>
+                            {% else %}
+                                <li class="page-item disabled"><a class="page-link" href="#">Last</a></li>
+                            {% endif %}
 
-                    {% else %}
-                        {% if members.num_pages != 1 %}
-                            <li class="page-item"><a class="page-link" href="?{{urlvar}}={{ check }}&page={{ i }}">First</a></li>
                         {% else %}
-                            <li class="page-item disabled"><a class="page-link" href="#">First</a></li>
-                        {% endif %}
-                        {% if members.has_previous %}
-                            <li class="page-item"><a class="page-link" href="?{{urlvar}}={{ check }}&page={{ members.previous_page_number }}">&laquo;</a></li>
-                        {% else %}
-                            <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
-                        {% endif %}
-                        {% for i in members.paginator.page_range %}
-                            {% if members.number == i %}
-                                <li class="page-item active"><a class="page-link" href="#">{{ i }} <span class="sr-only">(current)</span></a></li>
-                            {% elif members.number > i|add:"-5" and members.number < i|add:"+5"%}
-                                <li class="page-item"><a class="page-link" href="?{{urlvar}}={{ check }}&page={{ i }}">{{ i }}</a></li>
+                            {% if members.num_pages != 1 %}
+                                <li class="page-item"><a class="page-link" href="?{{urlvar}}={{ check }}&page={{ i }}">First</a></li>
+                            {% else %}
+                                <li class="page-item disabled"><a class="page-link" href="#">First</a></li>
                             {% endif %}
-                        {% endfor %}
-                        {% if members.has_next %}
-                            <li class="page-item"><a class="page-link" href="?{{urlvar}}={{ check }}&page={{ members.next_page_number }}">&raquo;</a></li>
-                        {% else %}
-                            <li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>
+                            {% if members.has_previous %}
+                                <li class="page-item"><a class="page-link" href="?{{urlvar}}={{ check }}&page={{ members.previous_page_number }}">&laquo;</a></li>
+                            {% else %}
+                                <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
+                            {% endif %}
+                            {% for i in members.paginator.page_range %}
+                                {% if members.number == i %}
+                                    <li class="page-item active"><a class="page-link" href="#">{{ i }} <span class="sr-only">(current)</span></a></li>
+                                {% elif members.number > i|add:"-5" and members.number < i|add:"+5"%}
+                                    <li class="page-item"><a class="page-link" href="?{{urlvar}}={{ check }}&page={{ i }}">{{ i }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if members.has_next %}
+                                <li class="page-item"><a class="page-link" href="?{{urlvar}}={{ check }}&page={{ members.next_page_number }}">&raquo;</a></li>
+                            {% else %}
+                                <li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>
+                            {% endif %}
+                            {% if members.paginator.num_pages != members.number %}
+                                <li class="page-item"><a class="page-link" href="?{{urlvar}}={{ check }}&page={{ members.paginator.num_pages }}">Last</a></li>
+                            {% else %}
+                                <li class="page-item disabled"><a class="page-link" href="#">Last</a></li>
+                            {% endif %}
                         {% endif %}
-                        {% if members.paginator.num_pages != members.number %}
-                            <li class="page-item"><a class="page-link" href="?{{urlvar}}={{ check }}&page={{ members.paginator.num_pages }}">Last</a></li>
-                        {% else %}
-                            <li class="page-item disabled"><a class="page-link" href="#">Last</a></li>
-                        {% endif %}
-                    {% endif %}
-                </ul>
-            </nav>
+                    </ul>
+                </nav>
+                {% endif %}
+            </div>
+            {% if party %}
+            <div class="col-sm-4">
+                <div class="card" style="width: 20rem;">
+                    <div class="card-header font-weight-bold">Party</div>
+                    <img class="card-img-top"  height="250" src="" alt="NA">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><span class="font-weight-bold">Party: </span>{{ party.party_name }} ({{party.acronym}})</li>
+                        <li class="list-group-item"><span class="font-weight-bold">President : </span>{{ party.president_name }}</li>
+                        <li class="list-group-item"><span class="font-weight-bold">Founders : </span>{{ party.founder_name }}</li>
+                        <li class="list-group-item"><span class="font-weight-bold">Founded In :</span>{{ party.founded }}</li>
+                    </ul>
+                </div>
+            </div>
             {% endif %}
-        </div>
-        <div class="col-sm-4">
-            
         </div>
         <script>
             function member_term_data(){

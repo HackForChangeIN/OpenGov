@@ -1,10 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.views import View
 from .models import *
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from gnewsclient import gnewsclient
 
 # Create your views here.
+
+class OpenGov(View):
+    def get(self,request):
+        return redirect('home')
 
 class Home(View):
     template_name = 'home.html'
@@ -109,7 +113,7 @@ class MembersByParty(View):
             data = paginator.page(1)
         except EmptyPage:
             data = paginator.page(paginator.num_pages)
-        return render(request,self.template_name, {'members':data,'check':party,'urlvar':'party'})
+        return render(request,self.template_name, {'members':data,'check':party,'urlvar':'party','party':party_obj})
 
 class MembersByState(View):
     template_name = "member_term.html"
@@ -202,6 +206,15 @@ class All_Questions(View):
             data = paginator.page(paginator.num_pages)
         return render(request,self.template_name, {'questions':data})
 
+class QuestionDetail(View):
+    template_name = 'questions_details.html'
+
+    def get(self,request,member,date):
+        cand_obj = Candidate.objects.get(name=member)
+        data = Questions.objects.filter(candidate_id=cand_obj,date=date)
+        participants = Questions.objects.filter(subject=data[0].subject)
+        return render(request,self.template_name, {'questions':data[0],"particip":participants})
+
 class QuestionsByHouse(View):
     template_name = 'questions.html'
 
@@ -248,7 +261,7 @@ class QuestionsByType(View):
             data = paginator.page(1)
         except EmptyPage:
             data = paginator.page(paginator.num_pages)
-        return render(request,self.template_name, {'questions':data,'check':type,'urlvar':'type'})
+        return render(request,self.template_name, {'questions':data,'check':type,'urlvar':'type','type':type})
         
 
 class QuestionsByMinistry(View):

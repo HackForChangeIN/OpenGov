@@ -19,6 +19,7 @@ urlpatterns = [
     path('questions/type/<type>/',QuestionsByType.as_view(),name='questions_type'),
     path('questions/ministry/<ministry>/',QuestionsByMinistry.as_view(),name='questions_ministry'),
     path('questions/legislator/<member>/',QuestionsByMember.as_view(),name='questions_member'),
+    path('questions/<member>/<date>/',QuestionDetail.as_view(),name='question_det'),
     path('debates/',All_Debates.as_view(),name='all_debates'),
     path('debates/year/<year>/',DebatesByYear.as_view(),name='debates_year'),
     path('debates/legislator/<member>/',DebatesByMember.as_view(),name='debates_member'),

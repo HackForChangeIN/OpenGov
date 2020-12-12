@@ -18,9 +18,12 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls import include
+from OpenGovCore.views import OpenGov
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('',OpenGov.as_view(),name='homeView'),
     path('india-insider/',include('OpenGovCore.urls')),
 ]
 if settings.DEBUG:

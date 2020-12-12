@@ -89,7 +89,7 @@ admin.site.register(Sittings, Sittings_Admin)
 
 class Candidate_Admin(VersionAdmin):
     list_display = ('name', 'dob', 'qualification', 'gender', 'contact_number', 'email',
-                    'profession', 'criminal_cases', 'present_address', 'permanent_address','total_assets','total_liabilities', 'photo','source')
+                    'profession', 'criminal_cases', 'present_address', 'permanent_address','total_assets','total_liabilities', 'photo','source','name_slug')
 
     class meta:
         model = Candidate
