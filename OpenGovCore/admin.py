@@ -89,7 +89,7 @@ admin.site.register(Sittings, Sittings_Admin)
 
 class Candidate_Admin(VersionAdmin):
     list_display = ('name', 'dob', 'qualification', 'gender', 'contact_number', 'email',
-                    'profession', 'criminal_cases', 'present_address', 'permanent_address','total_assets','total_liabilities', 'photo','source')
+                    'profession', 'criminal_cases', 'present_address', 'permanent_address','total_assets','total_liabilities', 'photo','source','name_slug')
 
     class meta:
         model = Candidate
@@ -111,7 +111,7 @@ admin.site.register(Candidature, Candidature_Admin)
 
 class Parliamentary_Sessions_Admin(VersionAdmin):
     list_display = ('type', 'term_id', 'start_date',
-                    'end_date', 'central_legislature_id','session_name')
+                    'end_date', 'central_legislature_id')
 
     class meta:
         model = Parliamentary_Sessions
@@ -122,7 +122,7 @@ admin.site.register(Parliamentary_Sessions, Parliamentary_Sessions_Admin)
 
 class Assembly_Sessions_Admin(VersionAdmin):
     list_display = ('type', 'sitting_id', 'start_date',
-                    'end_date', 'state_legislature_id','session_name')
+                    'end_date', 'state_legislature_id')
 
     class meta:
         model = Assembly_Sessions
