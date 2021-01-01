@@ -17,7 +17,9 @@ class Home(View):
         latest_bills = Bills.objects.filter(status='Passed').order_by('-date_of_introduction')[:5]
         latest_ques = Questions.objects.all().order_by('-date')[:5]
         latest_deb = Debates.objects.all().order_by('-date')[:5]
-        return render(request,self.template_name,{'lat_bills':latest_bills,'lat_ques':latest_ques,'lat_deb':latest_deb})
+        latest_lap_bills = Bills.objects.filter(status='Lapsed')[:5]#.order_by('-date')[:5]
+        return render(request,self.template_name,{'lat_bills':latest_bills,'lat_ques':latest_ques,
+                                                  'lat_deb':latest_deb,'lap_bills':latest_lap_bills})
 
 class Members(View):
     template_name = 'members_data.html'
