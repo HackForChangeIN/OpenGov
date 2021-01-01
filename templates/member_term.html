@@ -4,19 +4,22 @@
         Legislators
     {% endblock %}
     {% block subheader %}
-        <h4>Legislators</h4>&nbsp;&nbsp;&nbsp;
-        <span class="nav-link font-weight-bold">Term :</span>
-        <select id="term_name" onchange="member_term_data()">
-            <option value="{% url 'members_term' term='17th' %}" >17th</option>
-            <option value="{% url 'members_term' term='16th' %}">16th</option>
-            <option value="{% url 'members_term' term='15th' %}">15th</option>
-        </select>&nbsp;&nbsp;
-        <span class="small">Start Year -</span>&nbsp;<input class="small" type="text" style="width:3%;" value="{{ term_id.start_year }}" disabled>&nbsp;&nbsp;
-        <span class="small">End Year -</span>&nbsp;<input type="text" class="small" style="width:3%;" value="{{ term_id.end_year }}" disabled>    
+        <div class="btn-group" role="group" aria-label="Basic example">
+          <button type="button" class="btn btn-outline-dark btn-sm">Current Term</button>
+          <button type="button" class="btn btn-outline-dark btn-sm">Current Year</button>
+        </div>
     {% endblock %}
-
+    {% block nav %}
+        <ul class="navbar-nav">
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-outline-dark btn-sm" onclick="window.location.href='{% url 'members_house' house='Loksabha' %}'">Lok Sabha</button>
+                <button type="button" class="btn btn-outline-dark btn-sm" onclick="window.location.href='{% url 'members_house' house='Rajyasabha' %}'">Rajya Sabha</button>
+            </div>
+        </ul>
+    {% endblock %}
     {% block body_block %}
         <br>
+        <h4>Legislators</h4>
         <div class="row">
             <div class="col-sm-8">
                 <table class="table table-hover table-bordered">
