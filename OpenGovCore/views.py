@@ -454,3 +454,10 @@ class BillsByStatus(View):
         except EmptyPage:
             data = paginator.page(paginator.num_pages)
         return render(request,self.template_name, {'bills':data,'check':status,'urlvar':'status'})
+
+class BillDetails(View):
+    template_name = "bill_detail.html"
+
+    def get(self, request, pk):
+        bill_data = Bills.objects.get(pk = pk)
+        return render(request, self.template_name, {'bill' : bill_data})

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+{% extends "basic_layout.html" %}
+    {% block title %}
+        Bills
+    {% endblock %}
+
+    {% block body_block %}
+    <br>
+    <h2>{{ bill.title }}</h2>
+            <tbody>
+                <tr>
+                    <iframe src= {{ bill.source }} style="width:1000px; height:500px;" frameborder="0"></iframe>
+                    <br>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="mt-4 mb-3">Bill Details</h5>
+                            <table class="table user-view-table m-0">
+                                <tbody>
+                                    <tr>
+                                        <td>Type :</td>
+                                        <td>{{ bill.type }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Status :</td>
+                                        <td>{{ bill.status }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Introducer :</td>
+                                        <td>{{ bill.candidate_id.name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Date of Introduction :</td>
+                                        <td>{{ bill.date_of_introduction }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Term ID :</td>
+                                        <td>{{ bill.term_id }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Central Legislatures :</td>
+                                        <td>{{ bill.central_legislature_id }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr class="border-light m-0">
+                    </div>
+            </tbody>
+    {% endblock %}
+
+    
