@@ -35,7 +35,7 @@ admin.site.register(Assembly_Constituencies, Assembly_Constituencies_Admin)
 
 
 class Parties_Admin(VersionAdmin):
-    list_display = ('party_name', 'acronym', 'type', 'founded',
+    list_display = ('acronym','party_name',  'type', 'founded',
                     'founder_name', 'president_name', 'website', 'symbol')
 
     class meta:

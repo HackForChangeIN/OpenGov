@@ -40,7 +40,7 @@
                             <td><a href="{% url 'member_name' house='Loksabha' name=i.candidate_id %}">{{ i.candidate_id }}</a></td>
                             <td><a href="{% url 'members_state' house='Loksabha' state=i.state_id %}">{{ i.state_id }}</a></td>
                             <td><a href="{% url 'members_const' house='Loksabha' constituency=i.parliamentary_constituency_id %}">{{ i.parliamentary_constituency_id }}</a></td>
-                            <td><a href="{% url 'members_party' house='Loksabha' party=i.party_id %}">{{ i.party_id }}</a></td>
+                           <td><a href="{% url 'members_party' house='Loksabha' party=i.party_id %}">{{ i.party_id }}</a></td>
                             <td>{{ i.term_id }}</td>
                         </tr>
                         {% endfor %}
