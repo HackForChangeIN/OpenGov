@@ -1,7 +1,6 @@
 # Overview
-    OpenGov is a platform for Indian Citizens to understand the proceedings of the government and connect with their representatives in a meaningful manner. 
-
-    To that end, our focus is on information collection & visualization and citizen connect. India Insider is the tools which actually visualize all the parlimentary information like bills, debates, questions, parliamentary commites along with details of all the legislators. We are trying to make information about the  govt. more accessible, understandable, and actionable for public.
+OpenGov is a platform for Indian Citizens to understand the proceedings of the government and connect with their representatives in a meaningful manner. 
+To that end, our focus is on information collection & visualization and citizen connect. India Insider is the tools which actually visualize all the parlimentary information like bills, debates, questions, parliamentary commites along with details of all the legislators. We are trying to make information about the  govt. more accessible, understandable, and actionable for public.
 
 # Features of India Insider (Phase 0)
     - Home
