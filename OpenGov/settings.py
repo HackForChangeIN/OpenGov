@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'OpenGovCore',
     'reversion',
     'storages',
+    'django_celery_beat',
+    'django_celery_results',
     
 ]
 
