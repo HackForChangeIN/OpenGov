@@ -166,3 +166,8 @@ AWS_DEFAULT_ACL = None
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
+# Overwrite settings
+try:
+    from .local_settings import *
+except:
+    pass
