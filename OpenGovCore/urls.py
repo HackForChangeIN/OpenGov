@@ -14,6 +14,7 @@ urlpatterns = [
     path('legislators/house/<house>/state/<state>/',MembersByState.as_view(),name="members_state"),
     path('legislators/house/<house>/constituency/<constituency>/',MembersByConstituency.as_view(),name="members_const"),
     path('questions/',All_Questions.as_view(),name='all_questions'),
+    path('AddQuestion/',AddQuestion.as_view(),name='AddQuestion'),
     path('questions/house/<house>/',QuestionsByHouse.as_view(),name='questions_house'),
     path('questions/year/<year>/',QuestionsByYear.as_view(),name='questions_year'),
     path('questions/type/<type>/',QuestionsByType.as_view(),name='questions_type'),
