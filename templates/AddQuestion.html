@@ -1,0 +1,94 @@
+{% extends "basic_layout.html" %}
+{% block title %}
+Questions
+{% endblock %}
+{% block subheader %}
+Enter the following details:
+{% endblock %}
+{% block body_block %}
+<br></br>
+<form action="/india-insider/AddQuestion/" method="post" id="form1" >
+   {% csrf_token %}
+   <div class="form-group col-md-9">
+      <label for="title">Title</label>
+      <textarea class="form-control" id="title" name="title"rows="4"></textarea>
+   </div>
+   <div class="form-group col-md-10">
+      <label for="exampleFormControlTextarea1">Answer</label>
+      <textarea class="form-control" name="answer" rows="5"></textarea>
+   </div>
+   <div class="form-group col-md-3">
+      <label for="Type">Type</label>
+      <input type="text" class="form-control" name="type" required>
+   </div>
+   <div class="form-group col-md-3">
+      <label for="inputState">Asked By</label>
+      <select name="askedby" class="form-control" required>
+         {% for candidate in candidates %}
+         <option value="{{candidate.id}}">{{candidate.name}}</option>
+         {%endfor%}
+      </select>
+   </div>
+   <div class="form-group col-md-3">
+      <label for="Type">Category</label>
+      <input type="text" class="form-control" name="category" required>
+   </div>
+   <div class="form-group col-md-6">
+      <label for="Type">Subject</label>
+      <input type="text" class="form-control" name="subject" required>
+   </div>
+   <div class="form-group col-md-3">
+      <label for="inputState">Term</label>
+      <select name="term" class="form-control" required>
+         {% for term in terms %}
+         <option value="{{term.id}}">{{term.term_name}}</option>
+         {%endfor%}
+      </select>
+   </div>
+   <div class="form-group col-md-3">
+      <label for="inputState">Sittings</label>
+      <select name="sitting" class="form-control" required>
+         {% for sitting in sittings %}
+         <option value="{{sitting.id}}">{{sitting.sitting_name }}</option>
+         {%endfor%}
+      </select>
+   </div>
+   <div class="form-group col-md-3">
+      <label for="inputState">Parliamentary_Sessions:</label>
+      <select name="parliamentary_session" class="form-control" required>
+         {% for parliamentary_session in parliamentary_sessions %}
+         <option value="{{parliamentary_session.id}}">{{parliamentary_session.id}}</option>
+         {%endfor%}
+      </select>
+   </div>
+   <div class="form-group col-md-3">
+      <label for="inputState">Assembly_Sessions:</label>
+      <select name="assembly_session" class="form-control"required>
+         {% for assembly_session in assembly_sessions %}
+         <option value="{{assembly_session.id}}">{{assembly_session.type}}</option>
+         {%endfor%}
+      </select>
+   </div>
+   <div class="form-group col-md-3">
+      <label for="inputState">Central_Legislatures:</label>
+      <select name="central_legislature" class="form-control" required>
+         {% for central_legislature in central_legislatures %}
+         <option value="{{central_legislature.id}}">{{central_legislature.name }}</option>
+         {%endfor%}
+      </select>
+   </div>
+   <div class="form-group col-md-3">
+      <label for="inputState">State_Legislatures:</label>
+      <select name="state_legislature" class="form-control" required>
+         {% for state_legislature in state_legislatures %}
+         <option value="{{state_legislature.id}}">{{state_legislature.name }}</option>
+         {%endfor%}
+      </select>
+   </div>
+   <div class="form-group col-md-3">
+      <label for="Type">Source</label>
+      <input type="url" class="form-control" name="source" >
+   </div>
+   <button class="btn btn-primary" type="submit">submit</button>
+</form>
+{% endblock %}
