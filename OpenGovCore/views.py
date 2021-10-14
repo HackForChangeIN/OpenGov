@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect
+from django.http.response import HttpResponse
 from django.views import View
 from .models import *
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -193,6 +194,54 @@ class MemberDetail(View):
         return render(request,self.template_name, {'members':candidature_obj[0],'attendance':attendance,'house':house})
 
 # Questions
+class AddQuestion(View):
+    def get(self, request):
+        candidate = Candidate.objects.all()
+        term = Term.objects.all()
+        sitting = Sittings.objects.all()
+        parliamentary_session = Parliamentary_Sessions.objects.all()
+        assembly_session = Assembly_Sessions.objects.all()
+        central_legislature = Central_Legislatures.objects.all()
+        state_legislature = State_Legislatures.objects.all()
+        return render(request, 'AddQuestion.html', {'candidates': candidate, 'terms': term, 'sittings': sitting, 'parliamentary_sessions': parliamentary_session,
+                                                    'assembly_sessions': assembly_session, 'central_legislatures': central_legislature, 'state_legislatures': state_legislature})
+
+    def post(self, request):
+        title = request.POST.get('title')
+        answer = request.POST.get('answer')
+        type = request.POST.get('type')
+        askedby = request.POST.get('askedby')
+        candidate = Candidate.objects.get(id=askedby)
+        category = request.POST.get('category')
+        subject = request.POST.get('subject')
+        term = request.POST.get('term')
+        term_object = Term.objects.get(id=term)
+        sitting = request.POST.get('sitting')
+        print(sitting)
+        sitting_object = Sittings.objects.get(id=sitting)
+        parliamentary_session = request.POST.get('parliamentary_session')
+        print(parliamentary_session)
+        parliamentary_session_object = Parliamentary_Sessions.objects.get(
+            id=parliamentary_session)
+        assembly_session = request.POST.get('assembly_session')
+        print(assembly_session)
+        assembly_session_object = Assembly_Sessions.objects.get(
+            id=assembly_session)
+        central_legislature = request.POST.get('central_legislature')
+        central_legislature_object = Central_Legislatures.objects.get(
+            id=central_legislature)
+        state_legislature = request.POST.get('state_legislature')
+        state_legislature_object = State_Legislatures.objects.get(
+            id=state_legislature)
+        source = request.POST.get('source')
+        print(source)
+        question = Questions(title=title, answer=answer, type=type, candidate_id=candidate, category=category, date=datetime.today(),
+                             subject=subject, term_id=term_object, sitting_id=sitting_object, parliamentary_session_id=parliamentary_session_object, assembly_session_id=assembly_session_object,
+                             central_legislature_id=central_legislature_object, state_legislature_id=state_legislature_object, source=source)
+        question.save()
+
+        return redirect('/india-insider/questions/')
+
 class All_Questions(View):
     template_name = 'questions.html'
 
