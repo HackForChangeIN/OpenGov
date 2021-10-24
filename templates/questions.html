@@ -38,6 +38,7 @@
                 <thead class="thead-light">
                     <tr>
                         <th scope="col">Subject</th>
+                        <th scope="col">Source</th>
                         <th scope="col">Type</th>
                         <th scope="col">Date</th>
                         <th scope="col">Ministry</th>
@@ -47,7 +48,8 @@
                 <tbody>
                     {% for i in questions %}
                     <tr>
-                        <td> {{ i.subject }}<a href="{% url 'question_det' member=i.candidate_id date=i.date %}" target="_blank"><i class="fa fa-external-link-square" aria-hidden="true"></i></a></td>
+                        <td> {{ i.subject }}</td>
+                        <td><a href="{% url 'question_det' member=i.candidate_id date=i.date %}" target="_blank">Source link</a></td>
                         <td>{{ i.type }}</td>
                         <td>{{ i.date}}</td>
                         <td><a href="{% url 'questions_ministry' ministry=i.category %}">{{ i.category }}</a></td>
