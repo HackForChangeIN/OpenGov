@@ -24,6 +24,7 @@ app.conf.beat_schedule = {
         'schedule': crontab(hour=16, minute=0),
         
     },
+    """
     'bills-data-crontab': {
         'task': 'bills_data',
         'schedule': crontab(hour=7, minute=30),
@@ -31,36 +32,36 @@ app.conf.beat_schedule = {
     },
     'debates-data-17th-crontab': {
         'task': 'debates_data',
-        'schedule': crontab(hour=16, minute=0),
+        'schedule': crontab(hour=8, minute=0),
         
     },
     'question-data-17th-term-crontab': {
         'task': 'Question_data_17th_term',
-        'schedule': crontab(hour=16, minute=0),
+        'schedule': crontab(hour=9, minute=0),
     },
     'attendance-data-17th-term': {
         'task': 'Attendance_data_17th_term',
-        'schedule': crontab(hour=16, minute=0),
+        'schedule': crontab(hour=10, minute=0),
     },
     'asset-data-17th-term':{
         'task': 'Asset_data_17th_term',
-        'schedule': crontab(hour=16, minute=0),
+        'schedule': crontab(hour=11, minute=0),
     },
     'candidate_data_16th_and_15th_term': {
         'task': 'Candidate_data_16th_and_15th_term',
-        'schedule': crontab(hour=16, minute=0),
+        'schedule': crontab(hour=12, minute=0),
     },
     'question-data-16th-term': {
         'task': 'Question_data_16th term',
-        'schedule': crontab(hour=16, minute=0),
+        'schedule': crontab(hour=13, minute=0),
     },
     'debates-data-16th-term': {
         'task': 'Debates_data_16th_term',
-        'schedule': crontab(hour=16, minute=0),
+        'schedule': crontab(hour=14, minute=0),
     },
     'question-data-15th-term': {
         'task': 'Question_data_15th_term',
-        'schedule': crontab(hour=16, minute=0),
+        'schedule': crontab(hour=15, minute=0),
     },
     'debates-data-15th-term': {
         'task': 'Debate_data_15th_term',
@@ -68,12 +69,13 @@ app.conf.beat_schedule = {
     },
     'rajyasabha-candidate-data':{
         'task': 'Rajyasabha_candidate_data',
-        'schedule': crontab(hour=16, minute=0),
+        'schedule': crontab(hour=17, minute=0),
     },
     'rajyasabha-question-data': {
         'task': 'Rajyasabha_question_data',
-        'schedule': crontab(hour=16, minute=0),
+        'schedule': crontab(hour=18, minute=0),
     },
+    """
 
 
 }
