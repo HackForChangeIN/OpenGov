@@ -26,7 +26,7 @@ app.conf.beat_schedule = {
     },
     'bills-data-crontab': {
         'task': 'bills_data',
-        'schedule': crontab(hour=8, minute=0),
+        'schedule': crontab(hour=7, minute=0),
         
     },
     'debates-data-17th-crontab': {

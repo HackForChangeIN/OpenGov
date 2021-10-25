@@ -36,7 +36,7 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 SECRET_KEY = '29bzo-o8duam#rav-pr8psp!g7h)81entle_*b*)58_ukm25-d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -149,19 +149,27 @@ AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 #AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY_opengov')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 #AWS_STORAGE_BUCKET_NAME = 'open-gov-staging-assets'
-AWS_STORAGE_BUCKET_NAME = 'open-gov-dev'
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
 
 AWS_S3_SIGNATURE_VERSION = 's3v4'
-#AWS_S3_REGION_NAME='ap-south-1'  ## staging
-AWS_S3_REGION_NAME='us-east-1'   ## dev
+AWS_S3_REGION_NAME='ap-south-1'  ## staging/prod
+#AWS_S3_REGION_NAME='us-east-1'   ## dev
 #AWS_LOCATION = 'static'
 #STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 AWS_S3_FILE_OVERWRITE=False
 AWS_DEFAULT_ACL = None
 
-
-
+CELERY_BROKER_URL = os.environ.get('REDIS_URL')
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_IMPORTS = (
+    'OpenGovCore.tasks',
+    
+)
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 
 # Activate Django-Heroku.
