@@ -20,8 +20,8 @@ app.autodiscover_tasks()
 from celery.schedules import crontab
 app.conf.beat_schedule = {
     'candidate-data-17th-term-loksabha-crontab': {
-        'task': 'candidate data 17th term loksabha',
-        'schedule': crontab(hour = 6, minute = 30),
+        'task': 'candidate_data_17th_term_loksabha',
+        'schedule': crontab(hour = 6, minute = 50),
         
     },
 
