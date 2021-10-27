@@ -19,10 +19,9 @@ app.autodiscover_tasks()
 #app.conf.beat_scheduler = 'django_celery_beat.schedulers.DatabaseScheduler'
 from celery.schedules import crontab
 app.conf.beat_schedule = {
-     'debates-data-17th-crontab': {
-        'task': 'debates_data',
-        'schedule': crontab(hour=9, minute=30),
-        
+      'question-data-17th-term-crontab': {
+        'task': 'Question_data_17th_term',
+        'schedule': crontab(hour = 10, minute = 15),
     },
 
     
