@@ -19,10 +19,6 @@ app.autodiscover_tasks()
 #app.conf.beat_scheduler = 'django_celery_beat.schedulers.DatabaseScheduler'
 from celery.schedules import crontab
 app.conf.beat_schedule = {
-      'rajyasabha-candidate-data':{
-        'task': 'Rajyasabha_candidate_data',
-        'schedule': crontab(hour=11, minute=0),
-    },
     
 
 

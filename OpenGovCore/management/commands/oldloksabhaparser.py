@@ -52,7 +52,8 @@ class OldLoksabhaParser(OpenGovParser):
 			img_temp.write(urlopen(img_src).read())
 			img_temp.flush()
 		except:
-			img_temp.write(urlopen("https://via.placeholder.com/150").read())
+			img_temp.write(urlopen("https://prsindia.org/files/mptrack/16-lok-sabha/profile_image/160053.jpg").read())
 			img_temp.flush()
 		return filename,img_temp			
+
 
