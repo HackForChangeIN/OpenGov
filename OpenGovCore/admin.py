@@ -90,7 +90,7 @@ admin.site.register(Sittings, Sittings_Admin)
 class Candidate_Admin(VersionAdmin):
     list_display = ('name', 'dob', 'qualification', 'gender', 'contact_number', 'email',
                     'profession', 'criminal_cases', 'present_address', 'permanent_address','total_assets','total_liabilities', 'photo','source','name_slug')
-
+    search_fields = ['name',]
     class meta:
         model = Candidate
 
@@ -101,7 +101,8 @@ admin.site.register(Candidate, Candidate_Admin)
 class Candidature_Admin(VersionAdmin):
     list_display = ('candidate_id', 'party_id', 'state_id', 'type',
                     'parliamentary_constituency_id', 'term_id', 'central_legislature_id')
-
+    search_fields = ['candidate_id__name','party_id__acronym','state_id__name','parliamentary_constituency_id__name','term_id__term_name']
+    
     class meta:
         model = Candidature
 

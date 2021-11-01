@@ -73,7 +73,7 @@ def debate_scrapper_15th_term():
     sc.load_debates()
 
 @shared_task(name = 'Rajyasabha_candidate_data')
-def debate_scrapper_rajyasabha():
+def candidate_scrapper_rajyasabha():
     url = "https://rajyasabha.nic.in/rsnew/member_site/memberlist.aspx"
     obj = RajyaSabhaParser(url ,term = "None")
     obj.load_candidate_data()
