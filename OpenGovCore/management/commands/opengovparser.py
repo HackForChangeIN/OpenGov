@@ -185,7 +185,7 @@ class OpenGovParser:
             print(mp_name,"stored to database")
     
     def load_rajyasabha_candidature_data(self,*args):
-        mp_name,constituency,state,party,email,dob,education,profession,permanent_address,present_address,mobile,image_name,url,img_temp = args
+        mp_name,constituency,state,party,dob,education,profession,permanent_address,present_address,mobile,image_name,url,img_temp = args
         try:
             state_obj = States.objects.get(name=state)
         except States.DoesNotExist:

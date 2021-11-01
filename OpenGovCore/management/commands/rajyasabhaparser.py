@@ -68,7 +68,7 @@ class RajyaSabhaParser(OpenGovParser):
 		permanent_add = all_rows[4].find_all("td")[1].text.strip()
 		permanent_add =  re.sub(' +', ' ', permanent_add)
 		home_phone_no = all_rows[5].find_all("td")[1].text.strip()
-		email_id = all_rows[6].find_all("td")[1].find("img")["src"].split("id=")[-1].strip()
+		#email_id = all_rows[6].find_all("td")[1].find("img")["src"].split("id=")[-1].strip()
 
 		print("Mp_name: ",mp_name)
 		print("Image URL: ", img_link)
@@ -78,12 +78,12 @@ class RajyaSabhaParser(OpenGovParser):
 		print("office Phone no: ",office_phone_no)
 		print("Permanent Address: ",permanent_add)
 		#print("Home Phone no: ",home_phone_no)
-		print("Email ID: ",email_id)
+		#print("Email ID: ",email_id)
 		source = "https://rajyasabha.nic.in/rsnew/member_site/memberlist.aspx"
 		dob,education,profession = self.get_biodata(browser)
 		image_name,img_temp = self.download_image(img_link)
 		constituency = " "
-		data = [mp_name,constituency,state,party,email_id,dob,education,profession,permanent_add,present_add,office_phone_no,image_name,source,img_temp]
+		data = [mp_name,constituency,state,party,dob,education,profession,permanent_add,present_add,office_phone_no,image_name,source,img_temp]
 		OpenGovParser.load_candidate_data(self,*data)
 		OpenGovParser.load_rajyasabha_candidature_data(self,*data)
 		print(mp_name,"is added")
