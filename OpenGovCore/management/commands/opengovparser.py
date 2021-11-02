@@ -49,6 +49,7 @@ class OpenGovParser:
             candidate_obj = Candidate.objects.create(name=mp_name, dob=dob, qualification=education,
             contact_number=mobile, email=email, profession=profession, present_address=present_address, permanent_address=permanent_address,source = url )
             candidate_obj.photo.save(image_name,File(img_temp))
+            print(mp_name+"newly added to database")
             
 
     
@@ -185,19 +186,19 @@ class OpenGovParser:
             print(mp_name,"stored to database")
     
     def load_rajyasabha_candidature_data(self,*args):
-        mp_name,constituency,state,party,dob,education,profession,permanent_address,present_address,mobile,image_name,url,img_temp = args
+        mp_name,constituency,state,party,email,dob,education,profession,permanent_address,present_address,mobile,image_name,url,img_temp,term = args
         try:
             state_obj = States.objects.get(name=state)
         except States.DoesNotExist:
             state_obj = States.objects.create(name = state)
         try:
-            party_obj = Parties.objects.get(party_name=party)
+            party_obj = Parties.objects.filter(party_name=party).first()
         except Parties.DoesNotExist:
             party_obj = Parties.objects.create(party_name=party)
         candidate_obj = Candidate.objects.get(name=mp_name, dob=dob)
         central_legislature = Central_Legislatures.objects.get(name = "Rajyasabha")
         try:
-            candidature_obj = Candidature.objects.update_or_create(candidate_id = candidate_obj,party_id = party_obj
+            candidature_obj = Candidature.objects.create(candidate_id = candidate_obj,party_id = party_obj
             ,state_id = state_obj ,type = "MP",central_legislature_id = central_legislature)
         except Candidate.DoesNotExist:
             print("Candidate data not found")

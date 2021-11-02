@@ -59,8 +59,11 @@ class RajyaSabhaParser(OpenGovParser):
 
 		body = self.soup.find("div",{"id":"ctl00_ContentPlaceHolder1_TabContainer1_body"})
 		all_rows = body.find("table").find("tbody").find_all("tr")
-		state = all_rows[0].find_all("td")[1].text.strip()
-		party = all_rows[1].find_all("td")[1].text.strip()
+		#state = all_rows[0].find_all("td")[1].text.strip()
+		state = table.find("span",{"id":"ctl00_ContentPlaceHolder1_GridView1_ctl02_Label26"}).text.replace("  ","").split(':')[1].strip()
+		state_new = state.strip()
+		#party = all_rows[1].find_all("td")[1].text.strip()
+		party = table.find("span",{"id":"ctl00_ContentPlaceHolder1_GridView1_ctl02_Label27"}).text.replace("  ","").split(':')[1].strip()
 		present_add = all_rows[2].find_all("td")[1].text.strip()
 		present_add = re.sub(' +', ' ', present_add)
 		office_phone_no = all_rows[3].find_all("td")[1].text.strip()
@@ -72,19 +75,21 @@ class RajyaSabhaParser(OpenGovParser):
 		email_id = ""
 
 		print("Mp_name: ",mp_name)
-		print("Image URL: ", img_link)
+		#print("Image URL: ", img_link)
 		print("State: ",state)
 		print("Party: ",party)
-		print("Present Address: ",present_add)
-		print("office Phone no: ",office_phone_no)
-		print("Permanent Address: ",permanent_add)
+		#print("Present Address: ",present_add)
+		#print("office Phone no: ",office_phone_no)
+		#print("Permanent Address: ",permanent_add)
 		#print("Home Phone no: ",home_phone_no)
 		#print("Email ID: ",email_id)
 		source = "https://rajyasabha.nic.in/rsnew/member_site/memberlist.aspx"
-		dob,education,profession = self.get_biodata(browser)
+		dob,education,profession,permanent_address,present_address = self.get_biodata(browser)
 		image_name,img_temp = self.download_image(img_link)
 		constituency = " "
-		data = [mp_name,constituency,state,party,email_id,dob,education,profession,permanent_add,present_add,office_phone_no,image_name,source,img_temp]
+		term = ''
+		office_phone_no = ''
+		data = [mp_name,constituency,state,party,email_id,dob,education,profession,permanent_add,present_add,office_phone_no,image_name,source,img_temp,term]
 		OpenGovParser.load_candidate_data(self,*data)
 		OpenGovParser.load_rajyasabha_candidature_data(self,*data)
 		print(mp_name,"is added")
@@ -113,19 +118,21 @@ class RajyaSabhaParser(OpenGovParser):
 		children = table_rows[6].find_all("td")[1].find("span").text.strip()
 		education = table_rows[7].find_all("td")[1].find("span",{"id":"ctl00_ContentPlaceHolder1_TabContainer1_Tab_Biodata_DetailsView_Biodata_Label16"}).text.replace("  ","").strip()
 		profession = table_rows[8].find_all("td")[1].find("span",{"id":"ctl00_ContentPlaceHolder1_TabContainer1_Tab_Biodata_DetailsView_Biodata_Label17"}).text.replace("  ","").strip()
-		
-
+		permanent_address = table_rows[9].find_all("td")[1].find("span",{"id":"ctl00_ContentPlaceHolder1_TabContainer1_Tab_Biodata_DetailsView_Biodata_Label18"}).text.replace("  ","").strip()
+		present_address = table_rows[10].find_all("td")[1].find("span",{"id":"ctl00_ContentPlaceHolder1_TabContainer1_Tab_Biodata_DetailsView_Biodata_Label19"}).text.replace("  ","").strip()
 		#print("MP name :",mp_name)
 		#print("Mp Fathers name :", mp_fathers_name)
 		#print("Mp Mothers name :", mp_mothers_name)
-		print("dob :", dob)
+		#print("dob :", dob)
 		#print("Place of birth: ", place_of_birth)
 		#print("marital Status :",marital_status)
 		#print("Spouse name :", spouse_name)
 		#print("Children",children)
-		print("Education :",education)
-		print("Profession :", profession)
-		return dob,education,profession
+		#print("Education :",education)
+		#print("Profession :", profession)
+		#print("permanent address:",permanent_address)
+		#print("present address:",present_address)
+		return dob,education,profession,permanent_address,present_address
 
 	def download_image( self,img_src):
 		filename = img_src.rsplit("/")[-1]
@@ -134,7 +141,7 @@ class RajyaSabhaParser(OpenGovParser):
 			img_temp.write(urlopen(img_src).read())
 			img_temp.flush()
 		except:
-			img_temp.write(urlopen("https://via.placeholder.com/150").read())
+			img_temp.write(urlopen("https://prsindia.org/files/mptrack/16-lok-sabha/profile_image/160053.jpg").read())
 			img_temp.flush()
 		return filename,img_temp
 	def load_candidate_data(self):

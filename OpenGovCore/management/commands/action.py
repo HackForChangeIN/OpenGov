@@ -57,9 +57,9 @@ class Command(BaseCommand):
         #obj = RajyaSabhaParser(url ,term = "None")
         #obj.load_candidate_data()
 
-        url = "https://rajyasabha.nic.in/rsnew/Questions/Search_SessionWise.aspx"
-        obj = RajyaSabhaParser(url = url,term="None")
-        obj.load_questions()
+        #url = "https://rajyasabha.nic.in/rsnew/Questions/Search_SessionWise.aspx"
+        #obj = RajyaSabhaParser(url = url,term="None")
+        #obj.load_questions()
 
         '''url = "https://rajyasabha.nic.in/rsnew/member_site/sessionwiseresults.aspx?vsessionno=252"
         obj = RajyaSabhaParser(url = url,term ="None")
