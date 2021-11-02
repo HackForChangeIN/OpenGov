@@ -61,16 +61,15 @@ class RajyaSabhaParser(OpenGovParser):
 		all_rows = body.find("table").find("tbody").find_all("tr")
 		#state = all_rows[0].find_all("td")[1].text.strip()
 		state = table.find("span",{"id":"ctl00_ContentPlaceHolder1_GridView1_ctl02_Label26"}).text.replace("  ","").split(':')[1].strip()
-		state_new = state.strip()
 		#party = all_rows[1].find_all("td")[1].text.strip()
 		party = table.find("span",{"id":"ctl00_ContentPlaceHolder1_GridView1_ctl02_Label27"}).text.replace("  ","").split(':')[1].strip()
-		present_add = all_rows[2].find_all("td")[1].text.strip()
-		present_add = re.sub(' +', ' ', present_add)
+		#present_add = all_rows[2].find_all("td")[1].text.strip()
+		#present_add = re.sub(' +', ' ', present_add)
 		office_phone_no = all_rows[3].find_all("td")[1].text.strip()
 
-		permanent_add = all_rows[4].find_all("td")[1].text.strip()
-		permanent_add =  re.sub(' +', ' ', permanent_add)
-		home_phone_no = all_rows[5].find_all("td")[1].text.strip()
+		#permanent_add = all_rows[4].find_all("td")[1].text.strip()
+		#permanent_add =  re.sub(' +', ' ', permanent_add)
+		#home_phone_no = all_rows[5].find_all("td")[1].text.strip()
 		#email_id = all_rows[6].find_all("td")[1].find("img")["src"].split("id=")[-1].strip()
 		email_id = ""
 
@@ -89,7 +88,7 @@ class RajyaSabhaParser(OpenGovParser):
 		constituency = " "
 		term = ''
 		office_phone_no = ''
-		data = [mp_name,constituency,state,party,email_id,dob,education,profession,permanent_add,present_add,office_phone_no,image_name,source,img_temp,term]
+		data = [mp_name,constituency,state,party,email_id,dob,education,profession,permanent_address,present_address,office_phone_no,image_name,source,img_temp,term]
 		OpenGovParser.load_candidate_data(self,*data)
 		OpenGovParser.load_rajyasabha_candidature_data(self,*data)
 		print(mp_name,"is added")

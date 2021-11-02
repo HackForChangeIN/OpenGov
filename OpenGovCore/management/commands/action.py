@@ -53,9 +53,9 @@ class Command(BaseCommand):
         #sc.load_debates()
 
         ##### Rajyasabha ###################
-        #url = "https://rajyasabha.nic.in/rsnew/member_site/memberlist.aspx"
-        #obj = RajyaSabhaParser(url ,term = "None")
-        #obj.load_candidate_data()
+        url = "https://rajyasabha.nic.in/rsnew/member_site/memberlist.aspx"
+        obj = RajyaSabhaParser(url ,term = "None")
+        obj.load_candidate_data()
 
         #url = "https://rajyasabha.nic.in/rsnew/Questions/Search_SessionWise.aspx"
         #obj = RajyaSabhaParser(url = url,term="None")
