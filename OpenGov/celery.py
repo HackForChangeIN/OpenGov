@@ -22,7 +22,7 @@ app.conf.beat_schedule = {
     
  'rajyasabha-candidate-data':{
         'task': 'Rajyasabha_candidate_data',
-        'schedule': crontab(hour=8, minute=40),
+        'schedule': crontab(hour=7, minute=20),
     },
 
 }
