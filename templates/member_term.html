@@ -37,7 +37,7 @@
                         {% for i in members %}
                         <tr>
                             <td><img style="border: 1px solid black;" width="100" height="100" src="{{ i.candidate_id.photo.url }}" alt="NA" /></td>
-                            <td><a href="{% url 'member_name' house='Loksabha' name=i.candidate_id %}">{{ i.candidate_id }}</a></td>
+                            <td><a href="{% url 'member_name' house='Loksabha' name_slug=i.candidate_id.name_slug %}">{{ i.candidate_id.name }}</a></td>
                             <td><a href="{% url 'members_state' house='Loksabha' state=i.state_id %}">{{ i.state_id }}</a></td>
                             <td><a href="{% url 'members_const' house='Loksabha' constituency=i.parliamentary_constituency_id %}">{{ i.parliamentary_constituency_id }}</a></td>
                            <td><a href="{% url 'members_party' house='Loksabha' party=i.party_id %}">{{ i.party_id }}</a></td>

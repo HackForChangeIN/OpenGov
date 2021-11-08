@@ -167,15 +167,15 @@ class MembersByConstituency(View):
 class MemberInfo(View):
     template_name = "member.html"
 
-    def get(self,request,house,name):
-        client = gnewsclient.NewsClient(language='english', location='india', topic=name, max_results=3)
+    def get(self,request,house,name_slug):
+        candidate_obj = Candidate.objects.get(name_slug=name_slug)
+        client = gnewsclient.NewsClient(language='english', location='india', topic=candidate_obj.name, max_results=3)
         news = {}
         news = (client.get_news())
         getValues = lambda key,inputData: [subVal[key] for subVal in inputData if key in subVal]
         g_news_title  = getValues('title', news)
         g_news_links  = getValues('link', news)
 
-        candidate_obj = Candidate.objects.get(name=name)
         centrail_leg_id = Central_Legislatures.objects.get(name=house)
         candidature_obj = Candidature.objects.filter(candidate_id=candidate_obj)
         attendance = Attendance.objects.filter(candidate_id=candidate_obj)
