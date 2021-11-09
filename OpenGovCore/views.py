@@ -168,14 +168,15 @@ class MemberInfo(View):
     template_name = "member.html"
 
     def get(self,request,house,name):
-        client = gnewsclient.NewsClient(language='english', location='india', topic=name, max_results=3)
+        print("hitting url")
+        client = gnewsclient.NewsClient(language = 'english', location = 'india', topic = name, max_results = 3)
         news = {}
         news = (client.get_news())
         getValues = lambda key,inputData: [subVal[key] for subVal in inputData if key in subVal]
         g_news_title  = getValues('title', news)
         g_news_links  = getValues('link', news)
 
-        candidate_obj = Candidate.objects.get(name=name)
+        candidate_obj = Candidate.objects.get(name_slug = name)
         centrail_leg_id = Central_Legislatures.objects.get(name=house)
         candidature_obj = Candidature.objects.filter(candidate_id=candidate_obj)
         attendance = Attendance.objects.filter(candidate_id=candidate_obj)
@@ -186,7 +187,7 @@ class MemberDetail(View):
     template_name = "member.html"
 
     def get(self,request,member):
-        candidate_obj = Candidate.objects.get(name=member)
+        candidate_obj = Candidate.objects.get(name_slug = member)
         candidature_obj = Candidature.objects.filter(candidate_id=candidate_obj)
         attendance = Attendance.objects.filter(candidate_id=candidate_obj)
         house = candidature_obj[0].central_legislature_id
@@ -212,7 +213,7 @@ class QuestionDetail(View):
     template_name = 'questions_details.html'
 
     def get(self,request,member,date):
-        cand_obj = Candidate.objects.get(name=member)
+        cand_obj = Candidate.objects.get(name_slug=member)
         data = Questions.objects.filter(candidate_id=cand_obj,date=date)
         participants = Questions.objects.filter(subject=data[0].subject)
         return render(request,self.template_name, {'questions':data[0],"particip":participants})
@@ -286,7 +287,7 @@ class QuestionsByMember(View):
     template_name = 'questions_mem_card.html'
 
     def get(self,request,member):
-        c_id = Candidate.objects.get(name=member)
+        c_id = Candidate.objects.get(name_slug=member)
         candidature_obj = Candidature.objects.filter(candidate_id=c_id)
         if candidature_obj.count() >= 1:
             candidature_obj = candidature_obj[0]
@@ -341,7 +342,7 @@ class DebatesByMember(View):
     template_name = 'debates_mem_card.html'
 
     def get(self,request,member):
-        c_id = Candidate.objects.get(name=member)
+        c_id = Candidate.objects.get(name_slug=member)
         candidature_obj = Candidature.objects.filter(candidate_id=c_id)
         if candidature_obj.count() >= 1:
             candidature_obj = candidature_obj[0]

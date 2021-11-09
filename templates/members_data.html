@@ -50,7 +50,7 @@
                 {% for i in members %}
                 <tr>
                     <td><img src="{{ i.photo.url }}" alt="NA" width="100" height="100"></td>
-                    <td><a href="{% url 'member_det' member=i.name %}">{{ i.name }}</a></td>
+                    <td><a href="{% url 'member_det' member=i.name_slug %}">{{ i.name }}</a></td>
                     <td>{{ i.dob }}</td>
                     <td>{{ i.profession }}</td>
                     <td>{{ i.contact_number }}</td>

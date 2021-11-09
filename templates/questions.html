@@ -47,11 +47,11 @@
                 <tbody>
                     {% for i in questions %}
                     <tr>
-                        <td> {{ i.subject }}<a href="{% url 'question_det' member=i.candidate_id date=i.date %}" target="_blank"><i class="fa fa-external-link-square" aria-hidden="true"></i></a></td>
+                        <td> {{ i.subject }}<a href="{% url 'question_det' member=i.candidate_id.name_slug date=i.date %}" target="_blank"><i class="fa fa-external-link-square" aria-hidden="true"></i></a></td>
                         <td>{{ i.type }}</td>
                         <td>{{ i.date}}</td>
                         <td><a href="{% url 'questions_ministry' ministry=i.category %}">{{ i.category }}</a></td>
-                        <td><a href="{% url 'questions_member' member=i.candidate_id %}">{{ i.candidate_id }}</a></td>
+                        <td><a href="{% url 'questions_member' member=i.candidate_id.name_slug %}">{{ i.candidate_id }}</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>
