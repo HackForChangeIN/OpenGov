@@ -4,7 +4,7 @@
         <div class="card" style="width: 20rem;">
             <img class="card-img-top"  height="320" src="{{ member.candidate_id.photo.url }}" alt="NA">
             <div class="card-body">
-                <h6 class="card-title"><a href="{% url 'member_det' member=member.candidate_id.name %}">{{ member.candidate_id.name }}</a></h6>
+                <h6 class="card-title"><a href="{% url 'member_det' member=member.candidate_id.name_slug %}">{{ member.candidate_id.name }}</a></h6>
                 <p class="card-text"><span class="font-weight-bold">Member: </span>{{ member.central_legislature_id }}</p>
             </div>
             <ul class="list-group list-group-flush">
