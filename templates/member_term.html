@@ -12,8 +12,8 @@
     {% block nav %}
         <ul class="navbar-nav">
             <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-outline-dark btn-sm" onclick="window.location.href='{% url 'members_house' house='Loksabha' %}'">Lok Sabha</button>
-                <button type="button" class="btn btn-outline-dark btn-sm" onclick="window.location.href='{% url 'members_house' house='Rajyasabha' %}'">Rajya Sabha</button>
+                <button type="button" class="btn btn-outline-dark btn-sm" onclick="window.location.href='{% url 'members_house' house='loksabha' %}'">Lok Sabha</button>
+                <button type="button" class="btn btn-outline-dark btn-sm" onclick="window.location.href='{% url 'members_house' house='rajyasabha' %}'">Rajya Sabha</button>
             </div>
         </ul>
     {% endblock %}
@@ -37,10 +37,10 @@
                         {% for i in members %}
                         <tr>
                             <td><img style="border: 1px solid black;" width="100" height="100" src="{{ i.candidate_id.photo.url }}" alt="NA" /></td>
-                            <td><a href="{% url 'member_name' house='Loksabha' name=i.candidate_id.name_slug %}">{{ i.candidate_id }}</a></td>
-                            <td><a href="{% url 'members_state' house='Loksabha' state=i.state_id %}">{{ i.state_id }}</a></td>
-                            <td><a href="{% url 'members_const' house='Loksabha' constituency=i.parliamentary_constituency_id %}">{{ i.parliamentary_constituency_id }}</a></td>
-                           <td><a href="{% url 'members_party' house='Loksabha' party=i.party_id %}">{{ i.party_id }}</a></td>
+                            <td><a href="{% url 'member_name' house='loksabha' name=i.candidate_id.name_slug %}">{{ i.candidate_id }}</a></td>
+                            <td><a href="{% url 'members_state' house='loksabha' state=i.state_id %}">{{ i.state_id }}</a></td>
+                            <td><a href="{% url 'members_const' house='loksabha' constituency=i.parliamentary_constituency_id %}">{{ i.parliamentary_constituency_id }}</a></td>
+                           <td><a href="{% url 'members_party' house='loksabha' party=i.party_id.party_name %}">{{ i.party_id }}</a></td>
                             <td>{{ i.term_id }}</td>
                         </tr>
                         {% endfor %}

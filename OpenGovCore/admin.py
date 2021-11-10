@@ -36,7 +36,7 @@ admin.site.register(Assembly_Constituencies, Assembly_Constituencies_Admin)
 
 class Parties_Admin(VersionAdmin):
     list_display = ('acronym','party_name',  'type', 'founded',
-                    'founder_name', 'president_name', 'website', 'symbol')
+                    'founder_name', 'president_name', 'website', 'symbol','party_name_slug')
 
     class meta:
         model = Parties
@@ -46,7 +46,7 @@ admin.site.register(Parties, Parties_Admin)
 
 
 class Central_Legislatures_Admin(VersionAdmin):
-    list_display = ('name', 'type')
+    list_display = ('name', 'type','name_slug')
 
     class meta:
         model = Central_Legislatures

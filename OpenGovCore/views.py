@@ -81,11 +81,11 @@ class MembersByHouse(View):
     template_name = "member_term.html"
 
     def get(self,request,house):
-        if house == 'Rajyasabha':
+        if house == 'rajyasabha':
             self.template_name = 'rajyasabha_session.html'
         
-        central_legislature = Central_Legislatures.objects.get(name = house)
-        centrail_leg_id = Central_Legislatures.objects.get(name=house)
+        central_legislature = Central_Legislatures.objects.get(name_slug = house)
+        centrail_leg_id = Central_Legislatures.objects.get(name_slug=house)
         data = Candidature.objects.filter(central_legislature_id=centrail_leg_id)
             
         page = request.GET.get('page',1)
@@ -102,10 +102,10 @@ class MembersByParty(View):
     template_name = "member_term.html"
 
     def get(self,request,house,party):
-        if house == 'Rajyasabha':
+        if house == 'rajyasabha':
             self.template_name = 'rajyasabha_session.html'
         party_obj = Parties.objects.get(party_name=party)
-        centrail_leg_id = Central_Legislatures.objects.get(name=house)
+        centrail_leg_id = Central_Legislatures.objects.get(name_slug=house)
         data = Candidature.objects.filter(party_id=party_obj, central_legislature_id=centrail_leg_id)
         page = request.GET.get('page',1)
         paginator = Paginator(data,10)
@@ -121,11 +121,11 @@ class MembersByState(View):
     template_name = "member_term.html"
 
     def get(self,request,house,state):
-        if house == 'Rajyasabha':
+        if house == 'rajyasabha':
             self.template_name = 'rajyasabha_session.html'
 
         state_obj = States.objects.get(name=state)
-        centrail_leg_id = Central_Legislatures.objects.get(name=house)
+        centrail_leg_id = Central_Legislatures.objects.get(name_slug=house)
         data = Candidature.objects.filter(state_id=state_obj,central_legislature_id=centrail_leg_id)
         page = request.GET.get('page',1)
         paginator = Paginator(data,10)
@@ -142,11 +142,11 @@ class MembersByConstituency(View):
     template_name = "member_term.html"
 
     def get(self,request,house,constituency):
-        if house == 'Rajyasabha':
+        if house == 'rajyasabha':
             self.template_name = 'rajyasabha_session.html'
 
         constit_obj = Parliamentary_Constituencies.objects.filter(name=constituency)
-        centrail_leg_id = Central_Legislatures.objects.get(name=house)
+        centrail_leg_id = Central_Legislatures.objects.get(name_slug=house)
         data = []
         for i in constit_obj:
             data1 = Candidature.objects.filter(parliamentary_constituency_id=i,central_legislature_id=centrail_leg_id)
@@ -177,7 +177,7 @@ class MemberInfo(View):
         g_news_links  = getValues('link', news)
 
         candidate_obj = Candidate.objects.get(name_slug = name)
-        centrail_leg_id = Central_Legislatures.objects.get(name=house)
+        centrail_leg_id = Central_Legislatures.objects.get(name_slug=house)
         candidature_obj = Candidature.objects.filter(candidate_id=candidate_obj)
         attendance = Attendance.objects.filter(candidate_id=candidate_obj)
         return render(request,self.template_name, {'members':candidature_obj[0],'attendance':attendance,'house':house,
@@ -222,7 +222,7 @@ class QuestionsByHouse(View):
     template_name = 'questions.html'
 
     def get(self,request,house):
-        centrail_leg_id = Central_Legislatures.objects.get(name=house)
+        centrail_leg_id = Central_Legislatures.objects.get(name_slug=house)
         ques = Questions.objects.filter(central_legislature_id=centrail_leg_id)
         page = request.GET.get('page',1)
         paginator = Paginator(ques,10)
@@ -378,7 +378,7 @@ class DebatesByHouse(View):
     template_name = 'debates.html'
 
     def get(self,request,house):
-        centrail_leg_id = Central_Legislatures.objects.get(name=house)
+        centrail_leg_id = Central_Legislatures.objects.get(name_slug=house)
         deb = Debates.objects.filter(central_legislature_id=centrail_leg_id)
         page = request.GET.get('page',1)
         paginator = Paginator(deb,10)
