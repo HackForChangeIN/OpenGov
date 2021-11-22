@@ -151,7 +151,7 @@ class Debate_Admin(VersionAdmin):
 admin.site.register(Debates,Debate_Admin)
 
 class Bill_Admin(VersionAdmin):
-    list_display = ('title','type','status','candidate_id','date_of_introduction','debate_loksabha_date','debate_rajyasabha_date','term_id','central_legislature_id','source')
+    list_display = ('title','type','status','candidate_id','date_of_introduction','debate_loksabha_date','debate_rajyasabha_date','term_id','central_legislature_id','source','details','bills_file')
 
     class meta:
         model = Bills

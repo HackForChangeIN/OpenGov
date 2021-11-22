@@ -3,6 +3,9 @@ from urllib.request import urlopen as uReq
 from django.core.files import File
 from OpenGovCore.models import States, Parliamentary_Constituencies, Parties, Candidate,Term,Candidature,Central_Legislatures,Questions,Debates,Bills,Parliamentary_Sessions,Attendance
 from django.db.models import Q
+from .bills_details import bills_details_scraper,pdf_to_text_file
+import hashlib
+import tempfile
 class OpenGovParser:
 
     url = ''
@@ -239,17 +242,26 @@ class OpenGovParser:
         attendance_obj = Attendance.objects.update_or_create(candidate_id = candidate_id,session_id= session_id,attendance_signed_days=days_signed_register,source=source)
 
 
-
-
-
-
-
+    def load_bills_details(self):
+        bills = Bills.objects.all()
+        for bill in bills:
+            source_link = bill.source
+            #source_link="http://164.100.47.4/BillsTexts/LSBillTexts/Asintroduced/125_2021_LS_E.pdf"
+            file_name,pdf_text = bills_details_scraper(source_link)
+            pdf_text = pdf_text.encode('utf-8')
+            try:
+                temp_data = tempfile.NamedTemporaryFile(delete=True)
+                temp_data.write(pdf_text)
+                temp_data.flush()
+                print(file_name)
+                #bill = Bills(title = "New Bill Test",date_of_introduction="2021-11-18")
+                bill.bills_file.save(file_name,File(temp_data))
+                bill.save()
+                print("Bill added")
+            except Exception as e:
+                print(e)
 
         
-
-        
-        
-
             
 
 

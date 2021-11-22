@@ -23,3 +23,4 @@ celery==5.0.5
 django-celery-beat==2.2.0
 django-celery-results==2.0.1
 redis==3.5.3
+PyPDF2

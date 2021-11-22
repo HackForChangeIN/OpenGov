@@ -4,6 +4,7 @@ from .question_debate import ScrapeLokSabha
 from .myneta import MyNetaParser
 from .oldloksabhaparser import OldLoksabhaParser
 from .rajyasabhaparser import RajyaSabhaParser
+from .bills_details import bills_details_scraper
 
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
@@ -53,9 +54,9 @@ class Command(BaseCommand):
         #sc.load_debates()
 
         ##### Rajyasabha ###################
-        url = "https://rajyasabha.nic.in/rsnew/member_site/memberlist.aspx"
+        """url = "https://rajyasabha.nic.in/rsnew/member_site/memberlist.aspx"
         obj = RajyaSabhaParser(url ,term = "None")
-        obj.load_candidate_data()
+        obj.load_candidate_data()"""
 
         #url = "https://rajyasabha.nic.in/rsnew/Questions/Search_SessionWise.aspx"
         #obj = RajyaSabhaParser(url = url,term="None")
@@ -68,8 +69,6 @@ class Command(BaseCommand):
         """url = "https://rajyasabha.nic.in/rsnew/member_site/newsessionwise_attendance.aspx"
         obj = RajyaSabhaParser(url = url,term =None)
         obj.load_attendance()"""
-
-       
         
       
         

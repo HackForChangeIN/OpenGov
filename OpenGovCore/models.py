@@ -307,6 +307,8 @@ class Bills(models.Model):
     debate_rajyasabha_date = models.CharField(max_length=200, blank=True)
     title_slug=AutoSlugField(populate_from='title',blank=True)
     type_slug=AutoSlugField(populate_from='type',blank=True)
+    details = models.TextField(blank=True)
+    bills_file = models.FileField(upload_to ='bills/',null=True, blank=True)
 
     def __str__(self):
         return self.title
