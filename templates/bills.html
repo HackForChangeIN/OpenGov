@@ -51,10 +51,11 @@
                       <th scope="col">Status</th>
                   </tr>
               </thead>
+
               <tbody>
                   {% for i in bills %}
                   <tr>
-                      <td>{{ i.title }} <a href="{{ i.source }}" target='_blank'><i class="fa fa-external-link-square" aria-hidden="true"></i></a></td>
+                      <td><a href="{% url 'bill_detail' i.pk %}">{{ i.title }}</a></td>
                       <td>{{ i.type }}</td>
                       <td>{{ i.date_of_introduction }}</td>
                       <td>{{ i.status }}</td>

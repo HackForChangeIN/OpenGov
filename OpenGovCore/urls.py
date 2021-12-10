@@ -26,6 +26,7 @@ urlpatterns = [
     path('debates/type/<type>/',DebatesByType.as_view(),name='debates_type'),
     path('debates/house/<house>/',DebatesByHouse.as_view(),name='debates_house'),
     path('bills/',A_Bill.as_view(),name='all_bills'),
+    path('bill/<pk>/', BillDetails.as_view(), name = 'bill_detail'),
     path('bills/year/<year>/',BillsByYear.as_view(),name='bills_year'),
     path('bills/type/<type>/',BillsByType.as_view(),name='bills_type'),
     path('bills/status/<status>/',BillsByStatus.as_view(),name='bills_status'),
